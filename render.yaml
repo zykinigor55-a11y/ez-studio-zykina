@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: ez-studio-zykina
+    runtime: static
+    buildCommand: echo "Static site ready"
+    staticPublishPath: ./public
+    autoDeployTrigger: commit
