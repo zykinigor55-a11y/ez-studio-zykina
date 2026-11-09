@@ -1,0 +1,45 @@
+/* EZ Moon relief V2: approved original image is always the unmodified background. */
+#moon.ez-moon-approved{--ez-blue:0;--ez-power:1;--ez-glow:0;display:block!important;width:100%;max-width:none;min-height:0;padding:0!important;margin:0;background:#150e0b;overflow:hidden;position:relative;color:#f4dcb5;isolation:isolate}
+#moon.ez-moon-approved .ez-moon-scene{position:relative;isolation:isolate;max-width:1920px;width:100%;margin-inline:auto;aspect-ratio:1536/1024;overflow:hidden;background:#150e0b}
+#moon.ez-moon-approved img.ez-moon-backdrop{position:absolute;z-index:0;top:0;left:0;width:100%;height:100%;display:block;object-fit:fill;max-width:none;user-select:none;pointer-events:none}
+#moon.ez-moon-approved #ezMoonRelief{position:absolute;z-index:3;left:41.34114583%;top:6.25%;width:50.390625%;height:79.296875%;pointer-events:none;display:block;image-rendering:auto}
+#moon.ez-moon-approved .ez-floor-effect{position:absolute;z-index:2;inset:0;pointer-events:none;opacity:var(--ez-blue);background:radial-gradient(ellipse 24% 5% at 67% 91%,rgba(122,180,255,.26),rgba(70,124,230,.07) 60%,transparent 100%);mix-blend-mode:screen;transition:opacity .45s}
+#moon.ez-moon-approved .ez-floor-off{position:absolute;z-index:2;inset:0;pointer-events:none;opacity:calc(1 - var(--ez-power));background:radial-gradient(ellipse 32% 8% at 67% 90%,rgba(15,9,7,.75),rgba(15,9,7,.15) 68%,transparent 100%);transition:opacity .5s}
+#moon.ez-moon-approved .ez-hotspot,#moon.ez-moon-approved .ez-circle-btn,#moon.ez-moon-approved .ez-control-btn{position:absolute;z-index:7;border:0;box-shadow:none;background:transparent;color:transparent;display:block;padding:0;cursor:pointer;text-decoration:none;outline-offset:5px}
+#moon.ez-moon-approved .ez-hotspot:hover,#moon.ez-moon-approved .ez-control-btn:hover{background:#ffffff05}
+#moon.ez-moon-approved .ez-order{left:6.1%;top:45.3%;width:17.3%;height:5.3%;border-radius:50px}
+#moon.ez-moon-approved .ez-preview{left:24.9%;top:44.9%;width:13.1%;height:5.9%}
+#moon.ez-moon-approved #moonObject{left:43.2%;top:11%;width:44.0%;height:69%;border-radius:50%;z-index:4}
+#moon.ez-moon-approved #moonPower{left:30.3%;top:55.25%;width:6.4%;height:3.8%;border-radius:40px}
+#moon.ez-moon-approved .ez-brightness-input{left:6.15%;top:58.9%;width:31.3%;height:4.5%;z-index:8;opacity:0;appearance:none;cursor:ew-resize}
+#moon.ez-moon-approved .ez-bright-track{position:absolute;z-index:5;left:6.38%;top:60.7%;width:31.0%;height:.5%;border-radius:30px;background:linear-gradient(90deg,#e2a15f 0%,#fff0c5 var(--ez-bright-percent),#6b4730 var(--ez-bright-percent),#65432b 100%);pointer-events:none}
+#moon.ez-moon-approved .ez-bright-thumb{position:absolute;z-index:6;top:61.00%;left:var(--ez-thumb-x);width:1.5%;aspect-ratio:1;border:2px solid #fff5e3;background:#fff0ce;border-radius:50%;box-shadow:0 0 9px 3px #e6b46cb2;transform:translate(-50%,-50%);pointer-events:none}
+#moon.ez-moon-approved .ez-bright-mask{position:absolute;z-index:4;left:27.5%;top:59.1%;width:3%;height:3.6%;pointer-events:none;background:#2a1b14;opacity:.96;mask-image:radial-gradient(ellipse,black 50%,transparent 76%)}
+#moon.ez-moon-approved .ez-color-btn{position:absolute;z-index:7;border:0;background:transparent;cursor:pointer;padding:0;width:2.3%;height:3.5%;top:63.65%;border-radius:50%;outline-offset:3px}
+#moon.ez-moon-approved .ez-color-btn[data-kelvin="2700"]{left:15.6%}
+#moon.ez-moon-approved .ez-color-btn[data-kelvin="4000"]{left:18.2%}
+#moon.ez-moon-approved .ez-color-btn[data-kelvin="6500"]{left:20.8%}
+#moon.ez-moon-approved .ez-color-btn[aria-pressed="true"]::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:1px solid #f6dab1b8;box-shadow:0 0 13px #f2cc8259}
+#moon.ez-moon-approved .ez-brightness-pill{position:absolute;z-index:8;left:33.4%;top:63.15%;width:4.6%;height:5%;border-radius:50px;border:0;background:transparent;cursor:pointer;color:transparent}
+#moon.ez-moon-approved .ez-brightness-pill-display{position:absolute;z-index:6;left:33.33%;top:63.22%;height:4.3%;width:4.7%;display:grid;place-items:center;background:#221712;border-radius:22px;border:1px solid #c8975d;color:#e5b87d;font:500 clamp(10px,1.15vw,16px)/1 Arial,sans-serif;pointer-events:none}
+#moon.ez-moon-approved .ez-kelvin-popup{position:absolute;left:16%;top:70%;z-index:12;width:29%;border:1px solid #b58b5c8c;background:#21160fe8;backdrop-filter:blur(12px);padding:16px 18px 15px;border-radius:12px;box-shadow:0 12px 30px #0009;font:12px Arial,sans-serif;color:#e9d7c0}
+#moon.ez-moon-approved .ez-kelvin-popup[hidden]{display:none!important}
+#moon.ez-moon-approved .ez-kelvin-popup label{display:flex;align-items:center;justify-content:space-between;gap:12px}
+#moon.ez-moon-approved .ez-kelvin-popup input{width:100%;margin-top:13px;accent-color:#e7bd88}
+#moon.ez-moon-approved .ez-kelvin-popup small{font-size:10px;opacity:.8;display:block;margin-top:7px}
+#moon.ez-moon-approved .ez-temp-open{position:absolute;z-index:9;left:25%;top:64%;width:4%;height:3%;background:transparent;border:0;cursor:pointer;color:transparent}
+#moon.ez-moon-approved .ez-moon-mobile-panel{display:none}
+#moon.ez-moon-approved button:focus-visible,#moon.ez-moon-approved a:focus-visible,#moon.ez-moon-approved input:focus-visible{outline:2px solid #f4d3a1;outline-offset:3px}
+@media(max-width:700px){
+ #moon.ez-moon-approved .ez-moon-scene{width:calc(100vw * 2.2);max-width:none;min-width:0;left:50%;transform:translateX(-69.5%);margin:0;aspect-ratio:1536/1024;max-height:550px}
+ #moon.ez-moon-approved .ez-moon-mobile-panel{display:flex;position:relative;z-index:20;flex-direction:column;gap:17px;align-items:stretch;padding:26px 24px 45px;background:linear-gradient(#1b110d,#150e0b);font:12px/1.4 Arial,sans-serif;color:#eacda9}
+ #moon.ez-moon-approved .ez-moon-mobile-panel h2{font:italic 44px/1 Georgia,serif;margin:0;color:#f1d6b2}
+ #moon.ez-moon-approved .ez-moon-mobile-panel .ez-mobile-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+ #moon.ez-moon-approved .ez-moon-mobile-panel input{width:100%;accent-color:#e3b986;cursor:pointer}
+ #moon.ez-moon-approved .ez-moon-mobile-panel .ez-mobile-switch{background:#352117;border:1px solid #b18d64;color:#f0d2a7;border-radius:99px;padding:10px 22px}
+ #moon.ez-moon-approved .ez-moon-mobile-panel .ez-mobile-presets{display:flex;gap:10px}
+ #moon.ez-moon-approved .ez-moon-mobile-panel .ez-mobile-presets button{border:1px solid #8f6747;background:transparent;color:#d9bd9a;padding:11px 13px;border-radius:40px;flex:1}
+ #moon.ez-moon-approved .ez-moon-mobile-panel .ez-mobile-presets button[aria-pressed=true]{border-color:#f0d9b0;color:#fff7e9;background:#5b3e27}
+ #moon.ez-moon-approved .ez-kelvin-popup{left:45%;top:67%;width:35%}
+}
+@media(prefers-reduced-motion:reduce){#moon.ez-moon-approved .ez-floor-off,#moon.ez-moon-approved .ez-floor-effect{transition:none}}

@@ -1,0 +1,37 @@
+<section class="ez-moon-approved" id="moon" aria-label="Светильник Луна — интерактивный рельеф">
+ <div class="ez-moon-scene" id="ezMoonScene" style="--ez-thumb-x:28.85%;--ez-bright-percent:72.5">
+  <img class="ez-moon-backdrop" src="assets/ez-moon-approved.png" alt="Авторский светильник Луна, в интерьере с золотистым скульптурным фоном — утверждённое изображение" draggable="false">
+  <div class="ez-floor-effect" aria-hidden="true"></div><div class="ez-floor-off" aria-hidden="true"></div>
+  <canvas id="ezMoonRelief" width="774" height="812" aria-label="3D-рельеф лунной поверхности с управляемым освещением" role="img"></canvas>
+  <a href="#order" class="ez-hotspot ez-order" aria-label="Заказать светильник"></a>
+  <a href="#collections" class="ez-hotspot ez-preview" aria-label="Посмотреть в интерьере"></a>
+  <button id="moonObject" class="ez-control-btn" aria-label="Включить или выключить светильник по нажатию на Луну" aria-pressed="true"></button>
+  <button id="moonPower" class="ez-control-btn" aria-label="Выключить или включить подсветку" aria-pressed="true"><span id="moonPowerText" hidden>ВКЛ</span></button>
+  <input id="moonTemp" type="range" min="2700" max="6500" value="2700" step="100" aria-label="Температура светильника" hidden>
+  <output id="moonTempOutput" hidden>2700 К</output>
+  <div class="ez-bright-mask" aria-hidden="true"></div>
+  <div class="ez-bright-track" aria-hidden="true"></div>
+  <div class="ez-bright-thumb" aria-hidden="true"></div>
+  <input id="moonBrightness" class="ez-brightness-input" type="range" min="0" max="100" value="78" aria-label="Яркость светильника">
+  <button type="button" class="ez-color-btn" data-kelvin="2700" aria-label="Тёплый свет 2700 К" aria-pressed="true"></button>
+  <button type="button" class="ez-color-btn" data-kelvin="4000" aria-label="Нейтральный свет 4000 К" aria-pressed="false"></button>
+  <button type="button" class="ez-color-btn" data-kelvin="6500" aria-label="Холодный свет 6500 К" aria-pressed="false"></button>
+  <span class="ez-brightness-pill-display" id="ezBrightnessValue" aria-live="off">78 %</span>
+  <button type="button" class="ez-brightness-pill" id="ezKelvinOpener" aria-label="Точная настройка температуры цвета"></button>
+  <div class="ez-kelvin-popup" id="ezKelvinPopup" hidden>
+    <label for="ezKelvinFine">Температура света <output id="ezKelvinLabel">2700 К</output></label>
+    <input type="range" id="ezKelvinFine" min="2700" max="6500" step="100" value="2700">
+    <small>2700 К — тёплый · 6500 К — холодный</small>
+  </div>
+ </div>
+ <div class="ez-moon-mobile-panel" aria-label="Управление светильником на телефоне">
+  <h2>Светильник Луна</h2>
+  <div class="ez-mobile-row"><span>Подсветка</span><button class="ez-mobile-switch" id="ezMobilePower" type="button">ВКЛ</button></div>
+  <div class="ez-mobile-row"><label for="ezMobileBrightness">Яркость</label><output id="ezMobileValue">78 %</output></div>
+  <input id="ezMobileBrightness" min="0" max="100" type="range" value="78" aria-label="Яркость">
+  <div class="ez-mobile-row"><label for="ezMobileKelvin">Температура</label><output id="ezMobileKelvinValue">2700 К</output></div>
+  <input id="ezMobileKelvin" min="2700" max="6500" type="range" step="100" value="2700" aria-label="Температура света">
+  <div class="ez-mobile-presets"><button type="button" data-kelvin="2700" aria-pressed="true">Тёплый</button><button type="button" data-kelvin="4000" aria-pressed="false">Нейтральный</button><button type="button" data-kelvin="6500" aria-pressed="false">Холодный</button></div>
+  <a href="#order" style="border:1px solid #be9161;border-radius:35px;text-align:center;padding:13px;color:#ffe3bb;text-decoration:none">Заказать светильник</a>
+ </div>
+</section>
