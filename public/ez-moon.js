@@ -18,11 +18,15 @@ function sync(){
   $('ezMobileValue').textContent=Math.round(percent)+' %';
   $('ezKelvinLabel').textContent=kelvin+' К';$('ezMobileKelvinValue').textContent=kelvin+' К';
   power.setAttribute('aria-pressed',String(on));obj.setAttribute('aria-pressed',String(on));
+  power.classList.toggle('is-on',on);power.classList.toggle('is-off',!on);
+  power.setAttribute('aria-label',on?'Выключить подсветку':'Включить подсветку');
+  scene.style.setProperty('--ez-lamp-dim',(on ? (1-Math.min(1,level))*.42 : .82).toFixed(3));
   const t=$('moonPowerText');if(t)t.textContent=on?'ВКЛ':'ВЫКЛ';
   $('ezMobilePower').textContent=on?'ВКЛ':'ВЫКЛ';
   document.querySelectorAll('#moon [data-kelvin]').forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.kelvin===kelvin)));
   // original slider thumb at 442 px; first render keeps the approved position.
-  const x=98+percent/100*(442-98)/.78;
+  // Match the approved 78% thumb location, yet reach full endpoints at 0% and 100%.
+  const x=percent<=78 ? 98+(percent/78)*(442-98) : 442+((percent-78)/22)*(574-442);
   scene.style.setProperty('--ez-thumb-x',(x/1536*100).toFixed(4)+'%');
   scene.style.setProperty('--ez-bright-percent',((x-98)/(574-98)*100).toFixed(3)+'%');
   scene.style.setProperty('--ez-power',on?'1':'0');
