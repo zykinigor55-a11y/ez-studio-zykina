@@ -282,6 +282,12 @@
   .hero-content{max-width:545px;}
   .hero h1{font-size:clamp(65px,5.7vw,88px);}
 }
+
+/* Mobile hero only: slightly larger model, lower editorial copy. Desktop remains unchanged. */
+@media (max-width:700px){
+ .hero .hero-video--mobile{transform:scale(1.10);transform-origin:50% 43%;object-position:center center}
+ .hero .hero-content{margin-bottom:clamp(70px,8.4svh,84px)}
+}
 </style>
 <link rel="stylesheet" href="gallery-refinement.css?v=20261109">
 <!-- EZ-MOON-PIXEL-RELIEF-V2: approved original image, aligned crater relief -->
@@ -375,16 +381,21 @@
   </div>
  </div>
  <div class="ez-moon-mobile-panel" aria-label="Управление светильником на телефоне">
-  <h2>Светильник Луна</h2>
-  <div class="ez-mobile-row"><span>Подсветка</span><button class="ez-mobile-switch" id="ezMobilePower" type="button">ВКЛ</button></div>
-  <div class="ez-mobile-row"><label for="ezMobileBrightness">Яркость</label><output id="ezMobileValue">78 %</output></div>
-  <input id="ezMobileBrightness" min="0" max="100" type="range" value="78" aria-label="Яркость">
-  <div class="ez-mobile-row"><label for="ezMobileKelvin">Температура</label><output id="ezMobileKelvinValue">2700 К</output></div>
-  <input id="ezMobileKelvin" min="2700" max="6500" type="range" step="100" value="2700" aria-label="Температура света">
-  <div class="ez-mobile-presets"><button type="button" data-kelvin="2700" aria-pressed="true">Тёплый</button><button type="button" data-kelvin="4000" aria-pressed="false">Нейтральный</button><button type="button" data-kelvin="6500" aria-pressed="false">Холодный</button></div>
-  <a href="#order" style="border:1px solid #be9161;border-radius:35px;text-align:center;padding:13px;color:#ffe3bb;text-decoration:none">Заказать светильник</a>
+  <div class="ez-mobile-dock">
+   <span class="ez-mobile-dock-title">Луна</span>
+   <button class="ez-mobile-switch" id="ezMobilePower" type="button" aria-label="Включить или выключить подсветку">ВКЛ</button>
+   <button class="ez-mobile-settings-toggle" id="ezMobileSettings" type="button" aria-expanded="false" aria-controls="ezMobileControls" aria-label="Раскрыть настройку яркости и температуры">☼ <output id="ezMobileDockValue">78 %</output> <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 6 5 5 5-5"/></svg></button>
+  </div>
+  <div class="ez-mobile-controls" id="ezMobileControls" hidden>
+   <div class="ez-mobile-row"><label for="ezMobileBrightness">Яркость</label><output id="ezMobileValue">78 %</output></div>
+   <input id="ezMobileBrightness" min="0" max="100" type="range" value="78" aria-label="Яркость светильника">
+   <div class="ez-mobile-row"><label for="ezMobileKelvin">Температура</label><output id="ezMobileKelvinValue">2700 К</output></div>
+   <input id="ezMobileKelvin" min="2700" max="6500" type="range" step="100" value="2700" aria-label="Температура света">
+   <div class="ez-mobile-presets"><button type="button" data-kelvin="2700" aria-pressed="true">Тёплый</button><button type="button" data-kelvin="4000" aria-pressed="false">Нейтральный</button><button type="button" data-kelvin="6500" aria-pressed="false">Холодный</button></div>
+   <a class="ez-mobile-order" href="#order">Заказать светильник</a>
+  </div>
  </div>
-</section>
+ </section>
 <section class="artist-section" id="artist"><div class="site-frame artist-grid"><img class="artist-photo reveal" src="assets/artist-mono.webp" alt="Екатерина Зыкина, художница" loading="lazy"><div class="artist-copy reveal"><div class="section-meta">06 / Об авторе</div><h2>Екатерина<br>Зыкина</h2><p>Художница и основатель студии интерьерного искусства. В её работах сочетаются пластика формы, выразительная фактура, свет и чувство пространства. Каждое произведение — это характер, настроение и история, которую хочется проживать.</p><a href="#portfolio" class="text-link">Смотреть произведения <svg width="15" height="15"><use href="#arrow"/></svg></a><div class="artist-quote">«Искусство, которое создаёт атмосферу»</div></div></div></section>
 <section class="order-section" id="order" aria-label="Заказать авторскую картину">
  <div class="site-frame order-grid">
