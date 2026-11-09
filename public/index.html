@@ -284,6 +284,8 @@
 }
 </style>
 <link rel="stylesheet" href="gallery-refinement.css?v=20261109">
+<!-- EZ-MOON-PIXEL-RELIEF-V2: approved original image, aligned crater relief -->
+<link rel="stylesheet" href="ez-moon.css?v=2">
 </head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -346,30 +348,41 @@
  <div class="filters" role="group" aria-label="Фильтр произведений"><button class="filter is-active" type="button" data-filter="all" aria-pressed="true">Все работы</button><button class="filter" type="button" data-filter="plastic">Пластика</button><button class="filter" type="button" data-filter="abstract">Абстракция</button><button class="filter" type="button" data-filter="images">Образы</button><button class="filter" type="button" data-filter="stories">Истории</button></div>
  <div class="art-grid" id="artGrid"></div>
  </div></section>
-<section class="moon-section moon-atelier" id="moon" aria-label="Светильник Луна — интерактивная презентация авторского концепта">
- <div class="moon-atelier-inner site-frame">
-  <div class="moon-copy reveal">
-   <div class="section-meta" style="color:#d7b895">05 / Коллекционный арт-объект</div>
-   <h2>Светильник<br><em>Луна</em></h2>
-   <p>Маленькая вселенная для вашего пространства. Скульптурная поверхность, сияние изнутри и сдержанная золотая орбита — художественная концепция светильника, созданная специально для этой галереи.</p>
-   <div class="moon-actions"><a class="button button--light" href="#order">Заказать светильник <svg><use href="#arrow"/></svg></a><span class="moon-sample-note">Интерактивный визуальный концепт</span></div>
-   <div class="moon-control" aria-label="Настройка света">
-    <div class="moon-control-heading"><span>Температура света</span><button type="button" class="moon-power is-on" id="moonPower" aria-pressed="true"><span class="moon-power-track"><span class="moon-power-knob"></span></span><span id="moonPowerText">ВКЛ</span></button></div>
-    <input aria-label="Цветовая температура света, Кельвин" type="range" id="moonTemp" min="2700" max="6500" value="3500" step="100">
-    <div class="moon-control-scale"><span>☀ Тёплый · 2700 K</span><output id="moonTempOutput" for="moonTemp">3500 K</output><span>Холодный · 6500 K ❄</span></div>
-   </div>
-   <div class="moon-attributes"><span>01 / Авторская фактура</span><span>02 / Свет как искусство</span><span>03 / Индивидуальный заказ</span></div>
+<section class="ez-moon-approved" id="moon" aria-label="Светильник Луна — интерактивный рельеф">
+ <div class="ez-moon-scene" id="ezMoonScene" style="--ez-thumb-x:28.85%;--ez-bright-percent:72.5">
+  <img class="ez-moon-backdrop" src="assets/ez-moon-approved.png" alt="Авторский светильник Луна, в интерьере с золотистым скульптурным фоном — утверждённое изображение" draggable="false">
+  <div class="ez-floor-effect" aria-hidden="true"></div><div class="ez-floor-off" aria-hidden="true"></div>
+  <canvas id="ezMoonRelief" width="774" height="812" aria-label="3D-рельеф лунной поверхности с управляемым освещением" role="img"></canvas>
+  <a href="#order" class="ez-hotspot ez-order" aria-label="Заказать светильник"></a>
+  <a href="#collections" class="ez-hotspot ez-preview" aria-label="Посмотреть в интерьере"></a>
+  <button id="moonObject" class="ez-control-btn" aria-label="Включить или выключить светильник по нажатию на Луну" aria-pressed="true"></button>
+  <button id="moonPower" class="ez-control-btn" aria-label="Выключить или включить подсветку" aria-pressed="true"><span id="moonPowerText" hidden>ВКЛ</span></button>
+  <input id="moonTemp" type="range" min="2700" max="6500" value="2700" step="100" aria-label="Температура светильника" hidden>
+  <output id="moonTempOutput" hidden>2700 К</output>
+  <div class="ez-bright-mask" aria-hidden="true"></div>
+  <div class="ez-bright-track" aria-hidden="true"></div>
+  <div class="ez-bright-thumb" aria-hidden="true"></div>
+  <input id="moonBrightness" class="ez-brightness-input" type="range" min="0" max="100" value="78" aria-label="Яркость светильника">
+  <button type="button" class="ez-color-btn" data-kelvin="2700" aria-label="Тёплый свет 2700 К" aria-pressed="true"></button>
+  <button type="button" class="ez-color-btn" data-kelvin="4000" aria-label="Нейтральный свет 4000 К" aria-pressed="false"></button>
+  <button type="button" class="ez-color-btn" data-kelvin="6500" aria-label="Холодный свет 6500 К" aria-pressed="false"></button>
+  <span class="ez-brightness-pill-display" id="ezBrightnessValue" aria-live="off">78 %</span>
+  <button type="button" class="ez-brightness-pill" id="ezKelvinOpener" aria-label="Точная настройка температуры цвета"></button>
+  <div class="ez-kelvin-popup" id="ezKelvinPopup" hidden>
+    <label for="ezKelvinFine">Температура света <output id="ezKelvinLabel">2700 К</output></label>
+    <input type="range" id="ezKelvinFine" min="2700" max="6500" step="100" value="2700">
+    <small>2700 К — тёплый · 6500 К — холодный</small>
   </div>
-  <div class="moon-sculpture-wrap reveal">
-   <button type="button" class="moon-object is-on" id="moonObject" aria-label="Включить или выключить светильник" aria-pressed="true">
-    <span class="moon-atmosphere"></span><span class="moon-orbit moon-orbit--back"></span>
-    <span class="moon-sphere"><span class="moon-surface"></span><span class="moon-sphere-shading"></span></span>
-    <span class="moon-orbit moon-orbit--front"></span>
-    <span class="moon-pedestal moon-pedestal--top"></span><span class="moon-pedestal moon-pedestal--body"></span>
-    <span class="moon-floor-glow"></span>
-   </button>
-   <div class="moon-model-caption"><span>ЕТЮД 01</span><span>Коснитесь Луны, чтобы изменить свет</span></div>
-  </div>
+ </div>
+ <div class="ez-moon-mobile-panel" aria-label="Управление светильником на телефоне">
+  <h2>Светильник Луна</h2>
+  <div class="ez-mobile-row"><span>Подсветка</span><button class="ez-mobile-switch" id="ezMobilePower" type="button">ВКЛ</button></div>
+  <div class="ez-mobile-row"><label for="ezMobileBrightness">Яркость</label><output id="ezMobileValue">78 %</output></div>
+  <input id="ezMobileBrightness" min="0" max="100" type="range" value="78" aria-label="Яркость">
+  <div class="ez-mobile-row"><label for="ezMobileKelvin">Температура</label><output id="ezMobileKelvinValue">2700 К</output></div>
+  <input id="ezMobileKelvin" min="2700" max="6500" type="range" step="100" value="2700" aria-label="Температура света">
+  <div class="ez-mobile-presets"><button type="button" data-kelvin="2700" aria-pressed="true">Тёплый</button><button type="button" data-kelvin="4000" aria-pressed="false">Нейтральный</button><button type="button" data-kelvin="6500" aria-pressed="false">Холодный</button></div>
+  <a href="#order" style="border:1px solid #be9161;border-radius:35px;text-align:center;padding:13px;color:#ffe3bb;text-decoration:none">Заказать светильник</a>
  </div>
 </section>
 <section class="artist-section" id="artist"><div class="site-frame artist-grid"><img class="artist-photo reveal" src="assets/artist-mono.webp" alt="Екатерина Зыкина, художница" loading="lazy"><div class="artist-copy reveal"><div class="section-meta">06 / Об авторе</div><h2>Екатерина<br>Зыкина</h2><p>Художница и основатель студии интерьерного искусства. В её работах сочетаются пластика формы, выразительная фактура, свет и чувство пространства. Каждое произведение — это характер, настроение и история, которую хочется проживать.</p><a href="#portfolio" class="text-link">Смотреть произведения <svg width="15" height="15"><use href="#arrow"/></svg></a><div class="artist-quote">«Искусство, которое создаёт атмосферу»</div></div></div></section>
@@ -466,24 +479,10 @@ const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');funct
   gallery.addEventListener('pointerleave',stop);window.addEventListener('blur',stop);
   reduce.addEventListener?.('change',()=>{if(reduce.matches)stop()});
  })();
- (function setupMoon(){
-  const obj=byId('moonObject'),power=byId('moonPower'),temp=byId('moonTemp'),readout=byId('moonTempOutput'),txt=byId('moonPowerText');
-  const section=byId('moon');let on=true;
-  function apply(){
-   const k=Number(temp.value),f=(k-2700)/3800;
-   const hue=36+Math.pow(f,2)*170,light=70+(f*10);
-   section.style.setProperty('--lamp-hue',hue.toFixed(1));section.style.setProperty('--lamp-light',light.toFixed(1)+'%');
-   section.style.setProperty('--lamp-opacity',on?'1':'0');
-   obj.classList.toggle('is-on',on);power.classList.toggle('is-on',on);
-   power.setAttribute('aria-pressed',String(on));obj.setAttribute('aria-pressed',String(on));
-   txt.textContent=on?'ВКЛ':'ВЫКЛ';readout.textContent=k+' K';
-   temp.style.setProperty('--range-progress',((k-2700)/3800*100).toFixed(2)+'%');
-  }
-  function toggle(){on=!on;apply();if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){obj.classList.remove('moon-nudge');void obj.offsetWidth;obj.classList.add('moon-nudge')}}
-  obj.addEventListener('click',toggle);power.addEventListener('click',toggle);temp.addEventListener('input',apply);apply();
- })();
+ /* Prior moon control removed; exact approved V2 is controlled by ez-moon.js */
 window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
 </script>
 <script src="gallery-refinement.js?v=20261109" defer></script>
+<script src="ez-moon.js?v=2"></script>
 </body>
 </html>
