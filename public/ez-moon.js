@@ -16,6 +16,7 @@ function sync(){
   temp.value=String(kelvin);kalvinFine.value=String(kelvin);mk.value=String(kelvin);
   $('ezBrightnessValue').textContent=Math.round(percent)+' %';
   $('ezMobileValue').textContent=Math.round(percent)+' %';
+  $('ezMobileDockValue').textContent=Math.round(percent)+' %';
   $('ezKelvinLabel').textContent=kelvin+' К';$('ezMobileKelvinValue').textContent=kelvin+' К';
   power.setAttribute('aria-pressed',String(on));obj.setAttribute('aria-pressed',String(on));
   power.classList.toggle('is-on',on);power.classList.toggle('is-off',!on);
@@ -39,12 +40,25 @@ const setPower=(value)=>{on=!!value;sync();};
 power.addEventListener('click',()=>{on=!on;sync()});
 obj.addEventListener('click',()=>{on=!on;sync()});
 $('ezMobilePower').addEventListener('click',()=>{on=!on;sync()});
+const mobileSettings=$('ezMobileSettings'),mobileControls=$('ezMobileControls');
+mobileSettings.addEventListener('click',()=>{
+  const next=mobileControls.hidden;
+  mobileControls.hidden=!next;
+  mobileSettings.setAttribute('aria-expanded',String(next));
+  mobileSettings.setAttribute('aria-label',next?'Скрыть настройку яркости и температуры':'Раскрыть настройку яркости и температуры');
+});
+document.addEventListener('pointerdown',e=>{
+  if(!mobileControls.hidden && !e.target.closest('.ez-moon-mobile-panel')){
+    mobileControls.hidden=true;mobileSettings.setAttribute('aria-expanded','false');
+  }
+});
+
 bright.addEventListener('input',()=>{level=bright.value/100;sync()});mb.addEventListener('input',()=>{level=mb.value/100;sync()});
 const updateKelvin=(k)=>{kelvin=Math.max(2700,Math.min(6500,Math.round(k/100)*100));sync();};
 kalvinFine.addEventListener('input',()=>updateKelvin(+kalvinFine.value));mk.addEventListener('input',()=>updateKelvin(+mk.value));
 document.querySelectorAll('#moon [data-kelvin]').forEach(btn=>btn.addEventListener('click',()=>updateKelvin(+btn.dataset.kelvin)));
 $('ezKelvinOpener').addEventListener('click',()=>{kalvinPopup.hidden=!kalvinPopup.hidden;if(!kalvinPopup.hidden)kalvinFine.focus()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')kalvinPopup.hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){kalvinPopup.hidden=true;mobileControls.hidden=true;mobileSettings.setAttribute('aria-expanded','false');}});
 function loadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error('Не удалось загрузить '+src));img.src=BASE+'assets/'+src;});}
 async function makeRenderer(){
   let [photo,normals,height]=await Promise.all(['ez-moon-crop.png','ez-moon-normal.png','ez-moon-height.png'].map(loadImage));
