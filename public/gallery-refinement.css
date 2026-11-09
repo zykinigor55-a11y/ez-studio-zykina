@@ -1,0 +1,186 @@
+/* E·Z STUDIO — SECTION 03 & 04, REFINED EDITORIAL GALLERIES */
+/* Section 03: framed gallery, disappearing edges, dimensional motion */
+.gallery-atelier .stage-viewport {
+  width: min(1500px, calc(100% - clamp(80px, 15vw, 360px)));
+  margin-inline: auto;
+  border-radius: 10px;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  scroll-padding-inline: 8%;
+  perspective: 1600px;
+}
+.gallery-atelier .stage {
+  padding-inline: clamp(50px, 6vw, 100px);
+  transform-style: preserve-3d;
+}
+.gallery-atelier .stage-canvas,
+.gallery-atelier .stage-canvas:nth-child(n) {
+  transform: perspective(1500px) rotateY(var(--stage-rotation, 0deg)) translateY(var(--stage-rise, 0px)) scale(var(--stage-size, 1)) !important;
+  transform-origin: center center;
+  opacity: var(--stage-visibility, 1);
+  transition: transform 160ms ease-out, opacity 200ms ease-out, filter 200ms ease-out;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+@media (hover:hover) and (pointer:fine) {
+  .gallery-atelier .stage-canvas:hover {
+    transform: perspective(1500px) rotateY(var(--stage-rotation, 0deg)) translateY(calc(var(--stage-rise, 0px) - 8px)) scale(var(--stage-size, 1)) !important;
+    opacity: 1;
+    z-index: 7;
+  }
+  .gallery-atelier .stage-canvas:hover .stage-art-disc {
+    box-shadow: 0 10px 14px #0005, 0 30px 64px #000a, 0 0 0 1px #e4c59d36;
+  }
+}
+.gallery-atelier .gallery-edge { opacity: .13; }
+
+/* Section 04: compact luxury artwork collection with generous rounding */
+.gallery-section {
+  padding-block: clamp(68px, 5.3vw, 93px) clamp(74px, 5.8vw, 106px);
+  background: #eee8e0;
+}
+.gallery-section .gallery-intro { margin-bottom: 25px; gap: 30px; }
+.gallery-section .gallery-intro h2 {
+  font-size: clamp(52px, 4.7vw, 75px);
+  line-height: .91;
+  margin-top: 14px;
+  letter-spacing: -.036em;
+}
+.gallery-section .gallery-intro p {
+  max-width: 310px; font-size: 12px; line-height: 1.85; color: #76685c;
+}
+.gallery-section .filters { gap: 8px; margin-bottom: 26px; }
+.gallery-section .filter {
+  border-radius: 999px;
+  padding: 10px 17px;
+  letter-spacing: .115em;
+  font-size: 9px;
+  border-color: #d2c5b7;
+  color: #706156;
+  transition: background .3s, border-color .3s, color .3s, transform .3s, box-shadow .3s;
+}
+.gallery-section .filter.is-active {
+  background: #31251f; border-color: #31251f; color: #f9f0e8;
+  box-shadow: 0 5px 14px #2e21141d;
+}
+.gallery-section .filter:hover { transform: translateY(-2px); }
+.gallery-section .art-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 29px clamp(12px, 1.25vw, 19px);
+}
+.gallery-section .art-card { border-radius: 29px; cursor: pointer; }
+.gallery-section .art-visual {
+  position: relative;
+  aspect-ratio: 2048 / 1442;
+  height: auto;
+  border-radius: 29px;
+  overflow: hidden;
+  border: 1px solid rgba(108, 80, 54, .12);
+  background: #ded3c7;
+  box-shadow: 0 3px 7px #3021160a, 0 12px 26px #30211613;
+  transition: border-color .45s, box-shadow .5s, transform .55s cubic-bezier(.2,.8,.2,1);
+  isolation: isolate;
+}
+.gallery-section .art-visual img,
+.gallery-section .art-card:hover .art-visual img {
+  width: 100%; height: 100%;
+  object-fit: contain; object-position: center;
+  background: #e4d9ce;
+  transform: none;
+  filter: none;
+}
+.gallery-section .art-visual::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(105deg, transparent 38%, rgba(255,246,225,.12) 49%, transparent 60%);
+  transform: translateX(-130%);
+  transition: transform 1.05s cubic-bezier(.2,.7,.2,1);
+}
+.gallery-section .art-meta { margin-top: 12px; gap: 10px; padding-inline: 3px; }
+.gallery-section .art-title { font-size: clamp(22px, 1.8vw, 28px); line-height: 1.01; }
+.gallery-section .art-sub { margin-top: 6px; font-size: 8px; letter-spacing: .13em; }
+.gallery-section .art-plus {
+  color: #836c57; display: grid; place-items: center;
+  font-size: 17px; border: 1px solid #cdb9a3;
+  width: 30px; height: 30px; border-radius: 50%;
+  transition: transform .4s, background .4s, color .4s, border-color .4s;
+}
+.gallery-section .art-card.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity .72s cubic-bezier(.22,1,.36,1), transform .82s cubic-bezier(.22,1,.36,1);
+}
+.gallery-section .art-card.reveal.in-view {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+  transition-delay: var(--portfolio-delay, 0ms);
+}
+.gallery-section .art-card[hidden] { display: none !important; }
+@media (hover:hover) and (pointer:fine) {
+  .gallery-section .art-card.in-view:hover { transform: translate3d(0,-6px,0); transition-delay: 0ms; }
+  .gallery-section .art-card:hover .art-visual {
+    border-color: rgba(154,119,80,.35);
+    box-shadow: 0 12px 22px #36221318, 0 23px 43px #36221313;
+  }
+  .gallery-section .art-card:hover .art-visual::after { transform: translateX(130%); }
+  .gallery-section .art-card:hover .art-plus {
+    transform: rotate(45deg); background: #34261e; border-color: #34261e; color: #fff0da;
+  }
+}
+.gallery-section .portfolio-more { display: flex; justify-content: center; margin-top: 46px; }
+.gallery-section .portfolio-more[hidden] { display: none !important; }
+.gallery-section .portfolio-more-button {
+  appearance: none; background: transparent; border: 1px solid #a99078;
+  border-radius: 999px; min-height: 52px; min-width: 224px; padding: 13px 25px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 13px;
+  color: #4c392b; font: 600 10px var(--sans); letter-spacing: .14em; text-transform: uppercase;
+  cursor: pointer; transition: background .3s, color .3s, transform .3s, border-color .3s;
+}
+.gallery-section .portfolio-more-button:hover { background: #32251e; color: #f8ebd8; border-color: #32251e; transform: translateY(-2px); }
+.gallery-section .portfolio-more-button svg { width: 16px; height: 16px; stroke: currentColor; }
+.gallery-section .portfolio-more-remaining { font-size: 9px; opacity: .68; letter-spacing: .02em; }
+@media (max-width: 1100px) {
+  .gallery-section .art-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .gallery-section .art-visual { border-radius: 25px; }
+}
+@media (max-width: 700px) {
+  .gallery-atelier .stage-viewport {
+    width: calc(100% - 24px);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 11%, #000 89%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 11%, #000 89%, transparent);
+    scroll-snap-type: x proximity;
+  }
+  .gallery-atelier .stage { padding-inline: 38px; }
+  .gallery-atelier .stage-heading h2 em { display: inline-block; white-space: nowrap; font-size: .82em; }
+  .gallery-section { padding-block: 63px 78px; }
+  .gallery-section .gallery-intro { margin-bottom: 17px; }
+  .gallery-section .gallery-intro h2 { font-size: clamp(49px, 11vw, 66px); }
+  .gallery-section .gallery-intro p { max-width: 370px; }
+  .gallery-section .filters { margin-bottom: 23px; gap: 6px; }
+  .gallery-section .filter { font-size: 8px; padding: 10px 12px; }
+  .gallery-section .art-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 12px; }
+  .gallery-section .art-visual { border-radius: 23px; }
+  .gallery-section .art-title { font-size: clamp(19px, 5.2vw, 24px); }
+  .gallery-section .art-sub { font-size: 8px; }
+  .gallery-section .art-meta { margin-top: 10px; }
+  .gallery-section .art-plus { width: 26px; height: 26px; font-size: 15px; }
+  .gallery-section .portfolio-more { margin-top: 35px; }
+}
+@media (max-width: 400px) {
+  .gallery-section .art-visual { border-radius: 20px; }
+  .gallery-section .art-meta { align-items: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gallery-atelier .stage-canvas, .gallery-atelier .stage-canvas:nth-child(n) {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+  .gallery-section .art-card.reveal, .gallery-section .art-card.reveal.in-view {
+    opacity: 1; transform: none; transition: none;
+  }
+  .gallery-section .art-visual, .gallery-section .art-visual::after,
+  .gallery-section .art-plus, .gallery-section .portfolio-more-button {
+    transition: none !important;
+  }
+}
