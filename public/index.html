@@ -259,41 +259,29 @@
 @media(prefers-reduced-motion:reduce){.gallery-atelier .stage-canvas,.gallery-atelier .stage-art-disc,.collection-card{transition:none!important}}
 
 
-/* STEP 02 — DESKTOP ONLY. Fine-art kinetic engraving in the hero negative space.
-   The approved hero video, its crop and ALL mobile hero rules are unchanged. */
-.hero-engraving{
- position:absolute;left:max(-155px,calc((100vw - 1920px)/2 - 70px));top:13%;
- width:min(47vw,830px);height:80%;max-height:870px;z-index:-1;
- pointer-events:none;user-select:none;opacity:.54;
- -webkit-mask-image:radial-gradient(ellipse at 44% 49%,#000 22%,rgba(0,0,0,.78) 48%,transparent 82%);
- mask-image:radial-gradient(ellipse at 44% 49%,#000 22%,rgba(0,0,0,.78) 48%,transparent 82%);
+/* Desktop hero refinement: centered full-bleed video, no decorative engraving.
+   Keep approved smartphone layout and assets untouched. */
+@media(min-width:1001px){
+  .hero-video--desktop{
+    left:18%;right:0;top:0;width:82%;height:100%;
+    object-position:left center;object-fit:cover;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 14%);
+    mask-image:linear-gradient(90deg,transparent 0%,#000 14%);
+  }
+  .hero-shade{
+    background:
+      linear-gradient(90deg,rgba(18,12,10,.95) 0%,rgba(18,12,10,.86) 13%,rgba(18,12,10,.52) 29%,rgba(18,12,10,.10) 52%,transparent 76%),
+      linear-gradient(180deg,rgba(12,8,7,.38),transparent 24%,transparent 70%,rgba(12,8,7,.53));
+  }
+  .hero-inner.site-frame,.site-header .nav-inner.site-frame{
+    width:calc(100% - clamp(80px,10vw,240px));max-width:none;
+  }
+  .hero-content{max-width:620px;width:45%;}
 }
-.hero-engraving::before{
- content:"";position:absolute;inset:11% 14% 7% -10%;border-radius:50%;
- background:radial-gradient(ellipse,rgba(180,120,62,.15),transparent 67%);
- animation:ez-breathe 14s ease-in-out infinite alternate;
+@media(min-width:1001px) and (max-width:1550px){
+  .hero-content{max-width:545px;}
+  .hero h1{font-size:clamp(65px,5.7vw,88px);}
 }
-.hero-engraving__art{display:block;position:relative;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 19px rgba(195,144,76,.11));}
-.hero-engraving__ring{fill:none;stroke:url(#ez-trace-gold);stroke-width:.9;opacity:.24;transform-origin:46% 52%;animation:ez-ring-turn 80s linear infinite}
-.hero-engraving__ring--secondary{stroke-width:.5;opacity:.29;animation-duration:110s;animation-direction:reverse}
-.hero-engraving__filigree{fill:none;stroke:url(#ez-trace-gold);stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round;opacity:.50}
-.hero-engraving__filigree--fine{stroke-width:.8;opacity:.58}
-.hero-engraving__light{fill:none;stroke:url(#ez-trace-glow);stroke-width:1.75;stroke-linecap:round;
- stroke-dasharray:16 670;animation:ez-light-travel 25s linear infinite;opacity:.72}
-.hero-engraving__dust{fill:#e0ad6d;opacity:.35;animation:ez-dust 9s ease-in-out infinite alternate}
-.hero-engraving__seal{font:italic 400 174px/1 Georgia,serif;letter-spacing:-.12em;fill:#ddbd95;opacity:.13}
-.hero-engraving__micro{font:400 10px/1 Arial,sans-serif;letter-spacing:5px;fill:#deb892;opacity:.42}
-.hero-engraving__hairline{stroke:#b68c65;stroke-width:.65;opacity:.43}
-@keyframes ez-ring-turn{to{transform:rotate(360deg)}}
-@keyframes ez-light-travel{to{stroke-dashoffset:-686}}
-@keyframes ez-breathe{from{opacity:.55;transform:scale(.95)}to{opacity:1;transform:scale(1.045)}}
-@keyframes ez-dust{from{opacity:.1;transform:translateY(8px)}to{opacity:.46;transform:translateY(-9px)}}
-/* On compact desktop, limit the motif to a gentle background watermark. */
-@media(min-width:1001px) and (max-width:1380px){.hero-engraving{width:46vw;left:-170px;opacity:.38}}
-/* Strict mobile/tablet preservation: no element, no animation, no layout impact. */
-@media(max-width:1000px){.hero-engraving{display:none!important}}
-@media(prefers-reduced-motion:reduce){.hero-engraving *, .hero-engraving::before{animation:none!important}}
-
 </style>
 </head>
 <body>
@@ -312,30 +300,6 @@
  <video class="hero-video hero-video--desktop" autoplay muted playsinline loop preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-seamless.mp4" type="video/mp4"></video>
  <video class="hero-video hero-video--mobile" autoplay muted playsinline loop preload="auto" poster="assets/hero-mobile-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-mobile-seamless.mp4" type="video/mp4"></video>
  <div class="hero-shade"></div>
- <div class="hero-engraving" aria-hidden="true">
- <svg class="hero-engraving__art" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 850" preserveAspectRatio="xMidYMid meet">
-  <defs>
-   <linearGradient id="ez-trace-gold" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#4c3126"/><stop offset=".32" stop-color="#ad805b"/><stop offset=".57" stop-color="#e9c08a"/><stop offset=".81" stop-color="#906344"/><stop offset="1" stop-color="#38261d"/></linearGradient>
-   <linearGradient id="ez-trace-glow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9c6337" stop-opacity="0"/><stop offset=".5" stop-color="#f5d3a4"/><stop offset="1" stop-color="#c2874b" stop-opacity="0"/></linearGradient>
-  </defs>
-  <g transform="translate(18 0) rotate(-21 320 430)">
-   <ellipse class="hero-engraving__ring" cx="320" cy="420" rx="276" ry="340" stroke-dasharray="4 9"/>
-   <ellipse class="hero-engraving__ring hero-engraving__ring--secondary" cx="320" cy="420" rx="227" ry="298" stroke-dasharray="1 8"/>
-   <path class="hero-engraving__filigree" d="M-40 558 C98 391 114 145 286 127 C410 115 454 264 356 353 C262 440 177 368 215 296 C270 190 439 250 472 384 C509 536 398 665 266 652 C178 645 155 587 189 552 C235 504 322 545 352 620 C400 740 541 766 745 558"/>
-   <path class="hero-engraving__filigree hero-engraving__filigree--fine" d="M-55 567 C96 405 107 156 284 137 C401 125 442 265 347 346 C253 429 186 353 229 292 C293 200 445 272 458 397 C476 531 402 649 276 644 C181 642 180 563 219 547 C284 519 346 571 369 633 C420 756 548 749 762 566"/>
-   <path class="hero-engraving__filigree hero-engraving__filigree--fine" d="M12 584 C169 421 127 215 287 195 C388 175 426 273 358 330 C308 375 264 352 271 314 M478 472 C525 619 432 700 340 690"/>
-   <path class="hero-engraving__light" d="M-40 558 C98 391 114 145 286 127 C410 115 454 264 356 353 C262 440 177 368 215 296 C270 190 439 250 472 384 C509 536 398 665 266 652 C178 645 155 587 189 552 C235 504 322 545 352 620 C400 740 541 766 745 558"/>
-  </g>
-  <text class="hero-engraving__seal" x="234" y="493">Е·З</text>
-  <path class="hero-engraving__hairline" d="M249 529 H480"/>
-  
-  <circle class="hero-engraving__dust" cx="118" cy="244" r="1.45"/>
-  <circle class="hero-engraving__dust" cx="562" cy="144" r="1.1" style="animation-delay:2s"/>
-  <circle class="hero-engraving__dust" cx="604" cy="593" r="1.65" style="animation-delay:4s"/>
-  <circle class="hero-engraving__dust" cx="159" cy="650" r="1.2" style="animation-delay:1s"/>
- </svg>
-</div>
-
  <div class="site-frame hero-inner"><div class="hero-content">
    <div class="hero-kicker"><span>Авторское искусство<br>для вашего пространства</span><span class="line"></span></div>
    <h1>Искусство,<br>которое создаёт<br><em>атмосферу</em></h1>
