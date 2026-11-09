@@ -101,6 +101,163 @@
 @media(max-width:900px){.order-grid{grid-template-columns:1fr;gap:45px}.order-section{padding:90px 0}}
 @media(max-width:700px){.hero-content{margin-bottom:119px}.hero-social{margin-top:15px;gap:9px 16px;font-size:10px}.hero-social>span{flex-basis:100%;font-size:8px}.hero-social a{padding-bottom:3px}.order-section{padding:76px 0 80px}.order-copy h2{font-size:clamp(53px,10vw,73px)}.order-copy p{font-size:12px}.order-link{padding:18px 2px}.order-platform{width:44px;height:44px}.order-name{font-size:25px}}
 @media(max-width:380px){.hero h1{font-size:49px}.hero-content{margin-bottom:90px}.hero-sub{margin-bottom:15px}.hero-social{margin-top:12px;gap:7px 13px}}
+
+/* Full-frame collection art (2048 x 1442): never crop, stretch or zoom. */
+.collection-card img{object-fit:contain;object-position:center;transform:none!important;image-rendering:auto}
+.collection-card:hover img{transform:none!important;filter:saturate(1.03)}
+
+/* STEP 01 / APPROVED: large collection navigation, 3x2, directly after hero. */
+.collections{padding:84px 0 112px;background:#f4f0e9}
+.collections-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,1.65vw,25px)}
+.collection-card{aspect-ratio:2048 / 1442;border-radius:13px;background:#21170f;isolation:isolate;overflow:hidden;box-shadow:0 14px 34px rgba(41,27,17,.18),0 3px 9px rgba(50,29,14,.08);outline:1px solid rgba(82,54,30,.06);transition:transform .6s var(--ease),box-shadow .6s var(--ease),outline-color .5s}
+.collection-card img,.collection-card:hover img{width:100%;height:100%;object-fit:contain;object-position:center;transform:none!important;filter:none;transition:none}
+.collection-card::after{background:linear-gradient(180deg,rgba(12,8,5,0) 45%,rgba(15,9,6,.12) 62%,rgba(13,8,6,.88) 100%);z-index:1;pointer-events:none}
+.collection-card::before{content:"";position:absolute;inset:-65% -90%;z-index:2;pointer-events:none;opacity:0;background:linear-gradient(107deg,transparent 42%,rgba(250,216,151,.07) 48%,rgba(255,243,213,.24) 50%,rgba(255,220,165,.06) 53%,transparent 59%);transform:translateX(-35%) rotate(7deg);transition:transform 1.25s cubic-bezier(.12,.72,.25,1),opacity .36s ease}
+.collection-overlay{bottom:clamp(18px,2vw,29px);left:clamp(20px,2.2vw,35px);right:clamp(17px,1.8vw,26px);z-index:3;align-items:end;transition:transform .55s var(--ease)}
+.collection-number{font-size:clamp(9px,.7vw,11px);letter-spacing:.2em;margin-bottom:12px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.collection-label{font-size:clamp(36px,3.1vw,56px);line-height:.9;text-shadow:0 3px 14px rgba(0,0,0,.38)}
+.collection-arrow{width:39px;height:39px;border:1px solid rgba(255,240,212,.65);border-radius:50%;display:grid;place-items:center;font-size:21px;transition:transform .48s var(--ease),background .4s,color .4s}
+.collection-hint{position:absolute;left:clamp(20px,2.2vw,35px);bottom:9px;z-index:3;color:#ecd6b6;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.collection-card:focus-visible{outline:3px solid #a1764e;outline-offset:4px}
+.collection-card--bespoke .collection-label{font-style:italic}
+/* Rounded photos and subtle lift, without altering the 3D gallery's geometry. */
+.art-visual,.artist-photo{border-radius:10px;box-shadow:0 12px 32px rgba(40,25,12,.13)}
+@media(hover:hover) and (pointer:fine){
+.collection-card:hover{transform:translateY(-7px);box-shadow:0 28px 57px rgba(49,28,14,.25),0 9px 19px rgba(55,31,15,.12);outline-color:rgba(178,131,73,.26)}
+.collection-card:hover::before{opacity:1;transform:translateX(35%) rotate(7deg)}
+.collection-card:hover .collection-overlay{transform:translateY(-7px)}
+.collection-card:hover .collection-arrow{background:#e5ca9f;color:#2b1d13;transform:rotate(45deg)}
+.collection-card--bespoke:hover .collection-hint{opacity:1;transform:translateY(0)}
+/* Distinct calm material response per category, not content distortion. */
+.collection-card:nth-child(2):hover{box-shadow:0 28px 58px rgba(141,92,38,.23)}
+.collection-card:nth-child(3):hover{box-shadow:0 28px 58px rgba(65,39,24,.34)}
+.collection-card:nth-child(4):hover{box-shadow:0 28px 58px rgba(160,106,41,.24)}
+.collection-card:nth-child(5):hover{box-shadow:0 28px 58px rgba(210,166,93,.25)}
+}
+@media(max-width:1100px){.collections-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.collection-label{font-size:clamp(30px,4vw,48px)}}
+@media(max-width:700px){
+/* Do not modify hero/video/header mobile sizing. Collection tiles remain independently responsive. */
+.collections{padding:67px 0 72px}.collections-grid{grid-template-columns:1fr;gap:17px}
+.collection-card,.collection-card:last-child{grid-column:auto;aspect-ratio:2048 / 1442;border-radius:12px}
+.collection-overlay{bottom:20px;left:23px;right:20px}
+.collection-label{font-size:clamp(35px,10vw,51px)}.collection-number{font-size:9px;margin-bottom:9px}
+.collection-arrow{width:35px;height:35px;font-size:18px}
+.collection-hint{display:none}
+}
+@media(prefers-reduced-motion:reduce){.collection-card,.collection-card::before,.collection-overlay,.collection-arrow,.collection-hint{transition:none!important;transform:none!important}.collection-card:hover{transform:none!important}}
+
+
+/* PREMIUM UNITY / CURATED 3D DISC ART + INTERACTIVE LUNAR OBJECT */
+.gallery-atelier,.moon-atelier{background:#17100e;color:#f5eadc;position:relative;isolation:isolate}
+.gallery-atelier{padding:108px 0 98px;background:radial-gradient(ellipse at 52% 88%,#3b291d 0%,#241910 32%,#17110e 68%);overflow:hidden}
+.gallery-atelier::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#b6863f0b,transparent 62%);pointer-events:none}
+.gallery-atelier .stage-heading{align-items:center;position:relative;z-index:2}
+.gallery-atelier .stage-heading h2{font-size:clamp(66px,7vw,112px);line-height:.76;letter-spacing:-.025em}
+.gallery-atelier .stage-heading p{color:#bba792;font-size:13px;line-height:1.95;max-width:370px;border-left:1px solid #ad845b8a;padding-left:23px}
+.gallery-atelier-viewer{margin:27px 0 0;position:relative;padding-bottom:12px}
+.gallery-atelier .stage-viewport{position:relative;z-index:2;overflow-x:auto;overflow-y:hidden;scroll-snap-type:none;touch-action:pan-x;scroll-padding-inline:calc(max(18px,(100vw - 1520px)/2));}
+.gallery-atelier .stage{height:480px;width:max-content;min-width:100%;padding:42px max(38px,calc((100vw - 1520px)/2)) 56px;gap:0;align-items:center;perspective:1500px;transform:none;margin:0}
+.gallery-atelier .stage::before{height:120px;bottom:10px;background:radial-gradient(ellipse at center,#bd8b4b21 0%,#5e402b16 39%,transparent 73%);opacity:1;transform:none;left:0;right:0}
+.gallery-atelier .stage-canvas,.gallery-atelier .stage-canvas:nth-child(n){position:relative;flex:0 0 clamp(220px,21vw,330px);width:clamp(220px,21vw,330px);max-width:none;min-width:0;height:355px!important;background:transparent;border:0;display:flex!important;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px 30px;margin-left:-22px;box-shadow:none;transform:none!important;filter:none;scroll-snap-align:center;transition:transform .55s var(--ease),filter .55s;z-index:1}
+.gallery-atelier .stage-canvas:first-child{margin-left:0}
+.gallery-atelier .stage-canvas:hover{transform:translateY(-15px) scale(1.065)!important;filter:brightness(1.08);z-index:6}
+.gallery-atelier .stage-canvas::after{display:none}
+.gallery-atelier .stage-art-disc{position:relative;width:min(100%,286px);aspect-ratio:1;border-radius:47% 51% 45% 50% / 49% 46% 51% 45%;overflow:hidden;display:block;box-shadow:inset -13px -15px 20px #08050481,inset 4px 4px 9px #f2d5b23b,1px 2px 0 #a67c47,0 15px 25px #000a,0 0 0 4px #4b3627,0 0 0 5px #946f46a3;transform:perspective(650px) rotateY(-7deg);transition:transform .65s var(--ease),box-shadow .6s var(--ease)}
+.gallery-atelier .stage-canvas:nth-child(3n+2) .stage-art-disc{border-radius:52% 43% 51% 45% / 44% 52% 43% 52%;transform:perspective(650px) rotateY(7deg)}
+.gallery-atelier .stage-canvas:hover .stage-art-disc{transform:rotateY(0) scale(1.01);box-shadow:0 19px 29px #000b,0 0 0 5px #4b3627,0 0 0 6px #d5aa70b3,0 0 37px #dbab5934}
+.gallery-atelier .stage-art-disc img{display:block;width:100%;height:100%;object-fit:cover;image-rendering:auto;filter:contrast(1.04) saturate(.98)}
+.gallery-atelier .stage-art-disc::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(125deg,#fff8df22 0%,transparent 28%,transparent 68%,#0009 100%);box-shadow:inset 0 0 15px #fff1ca2b;pointer-events:none}
+.gallery-atelier .stage-title{font:400 clamp(23px,2vw,32px)/1 var(--serif);color:#eadbc4;letter-spacing:.01em;text-align:center;margin-top:23px;text-shadow:0 2px 8px #000}
+.gallery-atelier .stage-concept-label{position:absolute;z-index:4;top:16px;right:23px;bottom:auto;border:1px solid #b894666e;border-radius:30px;padding:6px 9px;background:#17100ecf;box-shadow:none;letter-spacing:.1em;font-size:8px}
+.gallery-atelier .stage-bottom{margin-top:0;position:relative;z-index:4;border-top:1px solid #e8cda623;padding-top:18px}
+.gallery-atelier .stage-caption{color:#b69f88;line-height:1.75}
+.gallery-atelier .stage-arrows button{border-radius:50%;width:47px;height:47px;border-color:#ac825a70;color:#f4ddbc;transition:background .3s,transform .3s}
+.gallery-atelier .stage-arrows button:hover{transform:translateY(-2px);background:#7c58372e}
+.gallery-atelier .gallery-edge{position:absolute;top:45px;bottom:110px;width:min(13vw,160px);z-index:3;pointer-events:none;opacity:.36;background:linear-gradient(90deg,#17100ede,transparent)}
+.gallery-atelier .gallery-edge--left{left:0}.gallery-atelier .gallery-edge--right{right:0;transform:scaleX(-1)}
+.gallery-atelier .stage-canvas:focus-visible{outline:2px solid #d9a66d;outline-offset:6px}
+/* LUNAR CONCEPT — sculptural sphere, orbit, premium finish and live temperature */
+.moon-atelier{--lamp-hue:73;--lamp-light:77%;--lamp-opacity:1;display:block;min-height:740px;overflow:hidden;background:radial-gradient(ellipse at 74% 45%,#422b1d 0%,#261912 33%,#17100e 72%);border-top:1px solid #a37e552b}
+.moon-atelier::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 68% 42%,#f1b46b0c,transparent 42%);pointer-events:none}
+.moon-atelier-inner{position:relative;display:grid;grid-template-columns:47% 53%;align-items:center;min-height:770px;gap:0}
+.moon-atelier .moon-copy{padding:85px 36px 75px 0;position:relative;z-index:4;align-items:flex-start}
+.moon-atelier .moon-copy h2{font:400 clamp(73px,7vw,118px)/.76 var(--serif);letter-spacing:-.032em;margin:28px 0 29px}
+.moon-atelier .moon-copy h2 em{color:#dfbc91}
+.moon-atelier .moon-copy p{font-size:13px;line-height:2.05;color:#d3bda4;max-width:450px;margin-bottom:27px}
+.moon-atelier .moon-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:2px 0 35px}
+.moon-atelier .moon-sample-note{font-size:9px;letter-spacing:.1em;color:#b79c82;max-width:120px;line-height:1.6}
+.moon-atelier .button--light{border-radius:5px;box-shadow:0 8px 35px #a66b2f1e}
+.moon-atelier .moon-control{width:min(100%,440px);border-top:1px solid #d3aa744d;padding-top:24px;margin-top:0}
+.moon-control-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;font-size:10px;letter-spacing:.19em;text-transform:uppercase;color:#e8d6be}
+.moon-power{display:inline-flex;align-items:center;gap:9px;color:#dcc9ae;background:transparent;border:0;padding:6px;letter-spacing:.1em;font-size:9px;cursor:pointer}
+.moon-power-track{display:flex;align-items:center;width:40px;height:22px;border:1px solid #cba66b6e;border-radius:50px;padding:3px;background:#2a211d}
+.moon-power-knob{width:14px;height:14px;border-radius:50%;background:#8b7661;transition:transform .45s,background .45s,box-shadow .45s}
+.moon-power.is-on .moon-power-knob{transform:translateX(18px);background:#f1c78c;box-shadow:0 0 11px #f9c27b85}
+#moonTemp{width:100%;height:5px;appearance:none;-webkit-appearance:none;border-radius:99px;outline-offset:8px;margin:27px 0 14px;cursor:pointer;background:linear-gradient(90deg,#e79f55 0%,#f5d8aa 35%,#d9efff 67%,#a8d0ff 100%);box-shadow:0 0 13px #edb66b2c}
+#moonTemp::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#f5d2a3;border:3px solid #fff7e4;box-shadow:0 0 0 3px #cb996b5e,0 0 18px #f8bc78c7}
+#moonTemp::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#f5d2a3;border:3px solid #fff7e4;box-shadow:0 0 0 3px #cb996b5e}
+.moon-control-scale{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:9px;color:#bda68d;letter-spacing:.06em}
+.moon-control-scale output{color:#f4d9b7;font-size:11px;border:1px solid #bd8b5a73;padding:7px;border-radius:4px;white-space:nowrap}
+.moon-attributes{display:flex;gap:17px;flex-wrap:wrap;border-top:1px solid #d3aa7426;margin-top:35px;padding-top:24px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#b69d81}
+.moon-sculpture-wrap{position:relative;min-height:700px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.moon-object{--orb:clamp(280px,36vw,550px);display:block;position:relative;width:100%;max-width:730px;height:620px;background:transparent;border:0;cursor:pointer;overflow:visible;isolation:isolate;filter:drop-shadow(0 32px 35px #0008);-webkit-tap-highlight-color:transparent}
+.moon-atmosphere{position:absolute;inset:9% 10% 5%;z-index:-1;border-radius:50%;background:radial-gradient(circle,hsla(var(--lamp-hue),100%,75%,calc(.25 * var(--lamp-opacity))) 0%,hsla(var(--lamp-hue),100%,66%,calc(.08 * var(--lamp-opacity))) 42%,transparent 70%);filter:blur(32px);transition:background .4s}
+.moon-sphere{position:absolute;z-index:2;top:9%;left:50%;width:var(--orb);height:var(--orb);transform:translateX(-50%);border-radius:50%;overflow:hidden;box-shadow:inset -26px -32px 75px #140b09c9,inset 17px 18px 42px #ffffff29,0 0 0 1px #e1c9a471,0 0 47px hsla(var(--lamp-hue),100%,70%,calc(.24 * var(--lamp-opacity))),0 0 110px hsla(var(--lamp-hue),100%,65%,calc(.10 * var(--lamp-opacity)));transition:box-shadow .65s,filter .65s,transform .95s var(--ease)}
+.moon-surface{position:absolute;inset:0;background-image:url('assets/moon-concept-texture.webp');background-position:center;background-size:cover;filter:sepia(.04) contrast(1.2) brightness(.98);transition:filter .6s;transform:scale(1.03);border-radius:50%}
+.moon-sphere-shading{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 31% 27%,#fff8e14f 0%,transparent 23%),radial-gradient(circle at 48% 43%,hsla(var(--lamp-hue),100%,var(--lamp-light),calc(.20 * var(--lamp-opacity))) 0%,hsla(var(--lamp-hue),100%,65%,calc(.10 * var(--lamp-opacity))) 39%,transparent 70%),radial-gradient(circle at 50% 42%,transparent 15%,#0002 59%,#0d0709d9 99%);box-shadow:inset -22px -26px 45px #130908ac,inset 3px 3px 10px #fff8db9c;transition:background .45s}
+.moon-orbit{position:absolute;z-index:3;display:block;top:2%;left:50%;width:var(--orb);height:calc(var(--orb) + 50px);border:8px solid transparent;border-top-color:#c8a16b;border-right-color:#a97646;border-bottom-color:#a6763b;border-radius:50%;transform:translateX(-50%) rotate(-27deg) scaleX(.63);box-shadow:2px 1px 2px #f5e2b773;pointer-events:none;opacity:.9;transition:transform .9s var(--ease)}
+.moon-orbit--back{z-index:1;border-left-color:#74512d77;transform:translateX(-50%) rotate(33deg) scaleX(.81);opacity:.52}
+.moon-orbit--front{top:7%;left:50%;width:calc(var(--orb) + 20px);height:calc(var(--orb) + 30px);border-right-color:#d8ab69;transform:translateX(-50%) rotate(-30deg) scaleX(.78)}
+.moon-pedestal{position:absolute;left:50%;transform:translateX(-50%);background:#38261e;pointer-events:none}
+.moon-pedestal--top{z-index:4;bottom:16%;width:58%;height:32px;border-radius:50%;background:radial-gradient(ellipse at 50% 15%,#8b694e 0%,#46332a 58%,#1b1512 100%);box-shadow:0 2px 0 #c4a06d,0 11px 24px #000b}
+.moon-pedestal--body{z-index:3;bottom:9%;width:57%;height:62px;border-radius:0 0 28px 28px;background:linear-gradient(90deg,#140f0c,#5c4635 22%,#3f2d23 67%,#16100d);box-shadow:0 19px 20px #0009,inset 0 -1px 0 #ae8d61}
+.moon-floor-glow{position:absolute;z-index:-1;bottom:5%;left:50%;transform:translateX(-50%);width:78%;height:80px;border-radius:50%;background:hsla(var(--lamp-hue),100%,70%,calc(.35 * var(--lamp-opacity)));filter:blur(47px);transition:background .45s}
+.moon-object:focus-visible{outline:2px solid #e0b27b;outline-offset:3px;border-radius:20px}
+.moon-object:hover .moon-sphere{transform:translateX(-50%) translateY(-5px)}
+.moon-nudge .moon-sphere{animation:moonNudge .78s var(--ease) both}
+@keyframes moonNudge{0%,100%{transform:translateX(-50%) rotate(0deg)}40%{transform:translateX(-50%) rotate(3deg) scale(.995)}75%{transform:translateX(-50%) rotate(-1.4deg)}}
+.moon-model-caption{width:100%;display:flex;justify-content:space-between;gap:20px;padding:10px 20px 0;font-size:9px;letter-spacing:.17em;color:#a88b70;text-transform:uppercase}
+@media(max-width:1050px){.moon-atelier-inner{grid-template-columns:45% 55%}.moon-object{--orb:clamp(270px,39vw,470px);height:540px}.moon-sculpture-wrap{min-height:560px}.moon-atelier .moon-copy{padding:62px 0}.moon-atelier .moon-copy h2{font-size:76px}.gallery-atelier .stage-canvas,.gallery-atelier .stage-canvas:nth-child(n){flex-basis:280px;width:280px}}
+@media(max-width:700px){.gallery-atelier{padding:75px 0 70px}.gallery-atelier .stage-heading h2{font-size:60px;line-height:.86}.gallery-atelier .stage-heading p{margin-top:27px;padding-left:15px;font-size:12px}.gallery-atelier-viewer{margin-top:12px}.gallery-atelier .stage{height:346px;min-width:100%;padding:22px 26px 30px;gap:0;margin:0;overflow:visible}.gallery-atelier .stage-canvas,.gallery-atelier .stage-canvas:nth-child(n){min-width:245px;width:245px;flex:0 0 245px;height:305px!important;margin-left:-13px;padding:8px 8px 32px}.gallery-atelier .stage-art-disc{width:215px}.gallery-atelier .stage-title{font-size:25px;margin-top:20px}.gallery-atelier .stage-concept-label{top:13px;right:12px}.gallery-atelier .stage-bottom{padding:17px 19px 0;gap:8px}.gallery-atelier .stage-caption{font-size:8px;letter-spacing:.05em}.gallery-atelier .gallery-edge{width:45px;bottom:90px;top:5px;opacity:.7}.gallery-atelier .stage-arrows button{height:39px;width:39px}.moon-atelier{min-height:auto}.moon-atelier-inner{display:flex;flex-direction:column-reverse;gap:0;min-height:0;padding-bottom:55px}.moon-sculpture-wrap{width:100%;min-height:450px;padding-top:48px}.moon-object{--orb:min(74vw,350px);height:385px}.moon-orbit{border-width:5px}.moon-pedestal--top{bottom:11%;height:19px}.moon-pedestal--body{bottom:5%;height:40px}.moon-floor-glow{bottom:2%}.moon-model-caption{padding:8px 0;font-size:8px;line-height:1.7}.moon-atelier .moon-copy{width:100%;padding:18px 0 10px}.moon-atelier .moon-copy h2{font-size:79px;line-height:.8;margin:21px 0}.moon-atelier .moon-copy p{font-size:12px;margin-bottom:25px}.moon-atelier .moon-actions{gap:13px}.moon-atelier .moon-control{width:100%}.moon-control-scale{font-size:8px}.moon-attributes{font-size:8px;gap:12px}}
+@media(max-width:390px){.moon-object{--orb:72vw;height:340px}.moon-sculpture-wrap{min-height:390px}.moon-atelier .moon-copy h2{font-size:68px}}
+.moon-object:not(.is-on) .moon-surface{filter:sepia(.45) contrast(1.22) brightness(.47)}
+.moon-object:not(.is-on) .moon-sphere-shading{box-shadow:inset -34px -32px 60px #080605e8,inset 8px 9px 17px #e8c5a32e}
+@media(prefers-reduced-motion:reduce){.gallery-atelier .stage-canvas,.gallery-atelier .stage-art-disc,.moon-sphere,.moon-orbit,.moon-power-knob{animation:none!important;transition:none!important}.gallery-atelier .stage-canvas:hover{transform:none!important}}
+
+
+/* APPLE-INSPIRED ROUNDED ART GALLERY · NOV 2026
+   User-approved 2048x1442 gallery assets are displayed at natural proportions.
+   A calm rounded-rect treatment replaces irregular circles without cropping. */
+.gallery-atelier{background:radial-gradient(ellipse at 51% 55%,#34241b 0%,#1c1512 44%,#120e0c 100%)}
+.gallery-atelier .stage{height:472px;gap:16px;padding:26px max(28px,calc((100vw - 1520px)/2)) 34px;align-items:center}
+.gallery-atelier .stage-canvas,
+.gallery-atelier .stage-canvas:nth-child(n){flex:0 0 clamp(240px,28vw,380px);width:clamp(240px,28vw,380px);height:355px!important;max-width:380px;margin:0;padding:14px 4px 0;justify-content:flex-start;gap:0;transition:transform .52s cubic-bezier(.2,.75,.2,1),filter .4s;will-change:transform}
+.gallery-atelier .stage-canvas:hover{transform:translateY(-9px)!important;filter:none}
+.gallery-atelier .stage-art-disc,
+.gallery-atelier .stage-canvas:nth-child(3n+2) .stage-art-disc{width:100%;max-width:none;aspect-ratio:2048 / 1442;border-radius:24px;overflow:hidden;border:1px solid rgba(246,224,196,.25);background:linear-gradient(150deg,#4c392a,#241a14);transform:none;box-shadow:0 3px 4px #08050430,0 12px 29px #0008,0 25px 48px #0006,inset 0 1px 0 #ffffff30;transition:transform .55s cubic-bezier(.2,.75,.2,1),border-color .45s,box-shadow .55s;isolation:isolate}
+.gallery-atelier .stage-canvas:hover .stage-art-disc{transform:translateY(-3px) scale(1.012);border-color:rgba(236,206,162,.68);box-shadow:0 8px 12px #0005,0 28px 58px #000a,0 0 0 1px #e4c59d26}
+.gallery-atelier .stage-art-disc img{width:100%;height:100%;object-fit:contain;object-position:center;filter:none;image-rendering:auto;display:block}
+.gallery-atelier .stage-art-disc::after{background:linear-gradient(130deg,#fff9eb21 0%,transparent 32%,transparent 80%,#0004);box-shadow:inset 0 1px 0 #ffffff15}
+.gallery-atelier .stage-title{margin-top:22px;font-size:clamp(23px,2.1vw,31px);color:#f0e7dc;letter-spacing:-.025em}
+.gallery-atelier .stage-concept-label{top:25px;right:15px;border:1px solid #ffe0b348;background:#1b120cdb;backdrop-filter:blur(12px);font-size:8px;border-radius:99px;padding:7px 10px;color:#ebd7bc}
+.gallery-atelier .stage-bottom{margin-top:0}
+/* Apple-like refinement on collection tiles and artwork previews. */
+.collection-card{border-radius:18px;box-shadow:0 7px 19px #24150e1c,0 18px 40px #24150e0f;outline:1px solid #ffffff2e;outline-offset:-1px}
+.collection-card img{object-fit:contain;object-position:center;background:#21150f}
+.collection-card:hover img{transform:none;filter:none}
+.art-visual{border-radius:20px;box-shadow:0 10px 28px #24150e1d;overflow:hidden}
+.art-visual img{object-fit:contain;background:#e2d6c9}
+@media(max-width:700px){
+ .gallery-atelier .stage{height:340px;gap:13px;padding:22px 18px 26px}
+ .gallery-atelier .stage-canvas,.gallery-atelier .stage-canvas:nth-child(n){flex:0 0 77vw;width:77vw;height:300px!important;max-width:328px;display:flex!important;margin:0;padding:8px 2px 0}
+ .gallery-atelier .stage-art-disc,.gallery-atelier .stage-canvas:nth-child(3n+2) .stage-art-disc{border-radius:20px}
+ .gallery-atelier .stage-title{font-size:24px;margin-top:17px}
+ .gallery-atelier .stage-concept-label{top:15px;right:12px}
+ .collection-card{border-radius:14px}
+ .art-visual{border-radius:14px}
+}
+@media(prefers-reduced-motion:reduce){.gallery-atelier .stage-canvas,.gallery-atelier .stage-art-disc,.collection-card{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -123,40 +280,80 @@
    <div class="hero-kicker"><span>Авторское искусство<br>для вашего пространства</span><span class="line"></span></div>
    <h1>Искусство,<br>которое создаёт<br><em>атмосферу</em></h1>
    <p class="hero-sub">Картины, фактура и художественные объекты, в которых пространство обретает характер.</p>
-   <div class="hero-actions"><a class="button button--light" href="#collections">Смотреть коллекции <svg><use href="#arrow"/></svg></a><a class="button button--outline" href="#order">Заказать картину <svg><use href="#arrow"/></svg></a></div><div class="hero-social" aria-label="Связаться со студией"><span>НАПИСАТЬ В СТУДИЮ</span><a href="https://vk.ru/id17791783" target="_blank" rel="noopener noreferrer" aria-label="Написать ВКонтакте (откроется новая вкладка)">ВКонтакте <span aria-hidden="true">↗</span></a><a href="https://max.ru/u/f9LHodD0cOLZL11bw1saaF5hHhWvXsVbmArJrFtrGVsC3zI6nZh2XAAtmU0" target="_blank" rel="noopener noreferrer" aria-label="Написать в MAX (откроется новая вкладка)">MAX <span aria-hidden="true">↗</span></a></div>
+   <div class="hero-actions"><a class="button button--light" href="#collections">Смотреть коллекции <svg><use href="#arrow"/></svg></a><a class="button button--outline" href="#order">Заказать картину <svg><use href="#arrow"/></svg></a></div><div class="hero-social" aria-label="Связаться со студией"><span>НАПИСАТЬ В СТУДИЮ</span><a href="https://vk.ru/club233384436" target="_blank" rel="noopener noreferrer" aria-label="Написать ВКонтакте (откроется новая вкладка)">ВКонтакте <span aria-hidden="true">↗</span></a><a href="https://max.ru/u/f9LHodD0cOLZL11bw1saaF5hHhWvXsVbmArJrFtrGVsC3zI6nZh2XAAtmU0" target="_blank" rel="noopener noreferrer" aria-label="Написать в MAX (откроется новая вкладка)">MAX <span aria-hidden="true">↗</span></a></div>
  </div><div class="hero-foot"><span class="hero-foot-left">ЕКАТЕРИНА ЗЫКИНА / ХУДОЖНИК / 2026</span><span class="hero-foot-right">ЛИСТАЙТЕ ВНИЗ</span></div></div>
 </section>
+<section class="collections" id="collections"><div class="site-frame"><div class="section-heading reveal"><div><div class="section-meta">02 / Авторские направления</div><h2>Коллекции</h2></div><p>От пластики рельефа до выразительных образов. Выберите историю, близкую вашему пространству.</p></div>
+ <div class="collections-grid reveal">
+  <a href="#portfolio" class="collection-card" data-filter-link="plastic"><img src="assets/ref-plastic-full-2k.webp" alt="Пластика — скульптурные крылья" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">01 / Коллекция</span><span class="collection-label">Пластика</span></span><span class="collection-arrow">↗</span></span></a>
+  <a href="#portfolio" class="collection-card" data-filter-link="abstract"><img src="assets/ref-abstract-full-2k.webp" alt="Абстракция — художественная фактура" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">02 / Коллекция</span><span class="collection-label">Абстракция</span></span><span class="collection-arrow">↗</span></span></a>
+  <a href="#portfolio" class="collection-card" data-filter-link="images"><img src="assets/ref-images-full-2k.webp" alt="Образы — образ чёрной лошади" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">03 / Коллекция</span><span class="collection-label">Образы</span></span><span class="collection-arrow">↗</span></span></a>
+  <a href="#portfolio" class="collection-card" data-filter-link="stories"><img src="assets/ref-stories-full-2k.webp" alt="Истории — поэтическая композиция с птицами" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">04 / Коллекция</span><span class="collection-label">Истории</span></span><span class="collection-arrow">↗</span></span></a>
+  <a href="#moon" class="collection-card"><img src="assets/ref-moon-full-2k.webp" alt="Светильник Луна — рельеф лунной поверхности" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">05 / Арт-объект</span><span class="collection-label">Светильник Луна</span></span><span class="collection-arrow">↗</span></span></a>
+
+  <a href="#order" class="collection-card collection-card--bespoke" aria-label="Заказать авторскую картину">
+   <img src="assets/ref-bespoke-full-2k.webp" alt="Авторский заказ — объёмный золотой лист на тёмном рельефном холсте" loading="lazy">
+   <span class="collection-overlay"><span><span class="collection-number">06 / Индивидуально</span><span class="collection-label">На заказ</span></span><span class="collection-arrow">↗</span></span>
+   <span class="collection-hint" aria-hidden="true">Обсудить свою идею</span>
+  </a>
+ </div><div class="collections-foot"><span>Каждая коллекция — отдельная форма выражения</span><span>Е·З / 2026</span></div>
+</div></section>
 <section class="statement" aria-label="О студии"><div class="site-frame statement-grid reveal">
  <div><div class="section-meta">01 / Философия студии</div><h2>Там, где<br>форма становится<br><em>искусством.</em></h2></div>
  <div class="statement-body"><p>Каждая работа создаётся в диалоге с интерьером. Мы ценим прикосновение материала, свет на рельефе и эмоцию, которую сохраняет произведение — каждый день, в вашем доме.</p><span class="statement-index">Е·З</span></div>
 </div></section>
-<section class="collections" id="collections"><div class="site-frame"><div class="section-heading reveal"><div><div class="section-meta">02 / Авторские направления</div><h2>Коллекции</h2></div><p>От пластики рельефа до выразительных образов. Выберите историю, близкую вашему пространству.</p></div>
- <div class="collections-grid reveal">
-  <a href="#portfolio" class="collection-card" data-filter-link="plastic"><img src="assets/ref-plastic-2k.webp" alt="Пластика — скульптурные крылья" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">01 / Коллекция</span><span class="collection-label">Пластика</span></span><span class="collection-arrow">↗</span></span></a>
-  <a href="#portfolio" class="collection-card" data-filter-link="abstract"><img src="assets/ref-abstract-2k.webp" alt="Абстракция — художественная фактура" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">02 / Коллекция</span><span class="collection-label">Абстракция</span></span><span class="collection-arrow">↗</span></span></a>
-  <a href="#portfolio" class="collection-card" data-filter-link="images"><img src="assets/ref-images-2k.webp" alt="Образы — образ чёрной лошади" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">03 / Коллекция</span><span class="collection-label">Образы</span></span><span class="collection-arrow">↗</span></span></a>
-  <a href="#portfolio" class="collection-card" data-filter-link="stories"><img src="assets/ref-stories-2k.webp" alt="Истории — поэтическая композиция с птицами" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">04 / Коллекция</span><span class="collection-label">Истории</span></span><span class="collection-arrow">↗</span></span></a>
-  <a href="#moon" class="collection-card"><img src="assets/ref-moon-2k.webp" alt="Светильник Луна — рельеф лунной поверхности" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">05 / Арт-объект</span><span class="collection-label">Светильник Луна</span></span><span class="collection-arrow">↗</span></span></a>
- </div><div class="collections-foot"><span>Каждая коллекция — отдельная форма выражения</span><span>Е·З / 2026</span></div>
-</div></section>
-<section class="stage-section" aria-label="Избранные произведения в арт-пространстве"><div class="site-frame"><div class="stage-heading reveal"><div><div class="section-meta" style="color:#cdb89f">03 / Избранное</div><h2>Искусство<br><em>в пространстве</em></h2></div><p>Объёмные холсты, созданные для того, чтобы стать частью интерьера. Нажмите на произведение, чтобы рассмотреть его ближе.</p></div>
- <div class="stage-viewer reveal" aria-label="Экспозиция объёмных холстов. Прокручивайте горизонтально для просмотра">
- <div class="stage-viewport" id="stageViewport" tabindex="0" aria-label="Горизонтальная галерея из 12 холстов"><div class="stage" id="stage"></div></div>
- <div class="stage-bottom"><p class="stage-caption">07 авторских работ · 05 визуальных концептов. Листайте галерею вручную, нажимайте на холсты для просмотра.</p><div class="stage-arrows"><button type="button" id="stagePrev" aria-label="Предыдущие холсты">←</button><span id="stageProgress" aria-live="polite">01 — 12</span><button type="button" id="stageNext" aria-label="Следующие холсты">→</button></div></div>
-</div>
- </div></section>
+
+<section class="stage-section gallery-atelier" id="art-space" aria-label="Интерактивная галерея объёмного искусства">
+ <div class="site-frame"><div class="stage-heading reveal">
+  <div><div class="section-meta" style="color:#cdb89f">03 / Авторская экспозиция</div><h2>Искусство<br><em>в пространстве</em></h2></div>
+  <p>Материал. Свет. Объём. Шестнадцать художественных историй. Подведите курсор к краю экспозиции, чтобы открыть следующие работы.</p>
+ </div></div>
+ <div class="stage-viewer gallery-atelier-viewer reveal">
+  <div class="stage-viewport" id="stageViewport" tabindex="0" aria-label="Галерея из шестнадцати объёмных работ, прокрутка горизонтально"><div class="stage" id="stage"></div></div>
+  <div class="site-frame stage-bottom">
+   <p class="stage-caption">07 авторских работ · 09 визуальных концептов. Нажмите на произведение для просмотра целиком.</p>
+   <div class="stage-arrows"><button type="button" id="stagePrev" aria-label="Назад">←</button><span id="stageProgress">01 — 16</span><button type="button" id="stageNext" aria-label="Далее">→</button></div>
+  </div>
+  <div class="gallery-edge gallery-edge--left" data-edge="left" aria-hidden="true"></div><div class="gallery-edge gallery-edge--right" data-edge="right" aria-hidden="true"></div>
+ </div>
+</section>
 <section class="gallery-section" id="portfolio"><div class="site-frame"><div class="gallery-intro reveal"><div><div class="section-meta">04 / Авторское собрание</div><h2>Произведения</h2></div><p>Каждая картина представлена подлинной фотографией. Размер и фактура — индивидуальны.</p></div>
  <div class="filters" role="group" aria-label="Фильтр произведений"><button class="filter is-active" type="button" data-filter="all" aria-pressed="true">Все работы</button><button class="filter" type="button" data-filter="plastic">Пластика</button><button class="filter" type="button" data-filter="abstract">Абстракция</button><button class="filter" type="button" data-filter="images">Образы</button><button class="filter" type="button" data-filter="stories">Истории</button></div>
  <div class="art-grid" id="artGrid"></div>
  </div></section>
-<section class="moon-section" id="moon"><div class="moon-image"><img src="assets/moon-original-1.webp" loading="lazy" alt="Настоящий рельефный светильник Луна с голубой подсветкой"></div><div class="moon-copy reveal"><div class="section-meta" style="color:#cdb89f">05 / Авторский арт-объект</div><h2>Светильник<br><em>Луна</em></h2><p>Скульптурный световой объект с кратерами и выразительной фактурой. Рельеф оживает в свете и превращает интерьер в особое пространство.</p><div class="moon-mini"><img src="assets/moon-original-1.webp" alt="Луна с голубой подсветкой" loading="lazy"><img src="assets/moon-original-2.webp" alt="Луна с белой подсветкой" loading="lazy"></div><a class="button button--light" href="#portfolio">Смотреть работы <svg><use href="#arrow"/></svg></a></div></section>
+<section class="moon-section moon-atelier" id="moon" aria-label="Светильник Луна — интерактивная презентация авторского концепта">
+ <div class="moon-atelier-inner site-frame">
+  <div class="moon-copy reveal">
+   <div class="section-meta" style="color:#d7b895">05 / Коллекционный арт-объект</div>
+   <h2>Светильник<br><em>Луна</em></h2>
+   <p>Маленькая вселенная для вашего пространства. Скульптурная поверхность, сияние изнутри и сдержанная золотая орбита — художественная концепция светильника, созданная специально для этой галереи.</p>
+   <div class="moon-actions"><a class="button button--light" href="#order">Заказать светильник <svg><use href="#arrow"/></svg></a><span class="moon-sample-note">Интерактивный визуальный концепт</span></div>
+   <div class="moon-control" aria-label="Настройка света">
+    <div class="moon-control-heading"><span>Температура света</span><button type="button" class="moon-power is-on" id="moonPower" aria-pressed="true"><span class="moon-power-track"><span class="moon-power-knob"></span></span><span id="moonPowerText">ВКЛ</span></button></div>
+    <input aria-label="Цветовая температура света, Кельвин" type="range" id="moonTemp" min="2700" max="6500" value="3500" step="100">
+    <div class="moon-control-scale"><span>☀ Тёплый · 2700 K</span><output id="moonTempOutput" for="moonTemp">3500 K</output><span>Холодный · 6500 K ❄</span></div>
+   </div>
+   <div class="moon-attributes"><span>01 / Авторская фактура</span><span>02 / Свет как искусство</span><span>03 / Индивидуальный заказ</span></div>
+  </div>
+  <div class="moon-sculpture-wrap reveal">
+   <button type="button" class="moon-object is-on" id="moonObject" aria-label="Включить или выключить светильник" aria-pressed="true">
+    <span class="moon-atmosphere"></span><span class="moon-orbit moon-orbit--back"></span>
+    <span class="moon-sphere"><span class="moon-surface"></span><span class="moon-sphere-shading"></span></span>
+    <span class="moon-orbit moon-orbit--front"></span>
+    <span class="moon-pedestal moon-pedestal--top"></span><span class="moon-pedestal moon-pedestal--body"></span>
+    <span class="moon-floor-glow"></span>
+   </button>
+   <div class="moon-model-caption"><span>ЕТЮД 01</span><span>Коснитесь Луны, чтобы изменить свет</span></div>
+  </div>
+ </div>
+</section>
 <section class="artist-section" id="artist"><div class="site-frame artist-grid"><img class="artist-photo reveal" src="assets/artist-mono.webp" alt="Екатерина Зыкина, художница" loading="lazy"><div class="artist-copy reveal"><div class="section-meta">06 / Об авторе</div><h2>Екатерина<br>Зыкина</h2><p>Художница и основатель студии интерьерного искусства. В её работах сочетаются пластика формы, выразительная фактура, свет и чувство пространства. Каждое произведение — это характер, настроение и история, которую хочется проживать.</p><a href="#portfolio" class="text-link">Смотреть произведения <svg width="15" height="15"><use href="#arrow"/></svg></a><div class="artist-quote">«Искусство, которое создаёт атмосферу»</div></div></div></section>
 <section class="order-section" id="order" aria-label="Заказать авторскую картину">
  <div class="site-frame order-grid">
   <div class="order-copy reveal"><div class="section-meta" style="color:#d3b99a">07 / Индивидуальный заказ</div><h2>Картина,<br><em>созданная для вас.</em></h2><p>Расскажите Екатерине о своём интерьере, любимой фактуре и настроении будущей работы. Обсудить идею можно напрямую — без форм и ожидания обратного звонка.</p></div>
   <div class="order-links reveal"><div class="order-label">Выберите удобный способ связи</div>
    <a href="tel:+79513513160" class="order-link" aria-label="Позвонить в студию по номеру 8 951 351-31-60"><span class="order-platform" aria-hidden="true">☎</span><span class="order-name">8 951 351-31-60<small>Позвонить в студию</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
-   <a href="https://vk.ru/id17791783" target="_blank" rel="noopener noreferrer" class="order-link"><span class="order-platform">VK</span><span class="order-name">ВКонтакте<small>Написать художнице</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
+   <a href="https://vk.ru/club233384436" target="_blank" rel="noopener noreferrer" class="order-link"><span class="order-platform">VK</span><span class="order-name">ВКонтакте<small>Написать художнице</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
    <a href="https://max.ru/u/f9LHodD0cOLZL11bw1saaF5hHhWvXsVbmArJrFtrGVsC3zI6nZh2XAAtmU0" target="_blank" rel="noopener noreferrer" class="order-link"><span class="order-platform">M</span><span class="order-name">MAX<small>Написать в мессенджер</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
   </div>
  </div>
@@ -197,10 +394,19 @@ function closeLightbox(){byId('lightbox').classList.remove('open');byId('lightbo
 function stepLightbox(n){currentIdx=(currentIdx+n+currentList.length)%currentList.length;showLightbox()}
 function selectFilter(filter){currentList=filter==='all'?works.slice():works.filter(w=>w.cat===filter);document.querySelectorAll('.filter').forEach(el=>{const active=el.dataset.filter===filter;el.classList.toggle('is-active',active);el.setAttribute('aria-pressed',String(active))});document.querySelectorAll('.art-card').forEach(el=>{el.hidden=filter!=='all'&&el.dataset.category!==filter})}
 function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<button type="button" class="art-card reveal" data-work="${w.id}" data-category="${w.cat}" aria-label="Открыть картину ${w.title}"><span class="art-visual"><img src="${A+w.img}" alt="${w.title}" loading="lazy"></span><span class="art-meta"><span><span class="art-title">${w.title}</span><span class="art-sub">${catNames[w.cat]} / ${String(i+1).padStart(2,'0')}</span></span><span class="art-plus">↗</span></span></button>`).join('');grid.querySelectorAll('.art-card').forEach(btn=>btn.addEventListener('click',()=>viewWork(btn.dataset.work)));
+ // Four approved full-frame artworks lead the interactive Apple-style gallery.
+ // Concept assets are always distinguished from authentic works.
+ const featuredGallery=[
+  {id:'featured-plastic',title:'Пластика',cat:'plastic',img:'ref-plastic-full-2k.webp',concept:true},
+  {id:'featured-abstract',title:'Абстракция',cat:'abstract',img:'ref-abstract-full-2k.webp',concept:true},
+  {id:'featured-images',title:'Образы',cat:'images',img:'ref-images-full-2k.webp',concept:true},
+  {id:'featured-stories',title:'Истории',cat:'stories',img:'ref-stories-full-2k.webp',concept:true}
+ ];
  const stageIds=['gold','horse','feather','wings','owl','abstract','blackrelief'];
- const staged=stageIds.map(id=>{const w=works.find(v=>v.id===id);return {...w,img:'stage-'+id+'-2k.webp'}}).concat(galleryConcepts);
- byId('stage').innerHTML=staged.map((w,i)=>`<button type="button" class="stage-canvas" data-stage="${i}" aria-label="Открыть ${w.title}${w.concept?', визуальный концепт':''}"><img src="${A+w.img}" alt="${w.title}" loading="lazy">${w.concept?'<span class="stage-concept-label">Концепт</span>':''}</button>`).join('');
- byId('stage').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{let w=staged[Number(b.dataset.stage)];if(w.concept){currentList=galleryConcepts.slice()}else{currentList=works.slice()}viewWork(w.id)}));
+ const allGalleryConcepts=featuredGallery.concat(galleryConcepts);
+ const staged=featuredGallery.concat(stageIds.map(id=>{const w=works.find(v=>v.id===id);return {...w,img:'stage-focus-'+id+'.webp'}}),galleryConcepts);
+ byId('stage').innerHTML=staged.map((w,i)=>`<button type="button" class="stage-canvas ${w.id.startsWith('featured-')?'stage-canvas--featured':''}" data-stage="${i}" aria-label="Открыть ${w.title}${w.concept?', визуальный концепт':''}"><span class="stage-art-disc"><img src="${A+w.img}" alt="${w.title}" loading="lazy" draggable="false"></span><span class="stage-title">${w.title}</span>${w.concept?'<span class="stage-concept-label">Концепт</span>':''}</button>`).join('');
+ byId('stage').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{const w=staged[Number(b.dataset.stage)];currentList=w.concept?allGalleryConcepts.slice():works.slice();viewWork(w.id)}));
  const viewport=byId('stageViewport');
  const updateStage=()=>{const remaining=viewport.scrollWidth-viewport.clientWidth;byId('stagePrev').disabled=viewport.scrollLeft<=2;byId('stageNext').disabled=viewport.scrollLeft>=remaining-2};
  ['stagePrev','stageNext'].forEach((name,i)=>byId(name).addEventListener('click',()=>viewport.scrollBy({left:(i?1:-1)*viewport.clientWidth*.62,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})));
@@ -212,6 +418,45 @@ byId('lightboxClose').addEventListener('click',closeLightbox);byId('lightboxPrev
 const menuToggle=byId('menuToggle'),mobileNav=byId('mobileNav');menuToggle.addEventListener('click',()=>{const open=mobileNav.classList.toggle('is-open');menuToggle.setAttribute('aria-expanded',String(open))});mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileNav.classList.remove('is-open');menuToggle.setAttribute('aria-expanded','false')}));
 const header=byId('siteHeader');const updateHeader=()=>header.classList.toggle('is-scrolled',scrollY>80);window.addEventListener('scroll',updateHeader,{passive:true});updateHeader();
 const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');function updateVideos(){document.querySelectorAll('.hero-video').forEach(v=>{const visible=getComputedStyle(v).display!=='none';if(!visible||prefersReduced.matches){v.pause();return}v.muted=true;v.play().catch(()=>{})})}window.addEventListener('resize',updateVideos,{passive:true});prefersReduced.addEventListener?.('change',updateVideos);
+
+ // Unobtrusive edge-driven scrolling only for fine pointers; mobile is manual swipe.
+ (function setupGalleryMotion(){
+  const stageViewport=byId('stageViewport');const gallery=document.querySelector('.gallery-atelier-viewer');
+  const fine=window.matchMedia('(hover:hover) and (pointer:fine)');
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let speed=0,raf=0,last=0;
+  function tick(time){if(!speed || !fine.matches || reduce.matches || document.hidden){raf=0;return}
+   if(!last)last=time;const dt=Math.min(50,time-last);last=time;
+   stageViewport.scrollLeft+=speed*dt/1000;raf=requestAnimationFrame(tick)}
+  function stop(){speed=0;last=0;if(raf)cancelAnimationFrame(raf);raf=0;gallery.classList.remove('is-edge-active')}
+  gallery.addEventListener('pointermove',e=>{
+   if(e.pointerType!=='mouse'||!fine.matches||reduce.matches){stop();return}
+   const box=stageViewport.getBoundingClientRect();if(e.clientY<box.top||e.clientY>box.bottom){stop();return}
+   const t=Math.min(155,box.width*.18);const left=e.clientX-box.left;const right=box.right-e.clientX;
+   speed=left<t?-155*(1-left/t):right<t?155*(1-right/t):0;
+   if(Math.abs(speed)<10)speed=0;
+   if(speed&&!raf){last=0;raf=requestAnimationFrame(tick)}
+   if(!speed && raf)stop();gallery.classList.toggle('is-edge-active',!!speed);
+  });
+  gallery.addEventListener('pointerleave',stop);window.addEventListener('blur',stop);
+  reduce.addEventListener?.('change',()=>{if(reduce.matches)stop()});
+ })();
+ (function setupMoon(){
+  const obj=byId('moonObject'),power=byId('moonPower'),temp=byId('moonTemp'),readout=byId('moonTempOutput'),txt=byId('moonPowerText');
+  const section=byId('moon');let on=true;
+  function apply(){
+   const k=Number(temp.value),f=(k-2700)/3800;
+   const hue=36+Math.pow(f,2)*170,light=70+(f*10);
+   section.style.setProperty('--lamp-hue',hue.toFixed(1));section.style.setProperty('--lamp-light',light.toFixed(1)+'%');
+   section.style.setProperty('--lamp-opacity',on?'1':'0');
+   obj.classList.toggle('is-on',on);power.classList.toggle('is-on',on);
+   power.setAttribute('aria-pressed',String(on));obj.setAttribute('aria-pressed',String(on));
+   txt.textContent=on?'ВКЛ':'ВЫКЛ';readout.textContent=k+' K';
+   temp.style.setProperty('--range-progress',((k-2700)/3800*100).toFixed(2)+'%');
+  }
+  function toggle(){on=!on;apply();if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){obj.classList.remove('moon-nudge');void obj.offsetWidth;obj.classList.add('moon-nudge')}}
+  obj.addEventListener('click',toggle);power.addEventListener('click',toggle);temp.addEventListener('input',apply);apply();
+ })();
 window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
 </script>
 </body>
