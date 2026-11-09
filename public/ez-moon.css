@@ -31,7 +31,18 @@
 #moon.ez-moon-approved .ez-moon-mobile-panel{display:none}
 #moon.ez-moon-approved button:focus-visible,#moon.ez-moon-approved a:focus-visible,#moon.ez-moon-approved input:focus-visible{outline:2px solid #f4d3a1;outline-offset:3px}
 @media(max-width:700px){
- #moon.ez-moon-approved .ez-moon-scene{width:calc(100vw * 2.2);max-width:none;min-width:0;left:50%;transform:translateX(-69.5%);margin:0;aspect-ratio:1536/1024;max-height:550px}
+ /* On phones frame the entire lunar disk instead of zooming into it. The source PNG remains unchanged. */
+ #moon.ez-moon-approved .ez-moon-scene{
+   width:134vw;max-width:none;min-width:0;
+   left:0;transform:translateX(-27%);
+   margin:0;aspect-ratio:1536/1024;max-height:none;
+ }
+ /* Hide partial baked-in desktop copy at the edge, without touching the moon. */
+ #moon.ez-moon-approved .ez-moon-scene::before{
+   content:"";position:absolute;z-index:4;top:0;bottom:0;left:0;width:42%;
+   background:linear-gradient(90deg,#150e0b 4%,rgba(21,14,11,.98) 66%,transparent 100%);
+   pointer-events:none;
+ }
  #moon.ez-moon-approved .ez-moon-mobile-panel{display:flex;position:relative;z-index:20;flex-direction:column;gap:17px;align-items:stretch;padding:26px 24px 45px;background:linear-gradient(#1b110d,#150e0b);font:12px/1.4 Arial,sans-serif;color:#eacda9}
  #moon.ez-moon-approved .ez-moon-mobile-panel h2{font:italic 44px/1 Georgia,serif;margin:0;color:#f1d6b2}
  #moon.ez-moon-approved .ez-moon-mobile-panel .ez-mobile-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
