@@ -74,6 +74,12 @@
 .stage-bottom{padding:0 19px;align-items:flex-end}.stage-bottom .stage-caption{max-width:220px;font-size:8px;letter-spacing:.06em}.stage-arrows{gap:5px}.stage-arrows button{width:35px;height:34px;font-size:18px}.stage-arrows span{display:none}
 .closing-footer{padding:64px 0 22px}.closing-footer-inner{display:block}.closing-footer nav{gap:16px;margin-top:30px}.closing-copyright{margin-top:42px}}
 
+/* Contacts: click to call, styled to match the editorial site */
+.footer-contact-details{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:26px}
+.closing-title .footer-contact-label{font:600 10px/1.4 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:#bb9d83;margin:0}
+.closing-title .footer-contact-phone{font:400 clamp(24px,2.6vw,35px)/1.25 var(--serif);color:#f5dfc5;border-bottom:1px solid rgba(223,187,142,.45);padding-bottom:4px;transition:color .2s}
+.footer-contact-phone:hover{color:#fff}
+@media(max-width:700px){.footer-contact-details{margin-top:25px}.closing-title .footer-contact-phone{font-size:31px}.order-name{overflow-wrap:anywhere}}
 /* Direct contact CTA — integrated into the approved editorial identity */
 .hero-social{display:flex;align-items:center;flex-wrap:wrap;gap:17px;margin-top:24px;color:#e5d3be;font-size:10px;letter-spacing:.13em}
 .hero-social>span{opacity:.66;font-size:9px;letter-spacing:.18em}
@@ -102,11 +108,11 @@
 <header class="site-header" id="siteHeader">
  <div class="site-frame nav-inner">
   <a class="brand" href="#top" aria-label="Студия Екатерины Зыкиной — на главную"><img class="brand-mark" src="assets/ez-mark-transparent.png" alt="Монограмма ЕЗ"><span class="brand-rule"></span><span class="brand-copy"><span class="brand-title">Студия Екатерины Зыкиной</span><span class="brand-tag">Искусство, которое создаёт атмосферу</span></span></a>
-  <nav class="main-nav" aria-label="Основное меню"><a href="#collections">Коллекции</a><a href="#portfolio">Портфолио</a><a href="#moon">Светильник Луна</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a></nav>
+  <nav class="main-nav" aria-label="Основное меню"><a href="#collections">Коллекции</a><a href="#portfolio">Портфолио</a><a href="#moon">Светильник Луна</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a></nav>
   <div class="nav-action"><a href="#portfolio" title="Просмотр работ" aria-label="Просмотр работ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M7 16 11 11l3 3 3-5 3 7"/></svg></a></div>
   <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false"><span></span><span></span></button>
  </div>
- <nav class="mobile-nav" id="mobileNav" aria-label="Мобильное меню"><a href="#collections">Коллекции</a><a href="#portfolio">Портфолио</a><a href="#moon">Светильник Луна</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a></nav>
+ <nav class="mobile-nav" id="mobileNav" aria-label="Мобильное меню"><a href="#collections">Коллекции</a><a href="#portfolio">Портфолио</a><a href="#moon">Светильник Луна</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a></nav>
 </header>
 <main id="top">
 <section class="hero" aria-label="Авторская студия Екатерины Зыкиной">
@@ -149,12 +155,13 @@
  <div class="site-frame order-grid">
   <div class="order-copy reveal"><div class="section-meta" style="color:#d3b99a">07 / Индивидуальный заказ</div><h2>Картина,<br><em>созданная для вас.</em></h2><p>Расскажите Екатерине о своём интерьере, любимой фактуре и настроении будущей работы. Обсудить идею можно напрямую — без форм и ожидания обратного звонка.</p></div>
   <div class="order-links reveal"><div class="order-label">Выберите удобный способ связи</div>
+   <a href="tel:+79513513160" class="order-link" aria-label="Позвонить в студию по номеру 8 951 351-31-60"><span class="order-platform" aria-hidden="true">☎</span><span class="order-name">8 951 351-31-60<small>Позвонить в студию</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
    <a href="https://vk.ru/id17791783" target="_blank" rel="noopener noreferrer" class="order-link"><span class="order-platform">VK</span><span class="order-name">ВКонтакте<small>Написать художнице</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
    <a href="https://max.ru/u/f9LHodD0cOLZL11bw1saaF5hHhWvXsVbmArJrFtrGVsC3zI6nZh2XAAtmU0" target="_blank" rel="noopener noreferrer" class="order-link"><span class="order-platform">M</span><span class="order-name">MAX<small>Написать в мессенджер</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
   </div>
  </div>
 </section>
-<footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p></footer>
+<footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-phone" href="tel:+79513513160">8 951 351-31-60</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p></footer>
 </main>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner"><img class="lightbox-image" id="lightboxImage" alt=""><div class="lightbox-desc" id="lightboxDesc"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
 <script>
