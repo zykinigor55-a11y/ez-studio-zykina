@@ -119,7 +119,7 @@
 .collection-arrow{width:39px;height:39px;border:1px solid rgba(255,240,212,.65);border-radius:50%;display:grid;place-items:center;font-size:21px;transition:transform .48s var(--ease),background .4s,color .4s}
 .collection-hint{position:absolute;left:clamp(20px,2.2vw,35px);bottom:9px;z-index:3;color:#ecd6b6;font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
 .collection-card:focus-visible{outline:3px solid #a1764e;outline-offset:4px}
-.collection-card--bespoke .collection-label{font-style:italic}
+.collection-card--masterclass .collection-label{font-style:italic}
 /* Rounded photos and subtle lift, without altering the 3D gallery's geometry. */
 .art-visual,.artist-photo{border-radius:10px;box-shadow:0 12px 32px rgba(40,25,12,.13)}
 @media(hover:hover) and (pointer:fine){
@@ -127,7 +127,7 @@
 .collection-card:hover::before{opacity:1;transform:translateX(35%) rotate(7deg)}
 .collection-card:hover .collection-overlay{transform:translateY(-7px)}
 .collection-card:hover .collection-arrow{background:#e5ca9f;color:#2b1d13;transform:rotate(45deg)}
-.collection-card--bespoke:hover .collection-hint{opacity:1;transform:translateY(0)}
+.collection-card--masterclass:hover .collection-hint{opacity:1;transform:translateY(0)}
 /* Distinct calm material response per category, not content distortion. */
 .collection-card:nth-child(2):hover{box-shadow:0 28px 58px rgba(141,92,38,.23)}
 .collection-card:nth-child(3):hover{box-shadow:0 28px 58px rgba(65,39,24,.34)}
@@ -289,12 +289,12 @@
   <a href="#portfolio" class="collection-card" data-filter-link="abstract"><img src="assets/ref-abstract-full-2k.webp" alt="Абстракция — художественная фактура" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">02 / Коллекция</span><span class="collection-label">Абстракция</span></span><span class="collection-arrow">↗</span></span></a>
   <a href="#portfolio" class="collection-card" data-filter-link="images"><img src="assets/ref-images-full-2k.webp" alt="Образы — образ чёрной лошади" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">03 / Коллекция</span><span class="collection-label">Образы</span></span><span class="collection-arrow">↗</span></span></a>
   <a href="#portfolio" class="collection-card" data-filter-link="stories"><img src="assets/ref-stories-full-2k.webp" alt="Истории — поэтическая композиция с птицами" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">04 / Коллекция</span><span class="collection-label">Истории</span></span><span class="collection-arrow">↗</span></span></a>
-  <a href="#moon" class="collection-card"><img src="assets/ref-moon-full-2k.webp" alt="Светильник Луна — рельеф лунной поверхности" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">05 / Арт-объект</span><span class="collection-label">Светильник Луна</span></span><span class="collection-arrow">↗</span></span></a>
+  <a href="#moon" class="collection-card"><img src="assets/ref-moon-approved-2k.webp" alt="Светильник Луна — авторская художественная визуализация светящегося рельефного светильника" loading="lazy"><span class="collection-overlay"><span><span class="collection-number">05 / Арт-объект</span><span class="collection-label">Светильник Луна</span></span><span class="collection-arrow">↗</span></span></a>
 
-  <a href="#order" class="collection-card collection-card--bespoke" aria-label="Заказать авторскую картину">
-   <img src="assets/ref-bespoke-full-2k.webp" alt="Авторский заказ — объёмный золотой лист на тёмном рельефном холсте" loading="lazy">
-   <span class="collection-overlay"><span><span class="collection-number">06 / Индивидуально</span><span class="collection-label">На заказ</span></span><span class="collection-arrow">↗</span></span>
-   <span class="collection-hint" aria-hidden="true">Обсудить свою идею</span>
+  <a href="https://vk.ru/club233384436" target="_blank" rel="noopener noreferrer" class="collection-card collection-card--masterclass" aria-label="Мастер-класс — уточнить участие во ВКонтакте">
+   <img src="assets/ref-masterclass-approved-2k.webp" alt="Мастер-класс — создание фактурного рельефа с золотыми акцентами" loading="lazy">
+   <span class="collection-overlay"><span><span class="collection-number">06 / Творческая мастерская</span><span class="collection-label">Мастер-класс</span></span><span class="collection-arrow">↗</span></span>
+   <span class="collection-hint" aria-hidden="true">Узнать о мастер-классах</span>
   </a>
  </div><div class="collections-foot"><span>Каждая коллекция — отдельная форма выражения</span><span>Е·З / 2026</span></div>
 </div></section>
