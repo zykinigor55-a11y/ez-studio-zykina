@@ -292,7 +292,7 @@
 <link rel="stylesheet" href="gallery-refinement.css?v=20261109">
 <!-- EZ-MOON-PIXEL-RELIEF-V2: approved original image, aligned crater relief -->
 <link rel="stylesheet" href="ez-moon.css?v=5">
-<link rel="stylesheet" href="ez-mobile-approved.css?v=3" media="(max-width:700px)">
+<link rel="stylesheet" href="ez-mobile-approved.css?v=4" media="(max-width:700px)">
 </head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -308,7 +308,7 @@
 <main id="top">
 <section class="hero" aria-label="Авторская студия Екатерины Зыкиной">
  <video class="hero-video hero-video--desktop" autoplay muted playsinline loop preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-seamless.mp4" type="video/mp4"></video>
- <video class="hero-video hero-video--mobile" autoplay muted playsinline webkit-playsinline loop preload="auto" poster="assets/hero-mobile-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-mobile-seamless.mp4" type="video/mp4"></video>
+ <video class="hero-video hero-video--mobile" autoplay muted playsinline webkit-playsinline loop preload="auto" poster="assets/hero-mobile-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-mobile-loop-v2.mp4" type="video/mp4"></video>
  <button type="button" id="ezHeroPlay" class="ez-hero-play" hidden aria-label="Запустить видео на главном экране">▶ Смотреть видео</button>
  <div class="hero-shade"></div>
  <div class="site-frame hero-inner"><div class="hero-content">
@@ -360,6 +360,8 @@
  <div class="ez-moon-scene" id="ezMoonScene" style="--ez-thumb-x:28.85%;--ez-bright-percent:72.5">
   <img class="ez-moon-right-fill" src="assets/ez-moon-approved.png" alt="" aria-hidden="true" draggable="false">
    <img class="ez-moon-backdrop" src="assets/ez-moon-approved.png" alt="Авторский светильник Луна, в интерьере с золотистым скульптурным фоном — утверждённое изображение" draggable="false">
+   <div class="ez-moon-interior-side ez-moon-interior-side--left" aria-hidden="true"></div>
+   <div class="ez-moon-interior-side ez-moon-interior-side--right" aria-hidden="true"></div>
   <div class="ez-floor-effect" aria-hidden="true"></div><div class="ez-floor-off" aria-hidden="true"></div>
   <canvas id="ezMoonRelief" width="774" height="812" aria-label="3D-рельеф лунной поверхности с управляемым освещением" role="img"></canvas>
   <a href="#order" class="ez-hotspot ez-order" aria-label="Заказать светильник"></a>
@@ -512,6 +514,6 @@ window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
 </script>
 <script src="gallery-refinement.js?v=20261109" defer></script>
 <script src="ez-moon.js?v=5"></script>
-<script src="ez-hero-mobile.js?v=2" defer></script>
+<script src="ez-hero-mobile.js?v=3" defer></script>
 </body>
 </html>
