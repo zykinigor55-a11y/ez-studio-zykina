@@ -20,6 +20,7 @@ jobs:
       - name: Create smooth 0.8-second motion overlap at loop boundary
         run: |
           set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           ffmpeg -hide_banner -loglevel error -y             -i public/assets/hero-mobile-seamless.mp4             -filter_complex "[0:v]fps=25,split=3[headsrc][tailsrc][bodysrc];[headsrc]trim=start=0:duration=0.8,setpts=PTS-STARTPTS,fps=25[head];[tailsrc]trim=start=5.44:duration=0.8,setpts=PTS-STARTPTS,fps=25[tail];[tail][head]xfade=transition=fade:duration=0.8:offset=0[blend];[bodysrc]trim=start=0.8:end=5.44,setpts=PTS-STARTPTS,fps=25[body];[blend][body]concat=n=2:v=1:a=0[v]"             -map "[v]" -an -c:v libx264 -preset medium -crf 21 -pix_fmt yuv420p             -movflags +faststart public/assets/hero-mobile-loop-v2.mp4
           test -s public/assets/hero-mobile-loop-v2.mp4
       - name: Commit generated loop
