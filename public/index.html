@@ -292,6 +292,7 @@
 <link rel="stylesheet" href="gallery-refinement.css?v=20261109">
 <!-- EZ-MOON-PIXEL-RELIEF-V2: approved original image, aligned crater relief -->
 <link rel="stylesheet" href="ez-moon.css?v=5">
+<link rel="stylesheet" href="ez-mobile-approved.css?v=1" media="(max-width:700px)">
 </head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -356,7 +357,8 @@
  </div></section>
 <section class="ez-moon-approved" id="moon" aria-label="Светильник Луна — интерактивный рельеф">
  <div class="ez-moon-scene" id="ezMoonScene" style="--ez-thumb-x:28.85%;--ez-bright-percent:72.5">
-  <img class="ez-moon-backdrop" src="assets/ez-moon-approved.png" alt="Авторский светильник Луна, в интерьере с золотистым скульптурным фоном — утверждённое изображение" draggable="false">
+  <img class="ez-moon-right-fill" src="assets/ez-moon-approved.png" alt="" aria-hidden="true" draggable="false">
+   <img class="ez-moon-backdrop" src="assets/ez-moon-approved.png" alt="Авторский светильник Луна, в интерьере с золотистым скульптурным фоном — утверждённое изображение" draggable="false">
   <div class="ez-floor-effect" aria-hidden="true"></div><div class="ez-floor-off" aria-hidden="true"></div>
   <canvas id="ezMoonRelief" width="774" height="812" aria-label="3D-рельеф лунной поверхности с управляемым освещением" role="img"></canvas>
   <a href="#order" class="ez-hotspot ez-order" aria-label="Заказать светильник"></a>
@@ -381,21 +383,22 @@
   </div>
  </div>
  <div class="ez-moon-mobile-panel" aria-label="Управление светильником на телефоне">
-  <div class="ez-mobile-dock">
-   <span class="ez-mobile-dock-title">Луна</span>
-   <button class="ez-mobile-switch" id="ezMobilePower" type="button" aria-label="Включить или выключить подсветку">ВКЛ</button>
-   <button class="ez-mobile-settings-toggle" id="ezMobileSettings" type="button" aria-expanded="false" aria-controls="ezMobileControls" aria-label="Раскрыть настройку яркости и температуры">☼ <output id="ezMobileDockValue">78 %</output> <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 6 5 5 5-5"/></svg></button>
-  </div>
-  <div class="ez-mobile-controls" id="ezMobileControls" hidden>
-   <div class="ez-mobile-row"><label for="ezMobileBrightness">Яркость</label><output id="ezMobileValue">78 %</output></div>
-   <input id="ezMobileBrightness" min="0" max="100" type="range" value="78" aria-label="Яркость светильника">
-   <div class="ez-mobile-row"><label for="ezMobileKelvin">Температура</label><output id="ezMobileKelvinValue">2700 К</output></div>
-   <input id="ezMobileKelvin" min="2700" max="6500" type="range" step="100" value="2700" aria-label="Температура света">
-   <div class="ez-mobile-presets"><button type="button" data-kelvin="2700" aria-pressed="true">Тёплый</button><button type="button" data-kelvin="4000" aria-pressed="false">Нейтральный</button><button type="button" data-kelvin="6500" aria-pressed="false">Холодный</button></div>
-   <a class="ez-mobile-order" href="#order">Заказать светильник</a>
-  </div>
+ <div class="ez-mobile-dock" aria-label="Быстрое управление светильником">
+  <button type="button" class="ez-mobile-dock-power" id="ezMobileDockPower" aria-label="Выключить подсветку" aria-pressed="true">ВКЛ</button>
+  <span class="ez-dock-divider" aria-hidden="true"></span><span class="ez-dock-sun" aria-hidden="true">☼</span><output id="ezMobileDockValue">78 %</output>
  </div>
- </section>
+ <div class="ez-mobile-controls" id="ezMobileControls">
+  <h2>Светильник<br>Луна</h2>
+  <div class="ez-mobile-row"><span>Подсветка</span><button class="ez-mobile-switch" id="ezMobilePower" type="button">ВКЛ</button></div>
+  <div class="ez-mobile-row"><label for="ezMobileBrightness">Яркость</label><output id="ezMobileValue">78 %</output></div>
+  <input id="ezMobileBrightness" min="0" max="100" type="range" value="78" aria-label="Яркость">
+  <div class="ez-mobile-row"><label for="ezMobileKelvin">Температура</label><output id="ezMobileKelvinValue">4700 К</output></div>
+  <input id="ezMobileKelvin" min="2700" max="6500" type="range" step="100" value="4700" aria-label="Температура света">
+  <div class="ez-mobile-presets"><button type="button" data-kelvin="2700" aria-pressed="false">Тёплый</button><button type="button" data-kelvin="4000" aria-pressed="false">Нейтральный</button><button type="button" data-kelvin="6500" aria-pressed="false">Холодный</button></div>
+ </div>
+ <a class="ez-mobile-return" href="#collections">Вернуться в коллекцию →</a>
+ </div>
+</section>
 <section class="artist-section" id="artist"><div class="site-frame artist-grid"><img class="artist-photo reveal" src="assets/artist-mono.webp" alt="Екатерина Зыкина, художница" loading="lazy"><div class="artist-copy reveal"><div class="section-meta">06 / Об авторе</div><h2>Екатерина<br>Зыкина</h2><p>Художница и основатель студии интерьерного искусства. В её работах сочетаются пластика формы, выразительная фактура, свет и чувство пространства. Каждое произведение — это характер, настроение и история, которую хочется проживать.</p><a href="#portfolio" class="text-link">Смотреть произведения <svg width="15" height="15"><use href="#arrow"/></svg></a><div class="artist-quote">«Искусство, которое создаёт атмосферу»</div></div></div></section>
 <section class="order-section" id="order" aria-label="Заказать авторскую картину">
  <div class="site-frame order-grid">
@@ -494,6 +497,6 @@ const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');funct
 window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
 </script>
 <script src="gallery-refinement.js?v=20261109" defer></script>
-<script src="ez-moon.js?v=4"></script>
+<script src="ez-moon.js?v=5"></script>
 </body>
 </html>
