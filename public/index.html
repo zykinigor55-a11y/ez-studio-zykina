@@ -308,7 +308,8 @@
 <main id="top">
 <section class="hero" aria-label="Авторская студия Екатерины Зыкиной">
  <video class="hero-video hero-video--desktop" autoplay muted playsinline loop preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-seamless.mp4" type="video/mp4"></video>
- <video class="hero-video hero-video--mobile" autoplay muted playsinline loop preload="auto" poster="assets/hero-mobile-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-mobile-seamless.mp4" type="video/mp4"></video>
+ <video class="hero-video hero-video--mobile" autoplay muted playsinline webkit-playsinline loop preload="auto" poster="assets/hero-mobile-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-mobile-seamless.mp4" type="video/mp4"></video>
+ <button type="button" id="ezHeroPlay" class="ez-hero-play" hidden aria-label="Запустить видео на главном экране">▶ Смотреть видео</button>
  <div class="hero-shade"></div>
  <div class="site-frame hero-inner"><div class="hero-content">
    <div class="hero-kicker"><span>Авторское искусство<br>для вашего пространства</span><span class="line"></span></div>
@@ -469,7 +470,20 @@ function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<bu
 byId('lightboxClose').addEventListener('click',closeLightbox);byId('lightboxPrev').addEventListener('click',()=>stepLightbox(-1));byId('lightboxNext').addEventListener('click',()=>stepLightbox(1));byId('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLightbox()});document.addEventListener('keydown',e=>{if(!byId('lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowRight')stepLightbox(1);if(e.key==='ArrowLeft')stepLightbox(-1)});
 const menuToggle=byId('menuToggle'),mobileNav=byId('mobileNav');menuToggle.addEventListener('click',()=>{const open=mobileNav.classList.toggle('is-open');menuToggle.setAttribute('aria-expanded',String(open))});mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileNav.classList.remove('is-open');menuToggle.setAttribute('aria-expanded','false')}));
 const header=byId('siteHeader');const updateHeader=()=>header.classList.toggle('is-scrolled',scrollY>80);window.addEventListener('scroll',updateHeader,{passive:true});updateHeader();
-const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');function updateVideos(){document.querySelectorAll('.hero-video').forEach(v=>{const visible=getComputedStyle(v).display!=='none';if(!visible||prefersReduced.matches){v.pause();return}v.muted=true;v.play().catch(()=>{})})}window.addEventListener('resize',updateVideos,{passive:true});prefersReduced.addEventListener?.('change',updateVideos);
+const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+function updateVideos(){
+  document.querySelectorAll('.hero-video').forEach(v=>{
+    const visible=getComputedStyle(v).display!=='none';
+    if(!visible){v.pause();return;}
+    /* The mobile portfolio hero is intentionally cinematic; do not silently
+       pause it because Android/Yandex reports reduced motion. */
+    if(prefersReduced.matches && !v.classList.contains('hero-video--mobile')){v.pause();return;}
+    v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;
+    const pending=v.play(); if(pending && pending.catch)pending.catch(()=>{});
+  });
+}
+window.addEventListener('resize',updateVideos,{passive:true});
+prefersReduced.addEventListener?.('change',updateVideos);
 
  // Unobtrusive edge-driven scrolling only for fine pointers; mobile is manual swipe.
  (function setupGalleryMotion(){
@@ -498,5 +512,6 @@ window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
 </script>
 <script src="gallery-refinement.js?v=20261109" defer></script>
 <script src="ez-moon.js?v=5"></script>
+<script src="ez-hero-mobile.js?v=1" defer></script>
 </body>
 </html>
