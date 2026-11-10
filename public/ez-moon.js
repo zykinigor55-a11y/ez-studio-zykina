@@ -8,7 +8,7 @@ const $=id=>document.getElementById(id), scene=$('ezMoonScene'),canvas=$('ezMoon
 const bright=$('moonBrightness'),temp=$('moonTemp'),power=$('moonPower'),obj=$('moonObject');
 const kalvinFine=$('ezKelvinFine'),kalvinPopup=$('ezKelvinPopup');
 const mb=$('ezMobileBrightness'),mk=$('ezMobileKelvin');
-let kelvin=+temp.value||2700,level=(+bright.value)/100,on=true,render=()=>{},lastState='';
+let kelvin=window.matchMedia('(max-width: 700px)').matches?4700:(+temp.value||2700),level=(+bright.value)/100,on=true,render=()=>{},lastState='';
 const BASE=(document.currentScript?.src||location.href).replace(/[^/]*$/,'');
 function sync(){
   const percent=Math.min(100,Math.max(0,level*100));
@@ -24,6 +24,7 @@ function sync(){
   scene.style.setProperty('--ez-lamp-dim',(on ? (1-Math.min(1,level))*.42 : .82).toFixed(3));
   const t=$('moonPowerText');if(t)t.textContent=on?'ВКЛ':'ВЫКЛ';
   $('ezMobilePower').textContent=on?'ВКЛ':'ВЫКЛ';
+  const dock=$('ezMobileDockPower');dock.setAttribute('aria-pressed',String(on));dock.setAttribute('aria-label',on?'Выключить подсветку':'Включить подсветку');
   document.querySelectorAll('#moon [data-kelvin]').forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.kelvin===kelvin)));
   // original slider thumb at 442 px; first render keeps the approved position.
   // Match the approved 78% thumb location, yet reach full endpoints at 0% and 100%.
@@ -40,25 +41,13 @@ const setPower=(value)=>{on=!!value;sync();};
 power.addEventListener('click',()=>{on=!on;sync()});
 obj.addEventListener('click',()=>{on=!on;sync()});
 $('ezMobilePower').addEventListener('click',()=>{on=!on;sync()});
-const mobileSettings=$('ezMobileSettings'),mobileControls=$('ezMobileControls');
-mobileSettings.addEventListener('click',()=>{
-  const next=mobileControls.hidden;
-  mobileControls.hidden=!next;
-  mobileSettings.setAttribute('aria-expanded',String(next));
-  mobileSettings.setAttribute('aria-label',next?'Скрыть настройку яркости и температуры':'Раскрыть настройку яркости и температуры');
-});
-document.addEventListener('pointerdown',e=>{
-  if(!mobileControls.hidden && !e.target.closest('.ez-moon-mobile-panel')){
-    mobileControls.hidden=true;mobileSettings.setAttribute('aria-expanded','false');
-  }
-});
-
+$('ezMobileDockPower').addEventListener('click',()=>{on=!on;sync()});
 bright.addEventListener('input',()=>{level=bright.value/100;sync()});mb.addEventListener('input',()=>{level=mb.value/100;sync()});
 const updateKelvin=(k)=>{kelvin=Math.max(2700,Math.min(6500,Math.round(k/100)*100));sync();};
 kalvinFine.addEventListener('input',()=>updateKelvin(+kalvinFine.value));mk.addEventListener('input',()=>updateKelvin(+mk.value));
 document.querySelectorAll('#moon [data-kelvin]').forEach(btn=>btn.addEventListener('click',()=>updateKelvin(+btn.dataset.kelvin)));
 $('ezKelvinOpener').addEventListener('click',()=>{kalvinPopup.hidden=!kalvinPopup.hidden;if(!kalvinPopup.hidden)kalvinFine.focus()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){kalvinPopup.hidden=true;mobileControls.hidden=true;mobileSettings.setAttribute('aria-expanded','false');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')kalvinPopup.hidden=true});
 function loadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error('Не удалось загрузить '+src));img.src=BASE+'assets/'+src;});}
 async function makeRenderer(){
   let [photo,normals,height]=await Promise.all(['ez-moon-crop.png','ez-moon-normal.png','ez-moon-height.png'].map(loadImage));
