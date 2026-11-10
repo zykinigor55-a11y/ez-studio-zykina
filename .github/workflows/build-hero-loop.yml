@@ -23,12 +23,26 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           ffmpeg -hide_banner -loglevel error -y             -i public/assets/hero-mobile-seamless.mp4             -filter_complex "[0:v]fps=25,split=3[headsrc][tailsrc][bodysrc];[headsrc]trim=start=0:duration=0.8,setpts=PTS-STARTPTS,fps=25[head];[tailsrc]trim=start=5.44:duration=0.8,setpts=PTS-STARTPTS,fps=25[tail];[tail][head]xfade=transition=fade:duration=0.8:offset=0[blend];[bodysrc]trim=start=0.8:end=5.44,setpts=PTS-STARTPTS,fps=25[body];[blend][body]concat=n=2:v=1:a=0[v]"             -map "[v]" -an -c:v libx264 -preset medium -crf 21 -pix_fmt yuv420p             -movflags +faststart public/assets/hero-mobile-loop-v2.mp4
           test -s public/assets/hero-mobile-loop-v2.mp4
-      - name: Commit generated loop
+      - name: Build interior side panels from source art (no generated subjects)
+        run: |
+          python -m pip install -q Pillow
+          python - <<'PY'
+          from PIL import Image
+          src=Image.open("public/assets/ez-moon-approved.png").convert("RGB")
+          # Only rock texture is sampled; the baked desktop controls and lunar disk are excluded.
+          for side,box in (
+              ("left",(558,0,640,520)),
+              ("right",(1400,550,1536,950)),
+          ):
+              tile=src.crop(box).resize((320,735),Image.Resampling.LANCZOS)
+              tile.save(f"public/assets/ez-moon-interior-{side}.webp","WEBP",quality=90,method=6)
+          PY
+      - name: Commit processed mobile assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/assets/hero-mobile-loop-v2.mp4
+          git add public/assets/hero-mobile-loop-v2.mp4 public/assets/ez-moon-interior-left.webp public/assets/ez-moon-interior-right.webp
           if ! git diff --cached --quiet; then
-            git commit -m "assets: create seamless 5.44s mobile hero loop"
+            git commit -m "assets: smooth mobile hero loop and extend original Moon interior"
             git push
           fi
