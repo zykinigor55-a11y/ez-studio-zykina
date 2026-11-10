@@ -182,3 +182,28 @@
   box-shadow:0 6px 20px #0005;cursor:pointer;touch-action:manipulation;
  }
 }
+
+/* E·Z moon interior edge fill from two real source-image crops (no cloned lamp) */
+#moon.ez-moon-approved .ez-moon-interior-side{display:none}
+@media(max-width:700px){
+ #moon.ez-moon-approved .ez-moon-interior-side{
+  display:block;position:absolute;top:0;bottom:0;
+  width:30%;z-index:8;pointer-events:none;
+  background-repeat:no-repeat;background-size:100% 100%;
+  opacity:.93;filter:brightness(.78) saturate(.91);
+  -webkit-transform:translateZ(0);transform:translateZ(0);
+ }
+ #moon.ez-moon-approved .ez-moon-interior-side--left{
+  left:0;background-image:url("assets/ez-moon-interior-left.webp");
+  -webkit-mask-image:linear-gradient(90deg,#000 0%,#000 59%,transparent 100%);
+  mask-image:linear-gradient(90deg,#000 0%,#000 59%,transparent 100%);
+ }
+ #moon.ez-moon-approved .ez-moon-interior-side--right{
+  right:0;background-image:url("assets/ez-moon-interior-right.webp");
+  -webkit-mask-image:linear-gradient(270deg,#000 0%,#000 58%,transparent 100%);
+  mask-image:linear-gradient(270deg,#000 0%,#000 58%,transparent 100%);
+ }
+ /* Keep the live 3D-relit disk and the floating power button above the extensions. */
+ #moon.ez-moon-approved #moonObject{z-index:9}
+ #moon.ez-moon-approved .ez-mobile-dock{z-index:31!important}
+}
