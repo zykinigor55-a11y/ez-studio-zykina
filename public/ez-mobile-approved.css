@@ -1,0 +1,120 @@
+/* E·Z STUDIO – mobile-only implementation of the approved Moon/hero screens.
+   The source lunar image and desktop styles are never modified. */
+@media(max-width:700px){
+  /* Hero: bring the woman a little closer, lower the copy without resizing type. */
+  .hero .hero-video--mobile{transform:scale(1.15);transform-origin:50% 43%;object-position:center}
+  .hero .hero-content{margin-bottom:clamp(56px,6.6svh,76px)}
+
+  /* Crop the desktop moon presentation to a centered, smaller lunar disk. */
+  #moon.ez-moon-approved .ez-moon-scene{
+    position:relative;width:100vw!important;max-width:100vw!important;
+    left:0!important;transform:none!important;margin:0!important;
+    aspect-ratio:1536/1024;max-height:none!important;
+    background:#24150e;overflow:hidden;
+  }
+  #moon.ez-moon-approved .ez-moon-backdrop{transform:translateX(-16.3%)}
+  /* The mirrored edge continues the original sculptural backdrop on the right. */
+  #moon.ez-moon-approved .ez-moon-right-fill{
+    display:block;position:absolute;z-index:0;top:0;left:83.7%;
+    width:100%;height:100%;object-fit:fill;max-width:none;
+    transform:scaleX(-1);pointer-events:none;
+  }
+  #moon.ez-moon-approved #ezMoonRelief{left:25.04114583%}
+  #moon.ez-moon-approved #moonObject{left:26.9%;z-index:8}
+  #moon.ez-moon-approved .ez-moon-scene::before{
+    content:"";position:absolute;z-index:7;top:0;bottom:0;left:0;
+    width:26%;background:linear-gradient(90deg,#150e0b 0%,rgba(21,14,11,.99) 74%,transparent 100%);
+    pointer-events:none;
+  }
+  #moon.ez-moon-approved .ez-moon-scene::after{left:26.7%}
+  /* Hide every desktop hotspot/control, including the partial originals on the left. */
+  #moon.ez-moon-approved .ez-moon-scene .ez-order,
+  #moon.ez-moon-approved .ez-moon-scene .ez-preview,
+  #moon.ez-moon-approved .ez-moon-scene #moonPower,
+  #moon.ez-moon-approved .ez-moon-scene #moonBrightness,
+  #moon.ez-moon-approved .ez-moon-scene .ez-bright-mask,
+  #moon.ez-moon-approved .ez-moon-scene .ez-bright-track,
+  #moon.ez-moon-approved .ez-moon-scene .ez-bright-thumb,
+  #moon.ez-moon-approved .ez-moon-scene .ez-color-btn,
+  #moon.ez-moon-approved .ez-moon-scene .ez-brightness-pill,
+  #moon.ez-moon-approved .ez-moon-scene .ez-brightness-pill-display,
+  #moon.ez-moon-approved .ez-moon-scene .ez-temp-open,
+  #moon.ez-moon-approved .ez-moon-scene .ez-kelvin-popup{display:none!important}
+
+  /* Small glass power/brightness capsule on the image itself. */
+  #moon.ez-moon-approved .ez-moon-mobile-panel{
+    display:block;position:relative;z-index:22;padding:20px 25px 46px;
+    background:linear-gradient(#1b110d,#150e0b);min-height:0;
+    color:#ebceb0;font:12px/1.45 Arial,sans-serif;
+  }
+  #moon.ez-moon-approved .ez-mobile-dock{
+    position:absolute;top:-57px;right:12px;left:auto;
+    width:139px;max-width:none;min-height:36px;margin:0;padding:5px 9px;
+    display:flex;align-items:center;justify-content:space-evenly;gap:6px;
+    border:1px solid #ba9160a9;border-radius:100px;background:#1d120de8;
+    box-shadow:0 4px 19px #0009;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  }
+  #moon.ez-moon-approved .ez-mobile-dock-power{
+    background:transparent;border:0;cursor:pointer;width:39px;height:24px;
+    position:relative;flex:0 0 39px;font-size:0;
+  }
+  #moon.ez-moon-approved .ez-mobile-dock-power::before{
+    content:"";position:absolute;inset:5px 2px;border:1px solid #cba06c;
+    border-radius:30px;background:#40291b;
+  }
+  #moon.ez-moon-approved .ez-mobile-dock-power::after{
+    content:"";position:absolute;top:8px;left:19px;width:12px;height:12px;
+    border-radius:50%;background:#ffe2ab;box-shadow:0 0 7px #edb16bc9;transition:left .2s ease;
+  }
+  #moon.ez-moon-approved .ez-mobile-dock-power[aria-pressed="false"]::after{
+    left:6px;background:#aa927a;box-shadow:none;
+  }
+  #moon.ez-moon-approved .ez-dock-divider{height:18px;width:1px;background:#dbab7a80}
+  #moon.ez-moon-approved .ez-dock-sun{font-size:19px;line-height:1;color:#e3b579}
+  #moon.ez-moon-approved #ezMobileDockValue{color:#f5d2a1;font-size:12px;white-space:nowrap}
+
+  /* The approved design keeps the title and fine controls BELOW the scene. */
+  #moon.ez-moon-approved .ez-mobile-controls{
+    display:flex!important;position:static;flex-direction:column;gap:13px;
+    max-width:none;margin:0;padding:0;background:none;border:0;
+    border-radius:0;box-shadow:none;backdrop-filter:none;
+  }
+  #moon.ez-moon-approved .ez-mobile-controls h2{
+    font:italic clamp(44px,13vw,57px)/.92 Georgia,serif;
+    margin:0 0 13px;color:#f0d1a8;letter-spacing:-.035em;
+  }
+  #moon.ez-moon-approved .ez-mobile-controls .ez-mobile-row{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    color:#ebcfb2;font-size:12px;
+  }
+  #moon.ez-moon-approved .ez-mobile-controls .ez-mobile-switch{
+    background:#332119;border:1px solid #bd8d5b;color:#f3d2a6;
+    border-radius:99px;min-width:65px;min-height:33px;padding:7px 17px;
+    font-size:12px;cursor:pointer;
+  }
+  #moon.ez-moon-approved .ez-mobile-controls input[type=range]{
+    width:100%;height:5px;margin:6px 0 8px;accent-color:#ecc28c;cursor:pointer;
+  }
+  #moon.ez-moon-approved .ez-mobile-controls .ez-mobile-presets{display:flex;gap:7px;margin-top:3px}
+  #moon.ez-moon-approved .ez-mobile-controls .ez-mobile-presets button{
+    flex:1;min-width:0;background:transparent;border:1px solid #8f6747;
+    color:#d9bd9a;border-radius:45px;padding:11px 5px;font-size:11px;cursor:pointer;
+  }
+  #moon.ez-moon-approved .ez-mobile-controls .ez-mobile-presets button[aria-pressed="true"]{
+    background:#4d3424;border-color:#e8c491;color:#fff0d6;
+  }
+  #moon.ez-moon-approved .ez-mobile-return{
+    display:flex;gap:14px;align-items:center;margin-top:35px;
+    color:#e2c6a3;text-decoration:none;font-size:10px;
+    text-transform:uppercase;letter-spacing:.16em;
+  }
+  #moon.ez-moon-approved .ez-mobile-return::before{
+    content:"";height:1px;width:44px;background:#e2c6a3;flex:none;
+  }
+}
+@media(min-width:701px){
+  #moon.ez-moon-approved .ez-moon-right-fill{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #moon.ez-moon-approved .ez-mobile-dock-power::after{transition:none}
+}
