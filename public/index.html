@@ -300,6 +300,12 @@
 .lightbox-thumbs img{width:50px;height:50px;object-fit:contain}
 .lightbox-image{max-height:68vh!important}
 .gallery-atelier .stage-art-disc img{object-fit:contain!important}
+</style><style>
+/* Hide only the stray fringe outside the gold frame of Earth and Gold. */
+.art-card[data-work="art-2"] .art-visual img,
+.stage-canvas[data-work="art-2"] .stage-art-disc img,
+#lightboxImage.clean-earth-edge,
+#lightboxThumbs:has(button[aria-label^="Земля и золото"]) button:first-child img{clip-path:inset(.75% 3.8% .75% 3.8%)}
 </style></head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -491,12 +497,12 @@ const works=[
   "id": "art-6",
   "title": "Слон",
   "cat": "images",
-  "img": "картины/6/главная.jpg",
-  "thumb": "catalog/06.webp",
+  "img": "картины/6/деталь 2.jpg",
+  "thumb": "catalog/06-full.webp",
   "photos": [
+   "картины/6/деталь 2.jpg",
    "картины/6/главная.jpg",
-   "картины/6/деталь 1.jpg",
-   "картины/6/деталь 2.jpg"
+   "картины/6/деталь 1.jpg"
   ]
  },
  {
@@ -627,7 +633,7 @@ const works=[
  },
  {
   "id": "art-17",
-  "title": "Радужный конь",
+  "title": "Неоновый силуэт",
   "cat": "stories",
   "img": "картины/17/главная.png",
   "thumb": "catalog/17.webp",
@@ -654,7 +660,7 @@ let currentList=works.slice();let currentIdx=0;let currentPhoto=0;
 function viewWork(id){currentPhoto=0;const ix=currentList.findIndex(w=>w.id===id);if(ix<0){currentList=works.slice();currentIdx=works.findIndex(w=>w.id===id)}else currentIdx=ix;showLightbox();}
 function showLightbox(){const w=currentList[currentIdx];if(!w)return;
  const photos=w.photos||[w.img];
- byId('lightboxImage').src=A+photos[currentPhoto];byId('lightboxImage').alt=w.title+' — вид '+(currentPhoto+1);
+ byId('lightboxImage').classList.toggle('clean-earth-edge',w.id==='art-2'&&currentPhoto===0);byId('lightboxImage').src=A+photos[currentPhoto];byId('lightboxImage').alt=w.title+' — вид '+(currentPhoto+1);
  byId('lightboxDesc').textContent=w.title+' / '+catNames[w.cat]+' — вид '+(currentPhoto+1)+' из '+photos.length;
  byId('lightboxThumbs').innerHTML=photos.map((src,i)=>`<button type="button" data-photo="${i}" aria-label="${w.title}: вид ${i+1}" aria-pressed="${i===currentPhoto}"><img src="${A+(i===0?w.thumb:src)}" alt="" loading="lazy"></button>`).join('');
  byId('lightboxThumbs').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{currentPhoto=Number(b.dataset.photo);showLightbox();byId('lightboxThumbs').querySelector(`[data-photo="${currentPhoto}"]`).focus()}));
@@ -664,7 +670,7 @@ function stepLightbox(n){const photos=currentList[currentIdx].photos;currentPhot
 function selectFilter(filter){currentList=filter==='all'?works.slice():works.filter(w=>w.cat===filter);document.querySelectorAll('.filter').forEach(el=>{const active=el.dataset.filter===filter;el.classList.toggle('is-active',active);el.setAttribute('aria-pressed',String(active))});document.querySelectorAll('.art-card').forEach(el=>{el.hidden=filter!=='all'&&el.dataset.category!==filter})}
 function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<button type="button" class="art-card reveal" data-work="${w.id}" data-category="${w.cat}" aria-label="Открыть картину ${w.title}"><span class="art-visual"><img src="${A+w.thumb}" alt="${w.title}" loading="lazy"></span><span class="art-meta"><span><span class="art-title">${w.title}</span><span class="art-sub">${catNames[w.cat]} / ${String(i+1).padStart(2,'0')}</span></span><span class="art-plus">↗</span></span></button>`).join('');grid.querySelectorAll('.art-card').forEach(btn=>btn.addEventListener('click',()=>viewWork(btn.dataset.work)));
  const staged=works.slice();
- byId('stage').innerHTML=staged.map((w,i)=>`<button type="button" class="stage-canvas stage-canvas--featured" data-stage="${i}" aria-label="Открыть ${w.title}"><span class="stage-art-disc"><img src="${A+w.thumb}" alt="${w.title}" loading="lazy" draggable="false"></span><span class="stage-title">${w.title}</span></button>`).join('');
+ byId('stage').innerHTML=staged.map((w,i)=>`<button type="button" class="stage-canvas stage-canvas--featured" data-stage="${i}" data-work="${w.id}" aria-label="Открыть ${w.title}"><span class="stage-art-disc"><img src="${A+w.thumb}" alt="${w.title}" loading="lazy" draggable="false"></span><span class="stage-title">${w.title}</span></button>`).join('');
  byId('stage').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{currentList=works.slice();viewWork(staged[Number(b.dataset.stage)].id)}));
  const viewport=byId('stageViewport');
  const updateStage=()=>{const remaining=viewport.scrollWidth-viewport.clientWidth;byId('stagePrev').disabled=viewport.scrollLeft<=2;byId('stageNext').disabled=viewport.scrollLeft>=remaining-2};
