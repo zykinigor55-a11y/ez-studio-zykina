@@ -74,12 +74,12 @@
 .stage-bottom{padding:0 19px;align-items:flex-end}.stage-bottom .stage-caption{max-width:220px;font-size:8px;letter-spacing:.06em}.stage-arrows{gap:5px}.stage-arrows button{width:35px;height:34px;font-size:18px}.stage-arrows span{display:none}
 .closing-footer{padding:64px 0 22px}.closing-footer-inner{display:block}.closing-footer nav{gap:16px;margin-top:30px}.closing-copyright{margin-top:42px}}
 
-/* Contacts: click to call, styled to match the editorial site */
+/* Contacts: messenger entry, styled to match the editorial site */
 .footer-contact-details{display:flex;flex-direction:column;align-items:flex-start;gap:7px;margin-top:26px}
 .closing-title .footer-contact-label{font:600 10px/1.4 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:#bb9d83;margin:0}
-.closing-title .footer-contact-phone{font:400 clamp(24px,2.6vw,35px)/1.25 var(--serif);color:#f5dfc5;border-bottom:1px solid rgba(223,187,142,.45);padding-bottom:4px;transition:color .2s}
-.footer-contact-phone:hover{color:#fff}
-@media(max-width:700px){.footer-contact-details{margin-top:25px}.closing-title .footer-contact-phone{font-size:31px}.order-name{overflow-wrap:anywhere}}
+.closing-title .footer-contact-channel{display:inline-block;font:400 clamp(22px,2.4vw,32px)/1.25 var(--serif);color:#f5dfc5;border-bottom:1px solid rgba(223,187,142,.45);padding-bottom:4px;transition:color .2s;text-decoration:none}
+.footer-contact-channel:hover{color:#fff}
+@media(max-width:700px){.footer-contact-details{margin-top:25px}.closing-title .footer-contact-channel{font-size:29px}.order-name{overflow-wrap:anywhere}}
 /* Direct contact CTA — integrated into the approved editorial identity */
 .hero-social{display:flex;align-items:center;flex-wrap:wrap;gap:17px;margin-top:24px;color:#e5d3be;font-size:10px;letter-spacing:.13em}
 .hero-social>span{opacity:.66;font-size:9px;letter-spacing:.18em}
@@ -282,8 +282,17 @@
   .hero-content{max-width:545px;}
   .hero h1{font-size:clamp(65px,5.7vw,88px);}
 }
+
+/* Mobile hero only: slightly larger model, lower editorial copy. Desktop remains unchanged. */
+@media (max-width:700px){
+ .hero .hero-video--mobile{transform:scale(1.10);transform-origin:50% 43%;object-position:center center}
+ .hero .hero-content{margin-bottom:clamp(70px,8.4svh,84px)}
+}
 </style>
 <link rel="stylesheet" href="gallery-refinement.css?v=20261109">
+<!-- EZ-MOON-PIXEL-RELIEF-V2: approved original image, aligned crater relief -->
+<link rel="stylesheet" href="ez-moon.css?v=5">
+<link rel="stylesheet" href="ez-mobile-approved.css?v=4" media="(max-width:700px)">
 </head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -299,7 +308,8 @@
 <main id="top">
 <section class="hero" aria-label="Авторская студия Екатерины Зыкиной">
  <video class="hero-video hero-video--desktop" autoplay muted playsinline loop preload="auto" poster="assets/hero-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-seamless.mp4" type="video/mp4"></video>
- <video class="hero-video hero-video--mobile" autoplay muted playsinline loop preload="auto" poster="assets/hero-mobile-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-mobile-seamless.mp4" type="video/mp4"></video>
+ <video class="hero-video hero-video--mobile" autoplay muted playsinline webkit-playsinline loop preload="auto" poster="assets/hero-mobile-poster.jpg" aria-hidden="true" disablepictureinpicture><source src="assets/hero-mobile-loop-v2.mp4" type="video/mp4"></video>
+ <button type="button" id="ezHeroPlay" class="ez-hero-play" hidden aria-label="Запустить видео на главном экране">▶ Смотреть видео</button>
  <div class="hero-shade"></div>
  <div class="site-frame hero-inner"><div class="hero-content">
    <div class="hero-kicker"><span>Авторское искусство<br>для вашего пространства</span><span class="line"></span></div>
@@ -346,30 +356,50 @@
  <div class="filters" role="group" aria-label="Фильтр произведений"><button class="filter is-active" type="button" data-filter="all" aria-pressed="true">Все работы</button><button class="filter" type="button" data-filter="plastic">Пластика</button><button class="filter" type="button" data-filter="abstract">Абстракция</button><button class="filter" type="button" data-filter="images">Образы</button><button class="filter" type="button" data-filter="stories">Истории</button></div>
  <div class="art-grid" id="artGrid"></div>
  </div></section>
-<section class="moon-section moon-atelier" id="moon" aria-label="Светильник Луна — интерактивная презентация авторского концепта">
- <div class="moon-atelier-inner site-frame">
-  <div class="moon-copy reveal">
-   <div class="section-meta" style="color:#d7b895">05 / Коллекционный арт-объект</div>
-   <h2>Светильник<br><em>Луна</em></h2>
-   <p>Маленькая вселенная для вашего пространства. Скульптурная поверхность, сияние изнутри и сдержанная золотая орбита — художественная концепция светильника, созданная специально для этой галереи.</p>
-   <div class="moon-actions"><a class="button button--light" href="#order">Заказать светильник <svg><use href="#arrow"/></svg></a><span class="moon-sample-note">Интерактивный визуальный концепт</span></div>
-   <div class="moon-control" aria-label="Настройка света">
-    <div class="moon-control-heading"><span>Температура света</span><button type="button" class="moon-power is-on" id="moonPower" aria-pressed="true"><span class="moon-power-track"><span class="moon-power-knob"></span></span><span id="moonPowerText">ВКЛ</span></button></div>
-    <input aria-label="Цветовая температура света, Кельвин" type="range" id="moonTemp" min="2700" max="6500" value="3500" step="100">
-    <div class="moon-control-scale"><span>☀ Тёплый · 2700 K</span><output id="moonTempOutput" for="moonTemp">3500 K</output><span>Холодный · 6500 K ❄</span></div>
-   </div>
-   <div class="moon-attributes"><span>01 / Авторская фактура</span><span>02 / Свет как искусство</span><span>03 / Индивидуальный заказ</span></div>
+<section class="ez-moon-approved" id="moon" aria-label="Светильник Луна — интерактивный рельеф">
+ <div class="ez-moon-scene" id="ezMoonScene" style="--ez-thumb-x:28.85%;--ez-bright-percent:72.5">
+  <img class="ez-moon-right-fill" src="assets/ez-moon-approved.png" alt="" aria-hidden="true" draggable="false">
+   <img class="ez-moon-backdrop" src="assets/ez-moon-approved.png" alt="Авторский светильник Луна, в интерьере с золотистым скульптурным фоном — утверждённое изображение" draggable="false">
+   <div class="ez-moon-interior-side ez-moon-interior-side--left" aria-hidden="true"></div>
+   <div class="ez-moon-interior-side ez-moon-interior-side--right" aria-hidden="true"></div>
+  <div class="ez-floor-effect" aria-hidden="true"></div><div class="ez-floor-off" aria-hidden="true"></div>
+  <canvas id="ezMoonRelief" width="774" height="812" aria-label="3D-рельеф лунной поверхности с управляемым освещением" role="img"></canvas>
+  <a href="#order" class="ez-hotspot ez-order" aria-label="Заказать светильник"></a>
+  <a href="#collections" class="ez-hotspot ez-preview" aria-label="Посмотреть в интерьере"></a>
+  <button id="moonObject" class="ez-control-btn" aria-label="Включить или выключить светильник по нажатию на Луну" aria-pressed="true"></button>
+  <button id="moonPower" class="ez-control-btn" aria-label="Выключить или включить подсветку" aria-pressed="true"><span id="moonPowerText" hidden>ВКЛ</span></button>
+  <input id="moonTemp" type="range" min="2700" max="6500" value="2700" step="100" aria-label="Температура светильника" hidden>
+  <output id="moonTempOutput" hidden>2700 К</output>
+  <div class="ez-bright-mask" aria-hidden="true"></div>
+  <div class="ez-bright-track" aria-hidden="true"></div>
+  <div class="ez-bright-thumb" aria-hidden="true"></div>
+  <input id="moonBrightness" class="ez-brightness-input" type="range" min="0" max="100" value="78" aria-label="Яркость светильника">
+  <button type="button" class="ez-color-btn" data-kelvin="2700" aria-label="Тёплый свет 2700 К" aria-pressed="true"></button>
+  <button type="button" class="ez-color-btn" data-kelvin="4000" aria-label="Нейтральный свет 4000 К" aria-pressed="false"></button>
+  <button type="button" class="ez-color-btn" data-kelvin="6500" aria-label="Холодный свет 6500 К" aria-pressed="false"></button>
+  <span class="ez-brightness-pill-display" id="ezBrightnessValue" aria-live="off">78 %</span>
+  <button type="button" class="ez-brightness-pill" id="ezKelvinOpener" aria-label="Точная настройка температуры цвета"></button>
+  <div class="ez-kelvin-popup" id="ezKelvinPopup" hidden>
+    <label for="ezKelvinFine">Температура света <output id="ezKelvinLabel">2700 К</output></label>
+    <input type="range" id="ezKelvinFine" min="2700" max="6500" step="100" value="2700">
+    <small>2700 К — тёплый · 6500 К — холодный</small>
   </div>
-  <div class="moon-sculpture-wrap reveal">
-   <button type="button" class="moon-object is-on" id="moonObject" aria-label="Включить или выключить светильник" aria-pressed="true">
-    <span class="moon-atmosphere"></span><span class="moon-orbit moon-orbit--back"></span>
-    <span class="moon-sphere"><span class="moon-surface"></span><span class="moon-sphere-shading"></span></span>
-    <span class="moon-orbit moon-orbit--front"></span>
-    <span class="moon-pedestal moon-pedestal--top"></span><span class="moon-pedestal moon-pedestal--body"></span>
-    <span class="moon-floor-glow"></span>
-   </button>
-   <div class="moon-model-caption"><span>ЕТЮД 01</span><span>Коснитесь Луны, чтобы изменить свет</span></div>
-  </div>
+ </div>
+ <div class="ez-moon-mobile-panel" aria-label="Управление светильником на телефоне">
+ <div class="ez-mobile-dock" aria-label="Быстрое управление светильником">
+  <button type="button" class="ez-mobile-dock-power" id="ezMobileDockPower" aria-label="Выключить подсветку" aria-pressed="true">ВКЛ</button>
+  <span class="ez-dock-divider" aria-hidden="true"></span><span class="ez-dock-sun" aria-hidden="true">☼</span><output id="ezMobileDockValue">78 %</output>
+ </div>
+ <div class="ez-mobile-controls" id="ezMobileControls">
+  <h2>Светильник<br>Луна</h2>
+  <div class="ez-mobile-row"><span>Подсветка</span><button class="ez-mobile-switch" id="ezMobilePower" type="button">ВКЛ</button></div>
+  <div class="ez-mobile-row"><label for="ezMobileBrightness">Яркость</label><output id="ezMobileValue">78 %</output></div>
+  <input id="ezMobileBrightness" min="0" max="100" type="range" value="78" aria-label="Яркость">
+  <div class="ez-mobile-row"><label for="ezMobileKelvin">Температура</label><output id="ezMobileKelvinValue">4700 К</output></div>
+  <input id="ezMobileKelvin" min="2700" max="6500" type="range" step="100" value="4700" aria-label="Температура света">
+  <div class="ez-mobile-presets"><button type="button" data-kelvin="2700" aria-pressed="false">Тёплый</button><button type="button" data-kelvin="4000" aria-pressed="false">Нейтральный</button><button type="button" data-kelvin="6500" aria-pressed="false">Холодный</button></div>
+ </div>
+ <a class="ez-mobile-return" href="#collections">Вернуться в коллекцию →</a>
  </div>
 </section>
 <section class="artist-section" id="artist"><div class="site-frame artist-grid"><img class="artist-photo reveal" src="assets/artist-mono.webp" alt="Екатерина Зыкина, художница" loading="lazy"><div class="artist-copy reveal"><div class="section-meta">06 / Об авторе</div><h2>Екатерина<br>Зыкина</h2><p>Художница и основатель студии интерьерного искусства. В её работах сочетаются пластика формы, выразительная фактура, свет и чувство пространства. Каждое произведение — это характер, настроение и история, которую хочется проживать.</p><a href="#portfolio" class="text-link">Смотреть произведения <svg width="15" height="15"><use href="#arrow"/></svg></a><div class="artist-quote">«Искусство, которое создаёт атмосферу»</div></div></div></section>
@@ -377,13 +407,12 @@
  <div class="site-frame order-grid">
   <div class="order-copy reveal"><div class="section-meta" style="color:#d3b99a">07 / Индивидуальный заказ</div><h2>Картина,<br><em>созданная для вас.</em></h2><p>Расскажите Екатерине о своём интерьере, любимой фактуре и настроении будущей работы. Обсудить идею можно напрямую — без форм и ожидания обратного звонка.</p></div>
   <div class="order-links reveal"><div class="order-label">Выберите удобный способ связи</div>
-   <a href="tel:+79513513160" class="order-link" aria-label="Позвонить в студию по номеру 8 951 351-31-60"><span class="order-platform" aria-hidden="true">☎</span><span class="order-name">8 951 351-31-60<small>Позвонить в студию</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
    <a href="https://vk.ru/club233384436" target="_blank" rel="noopener noreferrer" class="order-link"><span class="order-platform">VK</span><span class="order-name">ВКонтакте<small>Написать художнице</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
    <a href="https://max.ru/u/f9LHodD0cOLZL11bw1saaF5hHhWvXsVbmArJrFtrGVsC3zI6nZh2XAAtmU0" target="_blank" rel="noopener noreferrer" class="order-link"><span class="order-platform">M</span><span class="order-name">MAX<small>Написать в мессенджер</small></span><span class="order-arrow" aria-hidden="true">↗</span></a>
   </div>
  </div>
 </section>
-<footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-phone" href="tel:+79513513160">8 951 351-31-60</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p></footer>
+<footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-channel" href="#order">Написать в студию →</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a><a href="privacy.html">Политика конфиденциальности</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p></footer>
 </main>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner"><img class="lightbox-image" id="lightboxImage" alt=""><div class="lightbox-desc" id="lightboxDesc"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
 <script>
@@ -442,7 +471,20 @@ function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<bu
 byId('lightboxClose').addEventListener('click',closeLightbox);byId('lightboxPrev').addEventListener('click',()=>stepLightbox(-1));byId('lightboxNext').addEventListener('click',()=>stepLightbox(1));byId('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLightbox()});document.addEventListener('keydown',e=>{if(!byId('lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowRight')stepLightbox(1);if(e.key==='ArrowLeft')stepLightbox(-1)});
 const menuToggle=byId('menuToggle'),mobileNav=byId('mobileNav');menuToggle.addEventListener('click',()=>{const open=mobileNav.classList.toggle('is-open');menuToggle.setAttribute('aria-expanded',String(open))});mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileNav.classList.remove('is-open');menuToggle.setAttribute('aria-expanded','false')}));
 const header=byId('siteHeader');const updateHeader=()=>header.classList.toggle('is-scrolled',scrollY>80);window.addEventListener('scroll',updateHeader,{passive:true});updateHeader();
-const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');function updateVideos(){document.querySelectorAll('.hero-video').forEach(v=>{const visible=getComputedStyle(v).display!=='none';if(!visible||prefersReduced.matches){v.pause();return}v.muted=true;v.play().catch(()=>{})})}window.addEventListener('resize',updateVideos,{passive:true});prefersReduced.addEventListener?.('change',updateVideos);
+const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+function updateVideos(){
+  document.querySelectorAll('.hero-video').forEach(v=>{
+    const visible=getComputedStyle(v).display!=='none';
+    if(!visible){v.pause();return;}
+    /* The mobile portfolio hero is intentionally cinematic; do not silently
+       pause it because Android/Yandex reports reduced motion. */
+    if(prefersReduced.matches && !v.classList.contains('hero-video--mobile')){v.pause();return;}
+    v.muted=true;v.defaultMuted=true;v.playsInline=true;v.loop=true;
+    const pending=v.play(); if(pending && pending.catch)pending.catch(()=>{});
+  });
+}
+window.addEventListener('resize',updateVideos,{passive:true});
+prefersReduced.addEventListener?.('change',updateVideos);
 
  // Unobtrusive edge-driven scrolling only for fine pointers; mobile is manual swipe.
  (function setupGalleryMotion(){
@@ -466,24 +508,11 @@ const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)');funct
   gallery.addEventListener('pointerleave',stop);window.addEventListener('blur',stop);
   reduce.addEventListener?.('change',()=>{if(reduce.matches)stop()});
  })();
- (function setupMoon(){
-  const obj=byId('moonObject'),power=byId('moonPower'),temp=byId('moonTemp'),readout=byId('moonTempOutput'),txt=byId('moonPowerText');
-  const section=byId('moon');let on=true;
-  function apply(){
-   const k=Number(temp.value),f=(k-2700)/3800;
-   const hue=36+Math.pow(f,2)*170,light=70+(f*10);
-   section.style.setProperty('--lamp-hue',hue.toFixed(1));section.style.setProperty('--lamp-light',light.toFixed(1)+'%');
-   section.style.setProperty('--lamp-opacity',on?'1':'0');
-   obj.classList.toggle('is-on',on);power.classList.toggle('is-on',on);
-   power.setAttribute('aria-pressed',String(on));obj.setAttribute('aria-pressed',String(on));
-   txt.textContent=on?'ВКЛ':'ВЫКЛ';readout.textContent=k+' K';
-   temp.style.setProperty('--range-progress',((k-2700)/3800*100).toFixed(2)+'%');
-  }
-  function toggle(){on=!on;apply();if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){obj.classList.remove('moon-nudge');void obj.offsetWidth;obj.classList.add('moon-nudge')}}
-  obj.addEventListener('click',toggle);power.addEventListener('click',toggle);temp.addEventListener('input',apply);apply();
- })();
+ /* Prior moon control removed; exact approved V2 is controlled by ez-moon.js */
 window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
 </script>
 <script src="gallery-refinement.js?v=20261109" defer></script>
+<script src="ez-moon.js?v=5"></script>
+<script src="ez-hero-mobile.js?v=3" defer></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ const $=id=>document.getElementById(id), scene=$('ezMoonScene'),canvas=$('ezMoon
 const bright=$('moonBrightness'),temp=$('moonTemp'),power=$('moonPower'),obj=$('moonObject');
 const kalvinFine=$('ezKelvinFine'),kalvinPopup=$('ezKelvinPopup');
 const mb=$('ezMobileBrightness'),mk=$('ezMobileKelvin');
-let kelvin=+temp.value||2700,level=(+bright.value)/100,on=true,render=()=>{},lastState='';
+let kelvin=window.matchMedia('(max-width: 700px)').matches?4700:(+temp.value||2700),level=(+bright.value)/100,on=true,render=()=>{},lastState='';
 const BASE=(document.currentScript?.src||location.href).replace(/[^/]*$/,'');
 function sync(){
   const percent=Math.min(100,Math.max(0,level*100));
@@ -16,13 +16,19 @@ function sync(){
   temp.value=String(kelvin);kalvinFine.value=String(kelvin);mk.value=String(kelvin);
   $('ezBrightnessValue').textContent=Math.round(percent)+' %';
   $('ezMobileValue').textContent=Math.round(percent)+' %';
+  $('ezMobileDockValue').textContent=Math.round(percent)+' %';
   $('ezKelvinLabel').textContent=kelvin+' К';$('ezMobileKelvinValue').textContent=kelvin+' К';
   power.setAttribute('aria-pressed',String(on));obj.setAttribute('aria-pressed',String(on));
+  power.classList.toggle('is-on',on);power.classList.toggle('is-off',!on);
+  power.setAttribute('aria-label',on?'Выключить подсветку':'Включить подсветку');
+  scene.style.setProperty('--ez-lamp-dim',(on ? (1-Math.min(1,level))*.42 : .82).toFixed(3));
   const t=$('moonPowerText');if(t)t.textContent=on?'ВКЛ':'ВЫКЛ';
   $('ezMobilePower').textContent=on?'ВКЛ':'ВЫКЛ';
+  const dock=$('ezMobileDockPower');dock.setAttribute('aria-pressed',String(on));dock.setAttribute('aria-label',on?'Выключить подсветку':'Включить подсветку');
   document.querySelectorAll('#moon [data-kelvin]').forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.kelvin===kelvin)));
   // original slider thumb at 442 px; first render keeps the approved position.
-  const x=98+percent/100*(442-98)/.78;
+  // Match the approved 78% thumb location, yet reach full endpoints at 0% and 100%.
+  const x=percent<=78 ? 98+(percent/78)*(442-98) : 442+((percent-78)/22)*(574-442);
   scene.style.setProperty('--ez-thumb-x',(x/1536*100).toFixed(4)+'%');
   scene.style.setProperty('--ez-bright-percent',((x-98)/(574-98)*100).toFixed(3)+'%');
   scene.style.setProperty('--ez-power',on?'1':'0');
@@ -35,6 +41,7 @@ const setPower=(value)=>{on=!!value;sync();};
 power.addEventListener('click',()=>{on=!on;sync()});
 obj.addEventListener('click',()=>{on=!on;sync()});
 $('ezMobilePower').addEventListener('click',()=>{on=!on;sync()});
+$('ezMobileDockPower').addEventListener('click',()=>{on=!on;sync()});
 bright.addEventListener('input',()=>{level=bright.value/100;sync()});mb.addEventListener('input',()=>{level=mb.value/100;sync()});
 const updateKelvin=(k)=>{kelvin=Math.max(2700,Math.min(6500,Math.round(k/100)*100));sync();};
 kalvinFine.addEventListener('input',()=>updateKelvin(+kalvinFine.value));mk.addEventListener('input',()=>updateKelvin(+mk.value));
