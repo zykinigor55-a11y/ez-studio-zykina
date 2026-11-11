@@ -3,221 +3,239 @@
     "id": "art-1",
     "title": "Золотой лист",
     "cat": "plastic",
-    "img": "картины/1/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/01.webp",
     "photos": [
-      "картины/1/главная.png",
-      "картины/1/детали 1.png",
-      "картины/1/детали 2.png",
-      "картины/1/каллаж.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%BA%D0%B0%D0%BB%D0%BB%D0%B0%D0%B6.png"
+    ],
+    "page": "kartiny/work-1/"
   },
   {
     "id": "art-2",
     "title": "Земля и золото",
     "cat": "abstract",
-    "img": "картины/2/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/02.webp",
     "photos": [
-      "картины/2/главная.png",
-      "картины/2/детали 1.png",
-      "картины/2/детали 2.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png"
+    ],
+    "page": "kartiny/work-2/"
   },
   {
     "id": "art-3",
     "title": "Золотой ритм",
     "cat": "abstract",
-    "img": "картины/3/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/03.webp",
     "photos": [
-      "картины/3/главная.png",
-      "картины/3/детали.png",
-      "картины/3/триптик.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D1%82%D1%80%D0%B8%D0%BF%D1%82%D0%B8%D0%BA.png"
+    ],
+    "page": "kartiny/work-3/"
   },
   {
     "id": "art-4",
     "title": "Золотое перо",
     "cat": "plastic",
-    "img": "картины/4/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/04.webp",
     "photos": [
-      "картины/4/главная.png",
-      "картины/4/детали 1.png",
-      "картины/4/детали 2.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png"
+    ],
+    "page": "kartiny/work-4/"
   },
   {
     "id": "art-5",
     "title": "Крылья",
     "cat": "plastic",
-    "img": "картины/5/главная (1).png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%281%29.png",
     "thumb": "catalog/05.webp",
     "photos": [
-      "картины/5/главная (1).png",
-      "картины/5/главная (2).png",
-      "картины/5/главная (3).png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%281%29.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%282%29.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%283%29.png"
+    ],
+    "page": "kartiny/work-5/"
   },
   {
     "id": "art-6",
     "title": "Слон",
     "cat": "images",
-    "img": "картины/6/деталь 2.jpg",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg",
     "thumb": "catalog/06-full.webp",
     "photos": [
-      "картины/6/деталь 2.jpg",
-      "картины/6/главная.jpg",
-      "картины/6/деталь 1.jpg"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg"
+    ],
+    "page": "kartiny/work-6/"
   },
   {
     "id": "art-7",
     "title": "Цвет Африки",
     "cat": "images",
-    "img": "картины/7/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/07.webp",
     "photos": [
-      "картины/7/главная.png",
-      "картины/7/деталь 2.png",
-      "картины/7/деталь1.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"
+    ],
+    "page": "kartiny/work-7/"
   },
   {
     "id": "art-8",
     "title": "Джокер",
     "cat": "stories",
-    "img": "картины/8/главная.jpg",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg",
     "thumb": "catalog/08.webp",
     "photos": [
-      "картины/8/главная.jpg",
-      "картины/8/деталь1.png",
-      "картины/8/деталь2.png",
-      "картины/8/деталь3.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C3.png"
+    ],
+    "page": "kartiny/work-8/"
   },
   {
     "id": "art-9",
     "title": "Сова",
     "cat": "images",
-    "img": "картины/9/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/09.webp",
     "photos": [
-      "картины/9/главная.png",
-      "картины/9/деталь 1.jpg",
-      "картины/9/деталь 2.jpg"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"
+    ],
+    "page": "kartiny/work-9/"
   },
   {
     "id": "art-10",
     "title": "Тёплый горизонт",
     "cat": "abstract",
-    "img": "картины/10/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/10.webp",
     "photos": [
-      "картины/10/главная.png",
-      "картины/10/деталь1.png",
-      "картины/10/деталь2.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png"
+    ],
+    "page": "kartiny/work-10/"
   },
   {
     "id": "art-11",
     "title": "Изумрудная вуаль",
     "cat": "images",
-    "img": "картины/11/гланая.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B3%D0%BB%D0%B0%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/11.webp",
     "photos": [
-      "картины/11/гланая.png",
-      "картины/11/деталь 1.png",
-      "картины/11/деталь 2.png",
-      "картины/11/деталь 3.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B3%D0%BB%D0%B0%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%203.png"
+    ],
+    "page": "kartiny/work-11/"
   },
   {
     "id": "art-12",
     "title": "Монстера",
     "cat": "plastic",
-    "img": "картины/12/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/12.webp",
     "photos": [
-      "картины/12/главная.png",
-      "картины/12/деталь 1.png",
-      "картины/12/деталь 2.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"
+    ],
+    "page": "kartiny/work-12/"
   },
   {
     "id": "art-13",
     "title": "Тёмный рельеф",
     "cat": "plastic",
-    "img": "картины/13/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/13.webp",
     "photos": [
-      "картины/13/главная.png",
-      "картины/13/деталь 1.png",
-      "картины/13/деталь2.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png"
+    ],
+    "page": "kartiny/work-13/"
   },
   {
     "id": "art-14",
     "title": "Круги времени",
     "cat": "plastic",
-    "img": "картины/14/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/14.webp",
     "photos": [
-      "картины/14/главная.png",
-      "картины/14/деталь 1.png",
-      "картины/14/деталь 2.png",
-      "картины/14/деталь 3.png",
-      "картины/14/деталь 4.png",
-      "картины/14/деталь 5.png",
-      "картины/14/деталь 7.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%203.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%204.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%205.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%207.png"
+    ],
+    "page": "kartiny/work-14/"
   },
   {
     "id": "art-15",
     "title": "Чёрный конь",
     "cat": "images",
-    "img": "картины/15/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/15.webp",
     "photos": [
-      "картины/15/главная.png",
-      "картины/15/деталь 1.jpg",
-      "картины/15/деталь 2.jpg"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"
+    ],
+    "page": "kartiny/work-15/"
   },
   {
     "id": "art-16",
     "title": "Бирюзовый горизонт",
     "cat": "abstract",
-    "img": "картины/16/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/16.webp",
     "photos": [
-      "картины/16/главная.png",
-      "картины/16/деталь 1.png",
-      "картины/16/деталь 2.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"
+    ],
+    "page": "kartiny/work-16/"
   },
   {
     "id": "art-17",
     "title": "Неоновый силуэт",
     "cat": "stories",
-    "img": "картины/17/главная.png",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/17/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png",
     "thumb": "catalog/17.webp",
     "photos": [
-      "картины/17/главная.png"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/17/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png"
+    ],
+    "page": "kartiny/work-17/"
   },
   {
     "id": "art-18",
     "title": "Белые цветы",
     "cat": "plastic",
-    "img": "картины/18/главная.jpg",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg",
     "thumb": "catalog/18.webp",
     "photos": [
-      "картины/18/главная.jpg",
-      "картины/18/деталь 1.jpg",
-      "картины/18/деталь 2.jpg"
-    ]
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"
+    ],
+    "page": "kartiny/work-18/"
   }
 ]

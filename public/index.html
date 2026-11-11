@@ -429,252 +429,32 @@
   </div>
  </div>
 </section>
-<footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-channel" href="#order">Написать в студию →</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a><a href="privacy.html">Политика конфиденциальности</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p></footer>
+<footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-channel" href="#order">Написать в студию →</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a><a href="kartiny/" class="catalogue-link">Каталог работ</a><a href="privacy.html">Политика конфиденциальности</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p></footer>
 </main>
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner"><img class="lightbox-image" id="lightboxImage" alt=""><div class="lightbox-desc" id="lightboxDesc"></div><div id="lightboxThumbs" class="lightbox-thumbs" aria-label="Ракурсы произведения"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner"><img class="lightbox-image" id="lightboxImage" alt=""><div class="lightbox-desc" id="lightboxDesc"></div><a id="workPageLink" style="color:inherit;text-decoration:underline;font-size:14px" href="kartiny/">Описание и характеристики</a><div id="lightboxThumbs" class="lightbox-thumbs" aria-label="Ракурсы произведения"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
 <script>
 'use strict';
 const A='assets/';
-const works=[
- {
-  "id": "art-1",
-  "title": "Золотой лист",
-  "cat": "plastic",
-  "img": "картины/1/главная.png",
-  "thumb": "catalog/01.webp",
-  "photos": [
-   "картины/1/главная.png",
-   "картины/1/детали 1.png",
-   "картины/1/детали 2.png",
-   "картины/1/каллаж.png"
-  ]
- },
- {
-  "id": "art-2",
-  "title": "Земля и золото",
-  "cat": "abstract",
-  "img": "картины/2/главная.png",
-  "thumb": "catalog/02.webp",
-  "photos": [
-   "картины/2/главная.png",
-   "картины/2/детали 1.png",
-   "картины/2/детали 2.png"
-  ]
- },
- {
-  "id": "art-3",
-  "title": "Золотой ритм",
-  "cat": "abstract",
-  "img": "картины/3/главная.png",
-  "thumb": "catalog/03.webp",
-  "photos": [
-   "картины/3/главная.png",
-   "картины/3/детали.png",
-   "картины/3/триптик.png"
-  ]
- },
- {
-  "id": "art-4",
-  "title": "Золотое перо",
-  "cat": "plastic",
-  "img": "картины/4/главная.png",
-  "thumb": "catalog/04.webp",
-  "photos": [
-   "картины/4/главная.png",
-   "картины/4/детали 1.png",
-   "картины/4/детали 2.png"
-  ]
- },
- {
-  "id": "art-5",
-  "title": "Крылья",
-  "cat": "plastic",
-  "img": "картины/5/главная (1).png",
-  "thumb": "catalog/05.webp",
-  "photos": [
-   "картины/5/главная (1).png",
-   "картины/5/главная (2).png",
-   "картины/5/главная (3).png"
-  ]
- },
- {
-  "id": "art-6",
-  "title": "Слон",
-  "cat": "images",
-  "img": "картины/6/деталь 2.jpg",
-  "thumb": "catalog/06-full.webp",
-  "photos": [
-   "картины/6/деталь 2.jpg",
-   "картины/6/главная.jpg",
-   "картины/6/деталь 1.jpg"
-  ]
- },
- {
-  "id": "art-7",
-  "title": "Цвет Африки",
-  "cat": "images",
-  "img": "картины/7/главная.png",
-  "thumb": "catalog/07.webp",
-  "photos": [
-   "картины/7/главная.png",
-   "картины/7/деталь 2.png",
-   "картины/7/деталь1.png"
-  ]
- },
- {
-  "id": "art-8",
-  "title": "Джокер",
-  "cat": "stories",
-  "img": "картины/8/главная.jpg",
-  "thumb": "catalog/08.webp",
-  "photos": [
-   "картины/8/главная.jpg",
-   "картины/8/деталь1.png",
-   "картины/8/деталь2.png",
-   "картины/8/деталь3.png"
-  ]
- },
- {
-  "id": "art-9",
-  "title": "Сова",
-  "cat": "images",
-  "img": "картины/9/главная.png",
-  "thumb": "catalog/09.webp",
-  "photos": [
-   "картины/9/главная.png",
-   "картины/9/деталь 1.jpg",
-   "картины/9/деталь 2.jpg"
-  ]
- },
- {
-  "id": "art-10",
-  "title": "Тёплый горизонт",
-  "cat": "abstract",
-  "img": "картины/10/главная.png",
-  "thumb": "catalog/10.webp",
-  "photos": [
-   "картины/10/главная.png",
-   "картины/10/деталь1.png",
-   "картины/10/деталь2.png"
-  ]
- },
- {
-  "id": "art-11",
-  "title": "Изумрудная вуаль",
-  "cat": "images",
-  "img": "картины/11/гланая.png",
-  "thumb": "catalog/11.webp",
-  "photos": [
-   "картины/11/гланая.png",
-   "картины/11/деталь 1.png",
-   "картины/11/деталь 2.png",
-   "картины/11/деталь 3.png"
-  ]
- },
- {
-  "id": "art-12",
-  "title": "Монстера",
-  "cat": "plastic",
-  "img": "картины/12/главная.png",
-  "thumb": "catalog/12.webp",
-  "photos": [
-   "картины/12/главная.png",
-   "картины/12/деталь 1.png",
-   "картины/12/деталь 2.png"
-  ]
- },
- {
-  "id": "art-13",
-  "title": "Тёмный рельеф",
-  "cat": "plastic",
-  "img": "картины/13/главная.png",
-  "thumb": "catalog/13.webp",
-  "photos": [
-   "картины/13/главная.png",
-   "картины/13/деталь 1.png",
-   "картины/13/деталь2.png"
-  ]
- },
- {
-  "id": "art-14",
-  "title": "Круги времени",
-  "cat": "plastic",
-  "img": "картины/14/главная.png",
-  "thumb": "catalog/14.webp",
-  "photos": [
-   "картины/14/главная.png",
-   "картины/14/деталь 1.png",
-   "картины/14/деталь 2.png",
-   "картины/14/деталь 3.png",
-   "картины/14/деталь 4.png",
-   "картины/14/деталь 5.png",
-   "картины/14/деталь 7.png"
-  ]
- },
- {
-  "id": "art-15",
-  "title": "Чёрный конь",
-  "cat": "images",
-  "img": "картины/15/главная.png",
-  "thumb": "catalog/15.webp",
-  "photos": [
-   "картины/15/главная.png",
-   "картины/15/деталь 1.jpg",
-   "картины/15/деталь 2.jpg"
-  ]
- },
- {
-  "id": "art-16",
-  "title": "Бирюзовый горизонт",
-  "cat": "abstract",
-  "img": "картины/16/главная.png",
-  "thumb": "catalog/16.webp",
-  "photos": [
-   "картины/16/главная.png",
-   "картины/16/деталь 1.png",
-   "картины/16/деталь 2.png"
-  ]
- },
- {
-  "id": "art-17",
-  "title": "Неоновый силуэт",
-  "cat": "stories",
-  "img": "картины/17/главная.png",
-  "thumb": "catalog/17.webp",
-  "photos": [
-   "картины/17/главная.png"
-  ]
- },
- {
-  "id": "art-18",
-  "title": "Белые цветы",
-  "cat": "plastic",
-  "img": "картины/18/главная.jpg",
-  "thumb": "catalog/18.webp",
-  "photos": [
-   "картины/18/главная.jpg",
-   "картины/18/деталь 1.jpg",
-   "картины/18/деталь 2.jpg"
-  ]
- }
-];
+function safeArtworkText(v){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+const works=[{"id": "art-1", "title": "Золотой лист", "cat": "plastic", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/01.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%BA%D0%B0%D0%BB%D0%BB%D0%B0%D0%B6.png"], "page": "kartiny/work-1/"}, {"id": "art-2", "title": "Земля и золото", "cat": "abstract", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/02.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png"], "page": "kartiny/work-2/"}, {"id": "art-3", "title": "Золотой ритм", "cat": "abstract", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/03.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D1%82%D1%80%D0%B8%D0%BF%D1%82%D0%B8%D0%BA.png"], "page": "kartiny/work-3/"}, {"id": "art-4", "title": "Золотое перо", "cat": "plastic", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/04.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png"], "page": "kartiny/work-4/"}, {"id": "art-5", "title": "Крылья", "cat": "plastic", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%281%29.png", "thumb": "catalog/05.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%281%29.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%282%29.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%283%29.png"], "page": "kartiny/work-5/"}, {"id": "art-6", "title": "Слон", "cat": "images", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg", "thumb": "catalog/06-full.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg"], "page": "kartiny/work-6/"}, {"id": "art-7", "title": "Цвет Африки", "cat": "images", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/07.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"], "page": "kartiny/work-7/"}, {"id": "art-8", "title": "Джокер", "cat": "stories", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg", "thumb": "catalog/08.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C3.png"], "page": "kartiny/work-8/"}, {"id": "art-9", "title": "Сова", "cat": "images", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/09.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"], "page": "kartiny/work-9/"}, {"id": "art-10", "title": "Тёплый горизонт", "cat": "abstract", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/10.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png"], "page": "kartiny/work-10/"}, {"id": "art-11", "title": "Изумрудная вуаль", "cat": "images", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B3%D0%BB%D0%B0%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/11.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B3%D0%BB%D0%B0%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%203.png"], "page": "kartiny/work-11/"}, {"id": "art-12", "title": "Монстера", "cat": "plastic", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/12.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"], "page": "kartiny/work-12/"}, {"id": "art-13", "title": "Тёмный рельеф", "cat": "plastic", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/13.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png"], "page": "kartiny/work-13/"}, {"id": "art-14", "title": "Круги времени", "cat": "plastic", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/14.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%203.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%204.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%205.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%207.png"], "page": "kartiny/work-14/"}, {"id": "art-15", "title": "Чёрный конь", "cat": "images", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/15.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"], "page": "kartiny/work-15/"}, {"id": "art-16", "title": "Бирюзовый горизонт", "cat": "abstract", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/16.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"], "page": "kartiny/work-16/"}, {"id": "art-17", "title": "Неоновый силуэт", "cat": "stories", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/17/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png", "thumb": "catalog/17.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/17/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png"], "page": "kartiny/work-17/"}, {"id": "art-18", "title": "Белые цветы", "cat": "plastic", "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg", "thumb": "catalog/18.webp", "photos": ["%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg", "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"], "page": "kartiny/work-18/"}];
 const catNames={plastic:'Пластика',abstract:'Абстракция',images:'Образы',stories:'Истории'};
 const byId=id=>document.getElementById(id);
 let currentList=works.slice();let currentIdx=0;let currentPhoto=0;
 function viewWork(id){currentPhoto=0;const ix=currentList.findIndex(w=>w.id===id);if(ix<0){currentList=works.slice();currentIdx=works.findIndex(w=>w.id===id)}else currentIdx=ix;showLightbox();}
 function showLightbox(){const w=currentList[currentIdx];if(!w)return;
  const photos=w.photos||[w.img];
+ byId('workPageLink').href=w.page||'kartiny/';
  byId('lightboxImage').classList.toggle('clean-earth-edge',w.id==='art-2'&&currentPhoto===0);byId('lightboxImage').src=A+photos[currentPhoto];byId('lightboxImage').alt=w.title+' — вид '+(currentPhoto+1);
  byId('lightboxDesc').textContent=w.title+' / '+catNames[w.cat]+' — вид '+(currentPhoto+1)+' из '+photos.length;
- byId('lightboxThumbs').innerHTML=photos.map((src,i)=>`<button type="button" data-photo="${i}" aria-label="${w.title}: вид ${i+1}" aria-pressed="${i===currentPhoto}"><img src="${A+(i===0?w.thumb:src)}" alt="" loading="lazy"></button>`).join('');
+ byId('lightboxThumbs').innerHTML=photos.map((src,i)=>`<button type="button" data-photo="${i}" aria-label="${safeArtworkText(w.title)}: вид ${i+1}" aria-pressed="${i===currentPhoto}"><img src="${A+(i===0?w.thumb:src)}" alt="" loading="lazy"></button>`).join('');
  byId('lightboxThumbs').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{currentPhoto=Number(b.dataset.photo);showLightbox();byId('lightboxThumbs').querySelector(`[data-photo="${currentPhoto}"]`).focus()}));
  const wasOpen=byId('lightbox').classList.contains('open');byId('lightbox').classList.add('open');byId('lightbox').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');if(!wasOpen)byId('lightboxClose').focus();}
 function closeLightbox(){byId('lightbox').classList.remove('open');byId('lightbox').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')}
 function stepLightbox(n){const photos=currentList[currentIdx].photos;currentPhoto+=n;if(currentPhoto>=photos.length){currentIdx=(currentIdx+1)%currentList.length;currentPhoto=0;}else if(currentPhoto<0){currentIdx=(currentIdx-1+currentList.length)%currentList.length;currentPhoto=currentList[currentIdx].photos.length-1;}showLightbox()}
 function selectFilter(filter){currentList=filter==='all'?works.slice():works.filter(w=>w.cat===filter);document.querySelectorAll('.filter').forEach(el=>{const active=el.dataset.filter===filter;el.classList.toggle('is-active',active);el.setAttribute('aria-pressed',String(active))});document.querySelectorAll('.art-card').forEach(el=>{el.hidden=filter!=='all'&&el.dataset.category!==filter})}
-function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<button type="button" class="art-card reveal" data-work="${w.id}" data-category="${w.cat}" aria-label="Открыть картину ${w.title}"><span class="art-visual"><img src="${A+w.thumb}" alt="${w.title}" loading="lazy"></span><span class="art-meta"><span><span class="art-title">${w.title}</span><span class="art-sub">${catNames[w.cat]} / ${String(i+1).padStart(2,'0')}</span></span><span class="art-plus">↗</span></span></button>`).join('');grid.querySelectorAll('.art-card').forEach(btn=>btn.addEventListener('click',()=>viewWork(btn.dataset.work)));
+function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<button type="button" class="art-card reveal" data-work="${w.id}" data-category="${w.cat}" aria-label="Открыть картину ${safeArtworkText(w.title)}"><span class="art-visual"><img src="${A+w.thumb}" alt="${safeArtworkText(w.title)}" loading="lazy"></span><span class="art-meta"><span><span class="art-title">${safeArtworkText(w.title)}</span><span class="art-sub">${catNames[w.cat]} / ${String(i+1).padStart(2,'0')}</span></span><span class="art-plus">↗</span></span></button>`).join('');grid.querySelectorAll('.art-card').forEach(btn=>btn.addEventListener('click',()=>viewWork(btn.dataset.work)));
  const staged=works.slice();
- byId('stage').innerHTML=staged.map((w,i)=>`<button type="button" class="stage-canvas stage-canvas--featured" data-stage="${i}" data-work="${w.id}" aria-label="Открыть ${w.title}"><span class="stage-art-disc"><img src="${A+w.thumb}" alt="${w.title}" loading="lazy" draggable="false"></span><span class="stage-title">${w.title}</span></button>`).join('');
+ byId('stage').innerHTML=staged.map((w,i)=>`<button type="button" class="stage-canvas stage-canvas--featured" data-stage="${i}" data-work="${w.id}" aria-label="Открыть ${safeArtworkText(w.title)}"><span class="stage-art-disc"><img src="${A+w.thumb}" alt="${safeArtworkText(w.title)}" loading="lazy" draggable="false"></span><span class="stage-title">${safeArtworkText(w.title)}</span></button>`).join('');
  byId('stage').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{currentList=works.slice();viewWork(staged[Number(b.dataset.stage)].id)}));
  const viewport=byId('stageViewport');
  const updateStage=()=>{const remaining=viewport.scrollWidth-viewport.clientWidth;byId('stagePrev').disabled=viewport.scrollLeft<=2;byId('stageNext').disabled=viewport.scrollLeft>=remaining-2};
