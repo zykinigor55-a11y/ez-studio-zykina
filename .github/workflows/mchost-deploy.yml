@@ -1,0 +1,43 @@
+name: MC Host deployment check
+
+# Safe setup stage: manual check only. Enable automatic push deployment
+# after the hosting directory, credentials and dry-run have been verified.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mc-host-deployment
+  cancel-in-progress: false
+
+jobs:
+  check-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check required connection settings
+        env:
+          FTP_SERVER: ${{ secrets.MCHOST_FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.MCHOST_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.MCHOST_FTP_PASSWORD }}
+          FTP_DIRECTORY: ${{ vars.MCHOST_FTP_DIRECTORY }}
+        run: |
+          for key in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_DIRECTORY; do
+            if [ -z "${!key}" ]; then
+              echo "::error::Missing $key. Add hosting credentials to repository secrets and destination folder to repository variables."
+              exit 1
+            fi
+          done
+      - name: Checkout website
+        uses: actions/checkout@v6
+      - name: Preview FTPS deployment without uploading
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.MCHOST_FTP_SERVER }}
+          username: ${{ secrets.MCHOST_FTP_USERNAME }}
+          password: ${{ secrets.MCHOST_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: ./public/
+          server-dir: ${{ vars.MCHOST_FTP_DIRECTORY }}
+          dry-run: true
