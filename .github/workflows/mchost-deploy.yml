@@ -1,22 +1,36 @@
-name: MC Host deployment check
+name: Deploy ZYKINA ART to MCHOST
 
-# Safe setup stage: manual check only. Enable automatic push deployment
-# after the hosting directory, credentials and dry-run have been verified.
+# Publish the live site from GitHub whenever website files change.
+# Credentials must be configured as GitHub Actions secrets, never committed.
 on:
+  push:
+    branches: [main]
+    paths:
+      - "public/**"
+      - ".github/workflows/mchost-deploy.yml"
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only preview the upload; do not change the live site"
+        type: boolean
+        required: false
+        default: true
 
 permissions:
   contents: read
 
 concurrency:
-  group: mc-host-deployment
+  group: mchost-production-deployment
   cancel-in-progress: false
 
 jobs:
-  check-deploy:
+  deploy:
+    name: Verify configuration and synchronize public/
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
-      - name: Check required connection settings
+      - name: Verify MCHOST FTP connection configuration
+        shell: bash
         env:
           FTP_SERVER: ${{ secrets.MCHOST_FTP_SERVER }}
           FTP_USERNAME: ${{ secrets.MCHOST_FTP_USERNAME }}
@@ -25,19 +39,37 @@ jobs:
         run: |
           for key in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_DIRECTORY; do
             if [ -z "${!key}" ]; then
-              echo "::error::Missing $key. Add hosting credentials to repository secrets and destination folder to repository variables."
+              echo "::error::Missing ${key}. Configure MCHOST_FTP_SERVER, MCHOST_FTP_USERNAME and MCHOST_FTP_PASSWORD in GitHub Secrets; configure MCHOST_FTP_DIRECTORY in GitHub Variables."
               exit 1
             fi
           done
-      - name: Checkout website
+          if [[ "$FTP_DIRECTORY" != */ ]]; then
+            echo "::error::MCHOST_FTP_DIRECTORY must end with a forward slash (/)."
+            exit 1
+          fi
+          case "$FTP_DIRECTORY" in
+            /|./|../)
+              echo "::error::Refusing to deploy to an unsafe FTP directory. Use the verified zykina-art.ru document root."
+              exit 1
+              ;;
+          esac
+          if [[ "$FTP_SERVER" == *"://"* || "$FTP_SERVER" == *"/"* ]]; then
+            echo "::error::MCHOST_FTP_SERVER must contain only a hostname, not a URL or path."
+            exit 1
+          fi
+
+      - name: Checkout site
         uses: actions/checkout@v6
-      - name: Preview FTPS deployment without uploading
+
+      - name: Deploy public/ to verified ZYKINA ART directory via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.MCHOST_FTP_SERVER }}
           username: ${{ secrets.MCHOST_FTP_USERNAME }}
           password: ${{ secrets.MCHOST_FTP_PASSWORD }}
           protocol: ftps
+          security: strict
           local-dir: ./public/
           server-dir: ${{ vars.MCHOST_FTP_DIRECTORY }}
-          dry-run: true
+          dry-run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run == true }}
+          log-level: standard
