@@ -1,0 +1,34 @@
+name: Verify FTPS pinned read-only
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-ftps-pinned.yml"
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Inspect FTPS certificate and test read-only authenticated access
+        shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.MCHOST_FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.MCHOST_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.MCHOST_FTP_PASSWORD }}
+          FTP_DIRECTORY: ${{ vars.MCHOST_FTP_DIRECTORY }}
+        run: |
+          set -euo pipefail
+          [[ "$FTP_USERNAME" == "p680986_deploy" && "$FTP_DIRECTORY" == "./" && -n "$FTP_SERVER" && -n "$FTP_PASSWORD" ]] || { echo "::error::Missing or unexpected FTPS configuration"; exit 1; }
+          HOST=p680986.ispmgr.mchost.ru
+          echo "FTPS certificate metadata:"
+          echo | openssl s_client -starttls ftp -connect "$FTP_SERVER:21" -servername "$HOST" 2>/dev/null | openssl x509 -noout -subject -dates
+          PIN="$(echo | openssl s_client -starttls ftp -connect "$FTP_SERVER:21" -servername "$HOST" 2>/dev/null | openssl x509 -pubkey -noout | openssl pkey -pubin -outform DER | openssl dgst -sha256 -binary | base64 -w0)"
+          echo "FTPS public-key pin candidate: sha256//$PIN"
+          echo "Testing TLS-encrypted, public-key-pinned read-only directory listing..."
+          curl --fail --silent --show-error --connect-timeout 15 --max-time 60 \
+            --ssl-reqd --ftp-pasv --insecure --pinnedpubkey "sha256//$PIN" \
+            --user "$FTP_USERNAME:$FTP_PASSWORD" --list-only \
+            --resolve "$HOST:21:$FTP_SERVER" "ftp://$HOST/" | head -n 30
+          echo "FTPS PINNED READ-ONLY LOGIN OK"
