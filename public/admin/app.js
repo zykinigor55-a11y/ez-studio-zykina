@@ -5,6 +5,10 @@ const OWNER='zykinigor55-a11y', REPO='ez-studio-zykina', BRANCH='main';
 const ROOT='https://api.github.com/repos/'+OWNER+'/'+REPO;
 const ASSETS='https://zykina-art.ru/assets/';
 const CATS={plastic:'Пластика',abstract:'Абстракция',images:'Образы',stories:'Истории'};
+const VIDEO_MAX_BYTES=25*1024*1024;
+const previewUrlCache=new WeakMap();
+function localPreviewURL(file){if(!file)return '';if(!previewUrlCache.has(file))previewUrlCache.set(file,URL.createObjectURL(file));return previewUrlCache.get(file)}
+function assetLink(path){return '/assets/'+String(path||'').replace(/^\/?assets\//,'').replace(/^\//,'')}
 let token='', works=[], originals={}, pending=new Map(), touched=new Set(), dirty=false, current=null, draft=null, preview=false, busy=false;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -32,12 +36,12 @@ function renderList(){
 }
 function move(i,d){const j=i+d;if(j<0||j>=works.length)return;[works[i],works[j]]=[works[j],works[i]];markDirty();renderList()}
 function toggle(id){const w=works.find(w=>w.id===id);if(!w)return;w.visible=w.visible===false?true:false;markDirty();renderList()}
-function newWork(){let n=Math.max(18,...works.map(numberOf))+1;current='art-'+n;draft={id:current,title:'',cat:'plastic',visible:true,description:'',size:'От 40 × 60 до 120 × 100 см, на заказ',photos:[],img:'',thumb:'',page:'kartiny/work-'+n+'/'};paintDraft(true)}
-function edit(id){const w=works.find(w=>w.id===id);if(!w)return;current=id;draft=Object.assign({},w,{photos:[...(w.photos||[])]});paintDraft(false)}
+function newWork(){let n=Math.max(18,...works.map(numberOf))+1;current='art-'+n;draft={id:current,title:'',cat:'plastic',visible:true,description:'',size:'От 40 × 60 до 120 × 100 см, на заказ',photos:[],interiors:[],videoFile:'',img:'',thumb:'',page:'kartiny/work-'+n+'/'};paintDraft(true)}
+function edit(id){const w=works.find(w=>w.id===id);if(!w)return;current=id;draft=Object.assign({},w,{photos:[...(w.photos||[])],interiors:[...(w.interiors||[])]});paintDraft(false)}
 function paintDraft(fresh){
   $('editorHeading').textContent=fresh?'Новая картина':'Редактирование · '+(draft.title||draft.id);
   $('titleInput').value=draft.title||'';$('catInput').value=draft.cat||'plastic';$('descInput').value=draft.description||'';$('sizeInput').value=draft.size||'От 40 × 60 до 120 × 100 см, на заказ';$('videoUrlInput').value=draft.videoUrl||'';$('visibleInput').checked=draft.visible!==false;
-  $('mainPhoto').value='';$('detailPhotos').value='';showPreview();screen('editor');window.scrollTo({top:0,behavior:'smooth'});
+  $('mainPhoto').value='';$('detailPhotos').value='';$('interiorPhotos').value='';$('videoFile').value='';$('removeVideoInput').checked=false;showPreview();screen('editor');window.scrollTo({top:0,behavior:'smooth'});
 }
 function showPreview(){
   const p=pending.get(current)||{},src=p.main?URL.createObjectURL(p.main):draft.thumb?fileURL(draft.thumb):'';
@@ -45,6 +49,16 @@ function showPreview(){
   $('detailPreviews').innerHTML='';
   const entries=(draft.photos||[]).slice(1).map(p=>({url:fileURL(p)})).concat((p.extras||[]).map(file=>({url:URL.createObjectURL(file)})));
   for(const entry of entries){const image=document.createElement('img');image.src=entry.url;image.alt='Фрагмент картины';$('detailPreviews').append(image)}
+  $('interiorPreviews').innerHTML='';
+  const interiors=(draft.interiors||[]).map(path=>({url:assetLink(path)})).concat((p.interiors||[]).map(file=>({url:localPreviewURL(file)})));
+  for(const entry of interiors){const img=document.createElement('img');img.className='interiors-photo';img.src=entry.url;img.alt='Фото картины в интерьере';$('interiorPreviews').append(img)}
+  const video=$('videoPreview'),source=p.video?localPreviewURL(p.video):draft.videoFile?assetLink(draft.videoFile):'';
+  if(source){if(video.getAttribute('src')!==source){video.pause();video.src=source}video.classList.remove('hide')}
+  else{video.pause();video.removeAttribute('src');video.load();video.classList.add('hide')}
+  $('videoUploadStatus').textContent=p.video?'Выбрано: '+p.video.name+' · '+(p.video.size/1048576).toFixed(1)+' МБ. Будет загружено после сохранения в GitHub.':
+   draft.videoFile?'Видео уже добавлено. Можно загрузить другое MP4/WebM (до 25 МБ).':
+   draft.videoUrl?'Ранее добавлено видео по ссылке. Выберите файл MP4/WebM, чтобы заменить его.':
+   'MP4 или WebM, до 25 МБ. Выбери ролик с компьютера и нажми «Сохранить в GitHub».';
 }
 function saveDraft(){
   if(!draft)return;
@@ -58,6 +72,8 @@ function saveDraft(){
   }
   draft.videoUrl=rawVideo;
   const files=pending.get(current)||{};
+  if($('removeVideoInput').checked&&!files.video){draft.videoFile='';draft.videoUrl='';}
+  if(files.video){draft.videoUrl='';draft.videoFile='';}
   if(!draft.title){toast('Введите название картины');$('titleInput').focus();return}
   if(!(draft.img || files.main)){toast('Загрузите главное фото новой картины');return}
   const idx=works.findIndex(w=>w.id===current);
@@ -79,12 +95,15 @@ async function loadText(path){const doc=await request('/contents/'+path.split('/
 async function load(){
  busyState(true);
  try{
-  const ps=['public/assets/catalog/manifest.json','public/index.html','public/kartiny/index.html','public/sitemap.xml','public/assets/catalog/video-links.json'];
-  const out=await Promise.all(ps.map(p=>loadText(p).catch(e=>{if(p==='public/sitemap.xml')return '';if(p==='public/assets/catalog/video-links.json'&&/404/.test(String(e)))return '{}';throw e})));
-  const videoLinks=JSON.parse(out[4]||'{}');
-  if(!videoLinks||Array.isArray(videoLinks)||typeof videoLinks!=='object')throw Error('Некорректный файл ссылок на видео');
-  originals={manifest:out[0],index:out[1],catalog:out[2],sitemap:out[3],videoLinks:out[4]};
-  works=JSON.parse(out[0]).map(w=>Object.assign({visible:true,description:'',size:''},w,{videoUrl:videoLinks[w.id]||w.videoUrl||''}));
+  const ps=['public/assets/catalog/manifest.json','public/index.html','public/kartiny/index.html','public/sitemap.xml','public/assets/catalog/video-links.json','public/assets/catalog/interior-media.json'];
+  const out=await Promise.all(ps.map(p=>loadText(p).catch(e=>{if(p==='public/sitemap.xml')return '';if((p.endsWith('video-links.json')||p.endsWith('interior-media.json'))&&/404/.test(String(e)))return '{}';throw e})));
+  const videoLinks=JSON.parse(out[4]||'{}'),mediaLinks=JSON.parse(out[5]||'{}');
+  if(!videoLinks||Array.isArray(videoLinks)||typeof videoLinks!=='object'||!mediaLinks||Array.isArray(mediaLinks)||typeof mediaLinks!=='object')throw Error('Некорректные данные галереи');
+  originals={manifest:out[0],index:out[1],catalog:out[2],sitemap:out[3],videoLinks:out[4],interiorMedia:out[5]};
+  works=JSON.parse(out[0]).map(w=>{
+    const item=mediaLinks[w.id]||{};
+    return Object.assign({visible:true,description:'',size:''},w,{videoUrl:videoLinks[w.id]||w.videoUrl||'',interiors:Array.isArray(item.photos)?item.photos:(w.interiors||[]),videoFile:item.video||w.videoFile||''});
+  });
   resetDirty();renderList();screen('catalog');
   $('loginMask').classList.add('hide');$('connStatus').textContent=token?'GitHub · подключено':'Предпросмотр / без доступа на запись';$('publishBtn').disabled=!token;
   toast('Каталог загружен: '+works.length+' картин');
@@ -159,7 +178,7 @@ async function login(value){
 
 function showConnect(){screen('connect');$('loginMask').classList.add('hide')}
 function visibleWorks(){return works.filter(w=>w.visible!==false)}
-function cleanWorks(){return works.map(w=>{const c={};for(const key of ['id','title','cat','img','thumb','photos','page','description','size','visible','videoUrl'])if(w[key]!==undefined)c[key]=w[key];return c})}
+function cleanWorks(){return works.map(w=>{const c={};for(const key of ['id','title','cat','img','thumb','photos','page','description','size','visible','videoUrl','videoFile','interiors'])if(w[key]!==undefined)c[key]=w[key];return c})}
 function buildHome(ws){
   const source=originals.index;
   const pattern=/const works=\[[\s\S]*?\];\s*\nconst catNames=/;
@@ -207,7 +226,7 @@ async function compress(file,maxEdge,quality){
 function utf8(s){return new TextEncoder().encode(s)}
 async function prepare(){
  if(!originals.index||!originals.catalog)throw Error('Сначала загрузите каталог с GitHub.');
- const staged=works.map(w=>Object.assign({},w,{photos:[...(w.photos||[])]}));const files=new Map();
+ const staged=works.map(w=>Object.assign({},w,{photos:[...(w.photos||[])],interiors:[...(w.interiors||[])]}));const files=new Map();
  const now=Date.now().toString(36);
  for(const w of staged){
    const p=pending.get(w.id);if(!p)continue;
@@ -222,6 +241,19 @@ async function prepare(){
       const path='картины/'+n+'/detail-'+now+'-'+(i+1)+'.webp';
       files.set('public/assets/'+path,await compress(p.extras[i],2200,.88));
       w.photos.push(encodeURI(path));
+   }
+   for(let i=0;i<(p.interiors||[]).length;i++){
+      const path='interiors/'+n+'/interior-'+now+'-'+(i+1)+'.webp';
+      files.set('public/assets/'+path,await compress(p.interiors[i],2200,.86));
+      w.interiors.push(encodeURI(path));
+   }
+   if(p.video){
+      if(p.video.size>VIDEO_MAX_BYTES)throw Error('Видео больше 25 МБ. Сожмите MP4 или WebM перед загрузкой.');
+      const ext=/\.webm$/i.test(p.video.name)?'webm':/\.mp4$/i.test(p.video.name)?'mp4':null;
+      if(!ext)throw Error('Поддерживаются видео только MP4 и WebM.');
+      const path='videos/'+n+'/interior-'+now+'.'+ext;
+      files.set('public/assets/'+path,new Uint8Array(await p.video.arrayBuffer()));
+      w.videoFile=path;w.videoUrl='';
    }
    if(!w.img&&w.photos.length)w.img=w.photos[0];
    if(!w.thumb)w.thumb=w.img;
@@ -246,9 +278,13 @@ async function prepare(){
    };
    files.set('public/assets/картины/'+n+'/работа.json',utf8(JSON.stringify(metadata,null,2)+'\n'));
  }
- const videoLinks={};
- for(const w of staged)if(w.videoUrl)videoLinks[w.id]=w.videoUrl;
+ const videoLinks={},interiorMedia={};
+ for(const w of staged){
+   if(w.videoUrl)videoLinks[w.id]=w.videoUrl;
+   if((w.interiors||[]).length||w.videoFile)interiorMedia[w.id]={photos:[...(w.interiors||[])],video:w.videoFile||''};
+ }
  files.set('public/assets/catalog/video-links.json',utf8(JSON.stringify(videoLinks,null,2)+'\n'));
+ files.set('public/assets/catalog/interior-media.json',utf8(JSON.stringify(interiorMedia,null,2)+'\n'));
  files.set('public/assets/catalog/manifest.json',utf8(JSON.stringify(serialized,null,2)+'\n'));
  files.set('public/index.html',utf8(buildHome(show)));
  files.set('public/kartiny/index.html',utf8(buildCatalog(show)));
@@ -271,7 +307,7 @@ async function publish(){
   const tree=await request('/git/trees','POST',{base_tree:oldCommit.tree.sha,tree:items});
   const newCommit=await request('/git/commits','POST',{message:'ZYKINA ART: update artwork catalog via admin panel',tree:tree.sha,parents:[ref.object.sha]});
   await request('/git/refs/heads/'+BRANCH,'PATCH',{sha:newCommit.sha,force:false});
-  works=built.staged;originals.videoLinks=new TextDecoder().decode(built.files.get('public/assets/catalog/video-links.json'));originals.manifest=new TextDecoder().decode(built.files.get('public/assets/catalog/manifest.json'));originals.index=new TextDecoder().decode(built.files.get('public/index.html'));originals.catalog=new TextDecoder().decode(built.files.get('public/kartiny/index.html'));if(built.files.has('public/sitemap.xml'))originals.sitemap=new TextDecoder().decode(built.files.get('public/sitemap.xml'));
+  works=built.staged;originals.videoLinks=new TextDecoder().decode(built.files.get('public/assets/catalog/video-links.json'));originals.interiorMedia=new TextDecoder().decode(built.files.get('public/assets/catalog/interior-media.json'));originals.manifest=new TextDecoder().decode(built.files.get('public/assets/catalog/manifest.json'));originals.index=new TextDecoder().decode(built.files.get('public/index.html'));originals.catalog=new TextDecoder().decode(built.files.get('public/kartiny/index.html'));if(built.files.has('public/sitemap.xml'))originals.sitemap=new TextDecoder().decode(built.files.get('public/sitemap.xml'));
   resetDirty();renderList();toast('Готово! Картины сохранены в GitHub. Для появления на основном сайте необходима синхронизация MCHost.');
  }catch(e){toast('Не удалось сохранить: '+e.message)}finally{busyState(false);if(dirty)$('pendingText').textContent='Изменения ещё не сохранены'}
 }
@@ -324,6 +360,16 @@ $('discardArtwork').addEventListener('click',()=>screen('catalog'));
 $('saveArtwork').addEventListener('click',saveDraft);
 $('mainPhoto').addEventListener('change',e=>{if(!e.target.files.length||!current)return;const p=pending.get(current)||{extras:[]};p.main=e.target.files[0];pending.set(current,p);showPreview()});
 $('detailPhotos').addEventListener('change',e=>{if(!e.target.files.length||!current)return;const p=pending.get(current)||{extras:[]};p.extras=(p.extras||[]).concat([...e.target.files]);pending.set(current,p);showPreview()});
+$('interiorPhotos').addEventListener('change',e=>{if(!e.target.files.length||!current)return;const p=pending.get(current)||{};p.interiors=(p.interiors||[]).concat([...e.target.files]);pending.set(current,p);showPreview()});
+$('videoFile').addEventListener('change',e=>{
+ if(!current||!e.target.files.length)return;
+ const file=e.target.files[0];
+ if(!/\.(mp4|webm)$/i.test(file.name)){toast('Выберите видео MP4 или WebM');e.target.value='';return}
+ if(file.size>VIDEO_MAX_BYTES){toast('Видео больше 25 МБ. Сожмите его и загрузите снова.');e.target.value='';return}
+ const p=pending.get(current)||{};p.video=file;pending.set(current,p);
+ $('removeVideoInput').checked=false;showPreview();
+});
+$('removeVideoInput').addEventListener('change',e=>{if(e.target.checked){const p=pending.get(current);if(p&&p.video){delete p.video;$('videoFile').value=''} }showPreview()});
 $('publishBtn').addEventListener('click',publish);
 $('exportBtn').addEventListener('click',exportZip);
 window.addEventListener('beforeunload',e=>{if(dirty&&!busy){e.preventDefault();e.returnValue=''}});
