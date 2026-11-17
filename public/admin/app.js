@@ -36,7 +36,7 @@ function newWork(){let n=Math.max(18,...works.map(numberOf))+1;current='art-'+n;
 function edit(id){const w=works.find(w=>w.id===id);if(!w)return;current=id;draft=Object.assign({},w,{photos:[...(w.photos||[])]});paintDraft(false)}
 function paintDraft(fresh){
   $('editorHeading').textContent=fresh?'Новая картина':'Редактирование · '+(draft.title||draft.id);
-  $('titleInput').value=draft.title||'';$('catInput').value=draft.cat||'plastic';$('descInput').value=draft.description||'';$('sizeInput').value=draft.size||'От 40 × 60 до 120 × 100 см, на заказ';$('visibleInput').checked=draft.visible!==false;
+  $('titleInput').value=draft.title||'';$('catInput').value=draft.cat||'plastic';$('descInput').value=draft.description||'';$('sizeInput').value=draft.size||'От 40 × 60 до 120 × 100 см, на заказ';$('videoUrlInput').value=draft.videoUrl||'';$('visibleInput').checked=draft.visible!==false;
   $('mainPhoto').value='';$('detailPhotos').value='';showPreview();screen('editor');window.scrollTo({top:0,behavior:'smooth'});
 }
 function showPreview(){
@@ -51,6 +51,12 @@ function saveDraft(){
   draft.title=shortText($('titleInput').value);
   draft.cat=$('catInput').value;draft.description=shortText($('descInput').value);
   draft.size=shortText($('sizeInput').value);draft.visible=$('visibleInput').checked;
+  const rawVideo=shortText($('videoUrlInput').value);
+  if(rawVideo){
+    try{const u=new URL(rawVideo);if(u.protocol!=='https:'||!u.hostname||u.username||u.password)throw Error('url')}
+    catch{toast('Введите безопасную ссылку на видео, начинающуюся с https://');$('videoUrlInput').focus();return}
+  }
+  draft.videoUrl=rawVideo;
   const files=pending.get(current)||{};
   if(!draft.title){toast('Введите название картины');$('titleInput').focus();return}
   if(!(draft.img || files.main)){toast('Загрузите главное фото новой картины');return}
@@ -73,9 +79,13 @@ async function loadText(path){const doc=await request('/contents/'+path.split('/
 async function load(){
  busyState(true);
  try{
-  const ps=['public/assets/catalog/manifest.json','public/index.html','public/kartiny/index.html','public/sitemap.xml'];
-  const out=await Promise.all(ps.map(p=>loadText(p).catch(e=>{if(p==='public/sitemap.xml')return '';throw e})));
-  originals={manifest:out[0],index:out[1],catalog:out[2],sitemap:out[3]};works=JSON.parse(out[0]).map(w=>Object.assign({visible:true,description:'',size:''},w));resetDirty();renderList();screen('catalog');
+  const ps=['public/assets/catalog/manifest.json','public/index.html','public/kartiny/index.html','public/sitemap.xml','public/assets/catalog/video-links.json'];
+  const out=await Promise.all(ps.map(p=>loadText(p).catch(e=>{if(p==='public/sitemap.xml')return '';if(p==='public/assets/catalog/video-links.json'&&/404/.test(String(e)))return '{}';throw e})));
+  const videoLinks=JSON.parse(out[4]||'{}');
+  if(!videoLinks||Array.isArray(videoLinks)||typeof videoLinks!=='object')throw Error('Некорректный файл ссылок на видео');
+  originals={manifest:out[0],index:out[1],catalog:out[2],sitemap:out[3],videoLinks:out[4]};
+  works=JSON.parse(out[0]).map(w=>Object.assign({visible:true,description:'',size:''},w,{videoUrl:videoLinks[w.id]||w.videoUrl||''}));
+  resetDirty();renderList();screen('catalog');
   $('loginMask').classList.add('hide');$('connStatus').textContent=token?'GitHub · подключено':'Предпросмотр / без доступа на запись';$('publishBtn').disabled=!token;
   toast('Каталог загружен: '+works.length+' картин');
   return true;
@@ -149,7 +159,7 @@ async function login(value){
 
 function showConnect(){screen('connect');$('loginMask').classList.add('hide')}
 function visibleWorks(){return works.filter(w=>w.visible!==false)}
-function cleanWorks(){return works.map(w=>{const c={};for(const key of ['id','title','cat','img','thumb','photos','page','description','size','visible'])if(w[key]!==undefined)c[key]=w[key];return c})}
+function cleanWorks(){return works.map(w=>{const c={};for(const key of ['id','title','cat','img','thumb','photos','page','description','size','visible','videoUrl'])if(w[key]!==undefined)c[key]=w[key];return c})}
 function buildHome(ws){
   const source=originals.index;
   const pattern=/const works=\[[\s\S]*?\];\s*\nconst catNames=/;
@@ -231,10 +241,14 @@ async function prepare(){
      title:w.title,category:w.cat,main:photoPath.slice(prefix.length),
      thumbnail:decodeURIComponent(w.thumb||w.img),
      description:w.description||'',size:w.size||'',
+     video:w.videoUrl||'',
      published:w.visible!==false
    };
    files.set('public/assets/картины/'+n+'/работа.json',utf8(JSON.stringify(metadata,null,2)+'\n'));
  }
+ const videoLinks={};
+ for(const w of staged)if(w.videoUrl)videoLinks[w.id]=w.videoUrl;
+ files.set('public/assets/catalog/video-links.json',utf8(JSON.stringify(videoLinks,null,2)+'\n'));
  files.set('public/assets/catalog/manifest.json',utf8(JSON.stringify(serialized,null,2)+'\n'));
  files.set('public/index.html',utf8(buildHome(show)));
  files.set('public/kartiny/index.html',utf8(buildCatalog(show)));
@@ -257,7 +271,7 @@ async function publish(){
   const tree=await request('/git/trees','POST',{base_tree:oldCommit.tree.sha,tree:items});
   const newCommit=await request('/git/commits','POST',{message:'ZYKINA ART: update artwork catalog via admin panel',tree:tree.sha,parents:[ref.object.sha]});
   await request('/git/refs/heads/'+BRANCH,'PATCH',{sha:newCommit.sha,force:false});
-  works=built.staged;originals.manifest=new TextDecoder().decode(built.files.get('public/assets/catalog/manifest.json'));originals.index=new TextDecoder().decode(built.files.get('public/index.html'));originals.catalog=new TextDecoder().decode(built.files.get('public/kartiny/index.html'));if(built.files.has('public/sitemap.xml'))originals.sitemap=new TextDecoder().decode(built.files.get('public/sitemap.xml'));
+  works=built.staged;originals.videoLinks=new TextDecoder().decode(built.files.get('public/assets/catalog/video-links.json'));originals.manifest=new TextDecoder().decode(built.files.get('public/assets/catalog/manifest.json'));originals.index=new TextDecoder().decode(built.files.get('public/index.html'));originals.catalog=new TextDecoder().decode(built.files.get('public/kartiny/index.html'));if(built.files.has('public/sitemap.xml'))originals.sitemap=new TextDecoder().decode(built.files.get('public/sitemap.xml'));
   resetDirty();renderList();toast('Готово! Картины сохранены в GitHub. Для появления на основном сайте необходима синхронизация MCHost.');
  }catch(e){toast('Не удалось сохранить: '+e.message)}finally{busyState(false);if(dirty)$('pendingText').textContent='Изменения ещё не сохранены'}
 }
