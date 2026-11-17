@@ -47,12 +47,16 @@ jobs:
             echo "::error::MCHOST_FTP_DIRECTORY must end with a forward slash (/)."
             exit 1
           fi
-          case "$FTP_DIRECTORY" in
-            /|./|../)
-              echo "::error::Refusing to deploy to an unsafe FTP directory. Use the verified zykina-art.ru document root."
-              exit 1
-              ;;
-          esac
+          # The dedicated FTP account is restricted in ISPmanager to
+          # /www/zykina-art.ru/. FTP sees that folder as its own root.
+          if [[ "$FTP_USERNAME" != "p680986_deploy" ]]; then
+            echo "::error::Deployment is restricted to the dedicated p680986_deploy FTP account."
+            exit 1
+          fi
+          if [[ "$FTP_DIRECTORY" != "./" ]]; then
+            echo "::error::MCHOST_FTP_DIRECTORY must be ./ (the dedicated account's website root)."
+            exit 1
+          fi
           if [[ "$FTP_SERVER" == *"://"* || "$FTP_SERVER" == *"/"* ]]; then
             echo "::error::MCHOST_FTP_SERVER must contain only a hostname, not a URL or path."
             exit 1
