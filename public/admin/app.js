@@ -167,7 +167,7 @@ async function prepare(){
      description:w.description||'',size:w.size||'',
      published:w.visible!==false
    };
-   files.set('public/assets/картины/'+n+'/работа.json',utf8(JSON.stringify(metadata,null,2)+'\\n'));
+   files.set('public/assets/картины/'+n+'/работа.json',utf8(JSON.stringify(metadata,null,2)+'\n'));
  }
  files.set('public/assets/catalog/manifest.json',utf8(JSON.stringify(serialized,null,2)+'\n'));
  files.set('public/index.html',utf8(buildHome(show)));
