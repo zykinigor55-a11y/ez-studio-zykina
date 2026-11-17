@@ -1,0 +1,67 @@
+name: Export artwork 19 for manual MCHost publication
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/mchost-artwork-export.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Package only changed website files for artwork 19
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, zipfile
+          from urllib.parse import unquote
+
+          base = pathlib.Path('public')
+          works = json.loads((base/'assets/catalog/manifest.json').read_text(encoding='utf-8'))
+          work = next((w for w in works if w['id'] == 'art-19'), None)
+          assert work and work['title'], 'Artwork 19 missing from manifest'
+          files = [
+              'index.html',
+              'kartiny/index.html',
+              'kartiny/work-19/index.html',
+              'assets/catalog/manifest.json',
+              'sitemap.xml',
+              'assets/' + unquote(work['thumb']),
+          ]
+          files.extend('assets/' + unquote(name) for name in work['photos'])
+          files = list(dict.fromkeys(files))
+          for p in files:
+              fp = base / p
+              assert fp.is_file(), f'Missing required file: {p}'
+              assert fp.resolve().is_relative_to(base.resolve()), f'Unsafe path: {p}'
+          pathlib.Path('dist').mkdir(exist_ok=True)
+          output = 'dist/ZYKINA-ART-19-MCHOST-update.zip'
+          with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as z:
+              for p in files:
+                  z.write(base/p, arcname=p)
+          with zipfile.ZipFile(output) as z:
+              assert z.testzip() is None, 'Archive integrity check failed'
+          print('Created', output)
+          for p in files: print(' ', p)
+          PY
+      - name: Publish download link
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="zykina-art-update-19"
+          FILE="dist/ZYKINA-ART-19-MCHOST-update.zip"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$FILE" --clobber
+          else
+            gh release create "$TAG" "$FILE" --title "ZYKINA ART — обновление каталога: 19 картин" --notes "Архив для ручной загрузки в корень /www/zykina-art.ru через ISPmanager. Перед распаковкой сохраните резервные копии перезаписываемых файлов. Архив содержит обновлённую главную страницу, каталог, страницу новой картины, данные и изображения картины 19; остальные файлы и папки не удаляются." --target main --latest=false
+          fi
+          gh release view "$TAG" --json assets --jq '.assets[].url'
