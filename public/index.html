@@ -323,6 +323,23 @@
 #lightboxVideoLink:hover,#lightboxVideoLink:focus-visible{border-color:#d8b88b;color:#ffdeb2}
 #lightboxVideoPending{color:#b4a08b;opacity:.7}
 .lightbox-video-action .hide{display:none!important}
+<style>
+.lightbox-media-tabs{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 auto 8px}
+.lightbox-media-tabs button{background:transparent;border:1px solid #b79c7359;color:#ddc9b3;padding:10px 15px;border-radius:30px;font:500 10px/1.3 var(--sans);letter-spacing:.08em;white-space:nowrap;transition:background .24s,color .24s,border .24s}
+.lightbox-media-tabs button.is-active,.lightbox-media-tabs button:hover{background:#b9986b30;border-color:#be9e73;color:#fbe6ca}
+.lightbox-interior-video{width:min(78vw,900px);max-height:55vh;background:#000;border-radius:9px;object-fit:contain}
+.lightbox-media-empty{min-height:200px;width:min(75vw,700px);display:flex;align-items:center;justify-content:center;text-align:center;padding:26px;color:#c2a88c;border:1px solid #90735250;background:#251d17;font:400 clamp(19px,3vw,33px)/1.2 var(--serif);border-radius:12px}
+.lightbox-inner{overflow-y:auto;justify-content:flex-start;padding:15px 0;gap:10px}
+.lightbox-image{max-height:51vh!important}
+.lightbox-inner .hide{display:none!important}
+.lightbox-video-action{margin:2px auto}
+@media(max-width:700px){
+ .lightbox{padding:65px 17px 23px}.lightbox-inner{padding:10px 0;max-width:100%;gap:10px}
+ .lightbox-media-tabs{gap:4px}.lightbox-media-tabs button{font-size:9px;padding:9px 10px}
+ .lightbox-image{max-height:43vh!important}.lightbox-interior-video{width:100%;max-height:43vh}
+ .lightbox-media-empty{min-height:180px;width:100%}.lightbox-desc{font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){.lightbox-media-tabs button{transition:none}}
 </style></head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -444,7 +461,16 @@
 </section>
 <footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-channel" href="#order">Написать в студию →</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a><a href="kartiny/" class="catalogue-link">Каталог работ</a><a href="privacy.html">Политика конфиденциальности</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p><!-- ZYKINA ART discreet owner entry --><a class="footer-owner-mark" href="https://ez-studio-zykina.onrender.com/admin/index.html?auth=vault1" target="_blank" rel="noopener noreferrer" aria-label="Управление каталогом ZYKINA ART" title="Управление каталогом"><span aria-hidden="true">Е·З</span></a></footer>
 </main>
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner"><img class="lightbox-image" id="lightboxImage" alt=""><div class="lightbox-desc" id="lightboxDesc"></div><div class="lightbox-size">Под заказ: от 40 × 60 до 120 × 100 см · формат и стоимость по согласованию</div><a id="workPageLink" style="color:inherit;text-decoration:underline;font-size:14px" href="kartiny/">Описание и характеристики</a><div class="lightbox-video-action"><a id="lightboxVideoLink" href="#" class="hide" target="_blank" rel="noopener noreferrer">▶ Смотреть видео в интерьере ↗</a><span id="lightboxVideoPending">Видео в интерьере · скоро</span></div><div id="lightboxThumbs" class="lightbox-thumbs" aria-label="Ракурсы произведения"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner">
+<div class="lightbox-media-tabs" role="group" aria-label="Просмотр картины"><button class="is-active" type="button" data-gallery-tab="photos" aria-pressed="true">Картина и макро</button><button type="button" data-gallery-tab="interior" aria-pressed="false">В интерьере</button><button type="button" data-gallery-tab="video" aria-pressed="false">Видео</button></div>
+<img class="lightbox-image" id="lightboxImage" alt="">
+<video id="lightboxInteriorVideo" class="lightbox-interior-video hide" controls playsinline preload="metadata" controlslist="nodownload" aria-label="Видео картины в интерьере"></video>
+<div id="lightboxMediaEmpty" class="lightbox-media-empty hide"></div>
+<div class="lightbox-desc" id="lightboxDesc"></div>
+<div class="lightbox-size">Под заказ: от 40 × 60 до 120 × 100 см · формат и стоимость по согласованию</div>
+<a id="workPageLink" style="color:inherit;text-decoration:underline;font-size:14px" href="kartiny/">Описание и характеристики</a>
+<div class="lightbox-video-action"><a id="lightboxVideoLink" href="#" class="hide" target="_blank" rel="noopener noreferrer">▶ Смотреть видео в интерьере ↗</a></div>
+<div id="lightboxThumbs" class="lightbox-thumbs" aria-label="Ракурсы произведения"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
 <script>
 'use strict';
 const A='assets/';
@@ -453,43 +479,108 @@ const works=[{"id":"art-19","title":"«Тихое течение»","cat":"plast
 const catNames={plastic:'Пластика',abstract:'Абстракция',images:'Образы',stories:'Истории'};
 const byId=id=>document.getElementById(id);
 let currentList=works.slice();let currentIdx=0;let currentPhoto=0;let artworkImageRequest=0;
-function viewWork(id){currentPhoto=0;const ix=currentList.findIndex(w=>w.id===id);if(ix<0){currentList=works.slice();currentIdx=works.findIndex(w=>w.id===id)}else currentIdx=ix;showLightbox();}
-const videoLinks={};
+let activeGalleryTab='photos',currentInterior=0;
+const videoLinks={},interiorMedia={};
 function safeArtworkVideoURL(value){
  try{const u=new URL(String(value||''));return u.protocol==='https:'&&u.hostname&&!u.username&&!u.password?u.href:''}catch{return ''}
 }
-function updateLightboxVideo(){
- const work=currentList[currentIdx];if(!work)return;
- const href=safeArtworkVideoURL(videoLinks[work.id]||work.videoUrl||'');
- const link=byId('lightboxVideoLink'),pending=byId('lightboxVideoPending');
- link.classList.toggle('hide',!href);
- pending.classList.toggle('hide',!!href);
- if(href)link.href=href;else link.removeAttribute('href');
+function safeMediaAsset(path,category){
+ const str=String(path||'');
+ if(category==='photo'&&!/^interiors\/\d+\/interior-[a-z0-9-]+\.webp$/i.test(str))return '';
+ if(category==='video'&&!/^videos\/\d+\/interior-[a-z0-9-]+\.(mp4|webm)$/i.test(str))return '';
+ return A+str;
+}
+function getInteriors(w){const media=interiorMedia[w.id];return media&&Array.isArray(media.photos)?media.photos.map(p=>safeMediaAsset(p,'photo')).filter(Boolean):[]}
+function getInteriorVideo(w){const media=interiorMedia[w.id];return media?safeMediaAsset(media.video,'video'):''}
+function setGalleryTab(name){
+ activeGalleryTab=['photos','interior','video'].includes(name)?name:'photos';
+ currentInterior=0;
+ const video=byId('lightboxInteriorVideo');video.pause();
+ showLightbox();
 }
 fetch('assets/catalog/video-links.json',{cache:'no-store'})
  .then(r=>{if(!r.ok)throw Error('video-links');return r.json()})
  .then(map=>{if(map&&typeof map==='object'&&!Array.isArray(map)){
   for(const [id,url] of Object.entries(map)){if(/^art-\d+$/.test(id))videoLinks[id]=url}
-  if(byId('lightbox').classList.contains('open'))updateLightboxVideo();
+  if(byId('lightbox').classList.contains('open')&&activeGalleryTab==='video')showLightbox();
  }}).catch(()=>{});
-function showLightbox(){const w=currentList[currentIdx];if(!w)return;
- updateLightboxVideo();
- const photos=w.photos||[w.img];
+fetch('assets/catalog/interior-media.json',{cache:'no-store'})
+ .then(r=>{if(!r.ok)throw Error('interior-media');return r.json()})
+ .then(map=>{if(map&&typeof map==='object'&&!Array.isArray(map)){
+  for(const [id,media] of Object.entries(map)){if(/^art-\d+$/.test(id)&&media&&typeof media==='object')interiorMedia[id]=media}
+  if(byId('lightbox').classList.contains('open')&&activeGalleryTab!=='photos')showLightbox();
+ }}).catch(()=>{});
+function viewWork(id){
+ currentPhoto=0;currentInterior=0;activeGalleryTab='photos';
+ const ix=currentList.findIndex(w=>w.id===id);
+ if(ix<0){currentList=works.slice();currentIdx=works.findIndex(w=>w.id===id)}else currentIdx=ix;
+ showLightbox();
+}
+function showLightbox(){
+ const w=currentList[currentIdx];if(!w)return;
+ const image=byId('lightboxImage'),video=byId('lightboxInteriorVideo'),empty=byId('lightboxMediaEmpty');
+ const thumbs=byId('lightboxThumbs'),link=byId('lightboxVideoLink');
+ const photos=w.photos||[w.img],interiors=getInteriors(w),videoSrc=getInteriorVideo(w);
+ const legacyURL=safeArtworkVideoURL(videoLinks[w.id]||w.videoUrl||'');
  byId('workPageLink').href=w.page||'kartiny/';
- const artworkImage=byId('lightboxImage');const imageRequest=++artworkImageRequest;
- artworkImage.style.visibility='hidden';artworkImage.setAttribute('aria-busy','true');
- artworkImage.onload=()=>{if(imageRequest!==artworkImageRequest)return;artworkImage.style.visibility='visible';artworkImage.removeAttribute('aria-busy')};
- artworkImage.onerror=()=>{if(imageRequest!==artworkImageRequest)return;artworkImage.style.visibility='hidden';artworkImage.removeAttribute('aria-busy')};
- artworkImage.classList.toggle('clean-earth-edge',w.id==='art-2'&&currentPhoto===0);
- artworkImage.alt=w.title+' — вид '+(currentPhoto+1);
- artworkImage.src=A+photos[currentPhoto];
- if(artworkImage.complete&&artworkImage.naturalWidth>0){artworkImage.style.visibility='visible';artworkImage.removeAttribute('aria-busy')}
- byId('lightboxDesc').textContent=w.title+' / '+catNames[w.cat]+' — вид '+(currentPhoto+1)+' из '+photos.length;
- byId('lightboxThumbs').innerHTML=photos.map((src,i)=>`<button type="button" data-photo="${i}" aria-label="${safeArtworkText(w.title)}: вид ${i+1}" aria-pressed="${i===currentPhoto}"><img src="${A+(i===0?w.thumb:src)}" alt="" loading="lazy"></button>`).join('');
- byId('lightboxThumbs').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{currentPhoto=Number(b.dataset.photo);showLightbox();byId('lightboxThumbs').querySelector(`[data-photo="${currentPhoto}"]`).focus()}));
- const wasOpen=byId('lightbox').classList.contains('open');byId('lightbox').classList.add('open');byId('lightbox').setAttribute('aria-hidden','false');document.body.classList.add('modal-open');if(!wasOpen)byId('lightboxClose').focus();}
-function closeLightbox(){byId('lightbox').classList.remove('open');byId('lightbox').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')}
-function stepLightbox(n){const photos=currentList[currentIdx].photos;currentPhoto+=n;if(currentPhoto>=photos.length){currentIdx=(currentIdx+1)%currentList.length;currentPhoto=0;}else if(currentPhoto<0){currentIdx=(currentIdx-1+currentList.length)%currentList.length;currentPhoto=currentList[currentIdx].photos.length-1;}showLightbox()}
+ for(const button of document.querySelectorAll('[data-gallery-tab]')){
+   const active=button.dataset.galleryTab===activeGalleryTab;
+   button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',String(active));
+ }
+ const isVideo=activeGalleryTab==='video',isInterior=activeGalleryTab==='interior';
+ const visualList=isInterior?interiors:isVideo?[]:photos.map(p=>A+p);
+ const selected=isInterior?currentInterior:currentPhoto;
+ const mediaSrc=visualList[selected]||'';
+ video.classList.toggle('hide',!isVideo||!videoSrc);
+ image.classList.toggle('hide',!mediaSrc||isVideo);
+ empty.classList.toggle('hide',!!mediaSrc||isVideo&&!!videoSrc);
+ empty.textContent=isVideo?'Видео в интерьере пока не добавлено':'Фото в интерьере пока не добавлены';
+ link.classList.toggle('hide',!isVideo||!!videoSrc||!legacyURL);
+ if(isVideo&&!videoSrc&&!legacyURL){empty.classList.remove('hide');empty.textContent='Видео в интерьере пока не добавлено'}
+ if(isVideo&&videoSrc){
+  if(video.getAttribute('src')!==videoSrc){video.pause();video.src=videoSrc;video.load()}
+ }else{
+  video.pause();if(video.hasAttribute('src')){video.removeAttribute('src');video.load()}
+ }
+ if(isVideo&&legacyURL&&!videoSrc)link.href=legacyURL;else link.removeAttribute('href');
+ thumbs.classList.toggle('hide',isVideo||!visualList.length);
+ if(mediaSrc&&!isVideo){
+  const requested=++artworkImageRequest;
+  image.style.visibility='hidden';image.setAttribute('aria-busy','true');
+  image.onload=()=>{if(requested!==artworkImageRequest)return;image.style.visibility='visible';image.removeAttribute('aria-busy')};
+  image.onerror=()=>{if(requested!==artworkImageRequest)return;image.style.visibility='hidden';image.removeAttribute('aria-busy')};
+  image.classList.toggle('clean-earth-edge',w.id==='art-2'&&!isInterior&&currentPhoto===0);
+  image.alt=w.title+(isInterior?' — в интерьере '+(selected+1):' — вид '+(selected+1));
+  if(image.getAttribute('src')!==mediaSrc)image.src=mediaSrc;
+  if(image.complete&&image.naturalWidth>0){image.style.visibility='visible';image.removeAttribute('aria-busy')}
+ }else{
+  ++artworkImageRequest;image.removeAttribute('aria-busy');image.style.visibility='hidden';
+ }
+ byId('lightboxDesc').textContent=w.title+' / '+catNames[w.cat]+' — '+
+ (isVideo?'видео в интерьере':isInterior?'интерьер '+(interiors.length?selected+1:0)+' из '+interiors.length:'вид '+(currentPhoto+1)+' из '+photos.length);
+ thumbs.innerHTML=visualList.map((src,i)=>`<button type="button" data-photo="${i}" aria-label="Вид ${i+1}" aria-pressed="${i===selected}"><img src="${!isInterior&&i===0?A+w.thumb:src}" alt="" loading="lazy"></button>`).join('');
+ thumbs.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  if(isInterior)currentInterior=Number(b.dataset.photo);else currentPhoto=Number(b.dataset.photo);
+  showLightbox();thumbs.querySelector(`[data-photo="${b.dataset.photo}"]`)?.focus();
+ }));
+ const wasOpen=byId('lightbox').classList.contains('open');
+ byId('lightbox').classList.add('open');byId('lightbox').setAttribute('aria-hidden','false');
+ document.body.classList.add('modal-open');if(!wasOpen)byId('lightboxClose').focus();
+}
+function closeLightbox(){
+ const video=byId('lightboxInteriorVideo');video.pause();video.removeAttribute('src');video.load();
+ byId('lightbox').classList.remove('open');byId('lightbox').setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')
+}
+function stepLightbox(n){
+ const w=currentList[currentIdx],total=activeGalleryTab==='interior'?getInteriors(w).length:activeGalleryTab==='photos'?(w.photos||[w.img]).length:0;
+ const at=activeGalleryTab==='interior'?currentInterior:currentPhoto;
+ if(total&&at+n>=0&&at+n<total){
+  if(activeGalleryTab==='interior')currentInterior+=n;else currentPhoto+=n;
+ }else{
+  currentIdx=(currentIdx+n+currentList.length)%currentList.length;currentPhoto=0;currentInterior=0;activeGalleryTab='photos';
+ }
+ showLightbox()
+}
 function selectFilter(filter){currentList=filter==='all'?works.slice():works.filter(w=>w.cat===filter);document.querySelectorAll('.filter').forEach(el=>{const active=el.dataset.filter===filter;el.classList.toggle('is-active',active);el.setAttribute('aria-pressed',String(active))});document.querySelectorAll('.art-card').forEach(el=>{el.hidden=filter!=='all'&&el.dataset.category!==filter})}
 function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<button type="button" class="art-card reveal" data-work="${w.id}" data-category="${w.cat}" aria-label="Открыть картину ${safeArtworkText(w.title)}"><span class="art-visual"><img src="${A+w.thumb}" alt="${safeArtworkText(w.title)}" loading="lazy"></span><span class="art-meta"><span><span class="art-title">${safeArtworkText(w.title)}</span><span class="art-sub">${catNames[w.cat]} / ${String(i+1).padStart(2,'0')}</span></span><span class="art-plus">↗</span></span></button>`).join('');grid.querySelectorAll('.art-card').forEach(btn=>btn.addEventListener('click',()=>viewWork(btn.dataset.work)));
  const staged=works.slice();
@@ -502,6 +593,7 @@ function build(){const grid=byId('artGrid');grid.innerHTML=works.map((w,i)=>`<bu
  document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>selectFilter(b.dataset.filter)));document.querySelectorAll('[data-filter-link]').forEach(b=>b.addEventListener('click',()=>selectFilter(b.dataset.filterLink)));
  const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');observer.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px 80px 0px'});document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
 }
+document.querySelectorAll('[data-gallery-tab]').forEach(b=>b.addEventListener('click',()=>setGalleryTab(b.dataset.galleryTab)));
 byId('lightboxClose').addEventListener('click',closeLightbox);byId('lightboxPrev').addEventListener('click',()=>stepLightbox(-1));byId('lightboxNext').addEventListener('click',()=>stepLightbox(1));byId('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLightbox()});document.addEventListener('keydown',e=>{if(!byId('lightbox').classList.contains('open'))return;if(e.key==='Escape')closeLightbox();if(e.key==='ArrowRight')stepLightbox(1);if(e.key==='ArrowLeft')stepLightbox(-1)});
 const menuToggle=byId('menuToggle'),mobileNav=byId('mobileNav');menuToggle.addEventListener('click',()=>{const open=mobileNav.classList.toggle('is-open');menuToggle.setAttribute('aria-expanded',String(open))});mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mobileNav.classList.remove('is-open');menuToggle.setAttribute('aria-expanded','false')}));
 const header=byId('siteHeader');const updateHeader=()=>header.classList.toggle('is-scrolled',scrollY>80);window.addEventListener('scroll',updateHeader,{passive:true});updateHeader();
