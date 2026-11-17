@@ -1,5 +1,21 @@
 [
   {
+    "id": "art-19",
+    "title": "«Тихое течение»",
+    "cat": "plastic",
+    "img": "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/19/main-mwl1bksv.webp",
+    "thumb": "catalog/19-mwl1bksv.webp",
+    "photos": [
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/19/main-mwl1bksv.webp",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/19/detail-mwl1bksv-1.webp",
+      "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/19/detail-mwl1bksv-2.webp"
+    ],
+    "page": "kartiny/work-19/",
+    "description": "авторская рельефная композиция, вдохновлённая плавными линиями природных форм.\nМягкие изгибы и выразительная фактура создают ощущение движения, спокойствия и гармонии. Светлые оттенки подчёркивают пластичность поверхности, а игра света и тени раскрывает глубину рельефа.\nКартина станет деликатным акцентом в современном интерьере, выполненном в эстетике минимализма, Japandi или современной классики.",
+    "size": "От 40 × 60 до 120 × 100 см, на заказ",
+    "visible": true
+  },
+  {
     "id": "art-1",
     "title": "Золотой лист",
     "cat": "plastic",
@@ -11,7 +27,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/1/%D0%BA%D0%B0%D0%BB%D0%BB%D0%B0%D0%B6.png"
     ],
-    "page": "kartiny/work-1/"
+    "page": "kartiny/work-1/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-2",
@@ -24,7 +43,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/2/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png"
     ],
-    "page": "kartiny/work-2/"
+    "page": "kartiny/work-2/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-3",
@@ -37,7 +59,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/3/%D1%82%D1%80%D0%B8%D0%BF%D1%82%D0%B8%D0%BA.png"
     ],
-    "page": "kartiny/work-3/"
+    "page": "kartiny/work-3/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-4",
@@ -50,7 +75,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%201.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/4/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D0%B8%202.png"
     ],
-    "page": "kartiny/work-4/"
+    "page": "kartiny/work-4/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-5",
@@ -63,7 +91,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%282%29.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/5/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F%20%283%29.png"
     ],
-    "page": "kartiny/work-5/"
+    "page": "kartiny/work-5/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-6",
@@ -76,7 +107,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.jpg",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/6/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg"
     ],
-    "page": "kartiny/work-6/"
+    "page": "kartiny/work-6/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-7",
@@ -89,7 +123,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/7/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"
     ],
-    "page": "kartiny/work-7/"
+    "page": "kartiny/work-7/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-8",
@@ -103,7 +140,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/8/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C3.png"
     ],
-    "page": "kartiny/work-8/"
+    "page": "kartiny/work-8/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-9",
@@ -116,7 +156,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/9/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"
     ],
-    "page": "kartiny/work-9/"
+    "page": "kartiny/work-9/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-10",
@@ -129,7 +172,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C1.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/10/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png"
     ],
-    "page": "kartiny/work-10/"
+    "page": "kartiny/work-10/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-11",
@@ -143,7 +189,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/11/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%203.png"
     ],
-    "page": "kartiny/work-11/"
+    "page": "kartiny/work-11/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-12",
@@ -156,7 +205,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/12/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"
     ],
-    "page": "kartiny/work-12/"
+    "page": "kartiny/work-12/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-13",
@@ -169,7 +221,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C2.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/13/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png"
     ],
-    "page": "kartiny/work-13/"
+    "page": "kartiny/work-13/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-14",
@@ -186,7 +241,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%205.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/14/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%207.png"
     ],
-    "page": "kartiny/work-14/"
+    "page": "kartiny/work-14/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-15",
@@ -199,7 +257,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/15/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"
     ],
-    "page": "kartiny/work-15/"
+    "page": "kartiny/work-15/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-16",
@@ -212,7 +273,10 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.png",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/16/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.png"
     ],
-    "page": "kartiny/work-16/"
+    "page": "kartiny/work-16/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-17",
@@ -223,7 +287,10 @@
     "photos": [
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/17/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F.png"
     ],
-    "page": "kartiny/work-17/"
+    "page": "kartiny/work-17/",
+    "description": "",
+    "size": "",
+    "visible": true
   },
   {
     "id": "art-18",
@@ -236,6 +303,9 @@
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%201.jpg",
       "%D0%BA%D0%B0%D1%80%D1%82%D0%B8%D0%BD%D1%8B/18/%D0%B4%D0%B5%D1%82%D0%B0%D0%BB%D1%8C%202.jpg"
     ],
-    "page": "kartiny/work-18/"
+    "page": "kartiny/work-18/",
+    "description": "",
+    "size": "",
+    "visible": true
   }
 ]
