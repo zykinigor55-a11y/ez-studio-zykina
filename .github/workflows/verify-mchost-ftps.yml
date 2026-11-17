@@ -1,0 +1,38 @@
+name: Verify ZYKINA ART FTPS connection
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/verify-mchost-ftps.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Check FTPS configuration and read-only access
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validate and probe dedicated FTPS access (no uploads)
+        shell: bash
+        env:
+          FTP_SERVER: ${{ secrets.MCHOST_FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.MCHOST_FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.MCHOST_FTP_PASSWORD }}
+          FTP_DIRECTORY: ${{ vars.MCHOST_FTP_DIRECTORY }}
+        run: |
+          set -euo pipefail
+          for key in FTP_SERVER FTP_USERNAME FTP_PASSWORD FTP_DIRECTORY; do
+            if [[ -z "${!key}" ]]; then
+              echo "::error::Missing ${key}"
+              exit 1
+            fi
+          done
+          [[ "$FTP_USERNAME" == "p680986_deploy" ]] || { echo "::error::Unexpected FTP username"; exit 1; }
+          [[ "$FTP_DIRECTORY" == "./" ]] || { echo "::error::Unexpected FTP directory"; exit 1; }
+          echo "Testing encrypted FTP login and directory listing (no write operations)..."
+          curl --fail --silent --show-error --connect-timeout 15 --max-time 60 --ssl-reqd --ftp-pasv --user "$FTP_USERNAME:$FTP_PASSWORD" --list-only "ftp://$FTP_SERVER/" > /dev/null
+          echo "Encrypted FTP read-only test completed successfully."
