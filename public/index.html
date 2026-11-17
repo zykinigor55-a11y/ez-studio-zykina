@@ -317,6 +317,12 @@
 .stage-canvas[data-work="art-2"] .stage-art-disc img,
 #lightboxImage.clean-earth-edge,
 #lightboxThumbs:has(button[aria-label^="Земля и золото"]) button:first-child img{clip-path:inset(.75% 3.8% .75% 3.8%)}
+<style>
+.lightbox-video-action{display:flex;justify-content:center;align-items:center;margin:12px auto 6px;min-height:30px;font:500 11px/1.5 Arial,sans-serif;letter-spacing:.05em}
+#lightboxVideoLink{color:#e0bd8d;border:1px solid #a27f584f;border-radius:24px;padding:8px 16px;text-decoration:none;transition:border-color .25s,color .25s}
+#lightboxVideoLink:hover,#lightboxVideoLink:focus-visible{border-color:#d8b88b;color:#ffdeb2}
+#lightboxVideoPending{color:#b4a08b;opacity:.7}
+.lightbox-video-action .hide{display:none!important}
 </style></head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -438,7 +444,7 @@
 </section>
 <footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-channel" href="#order">Написать в студию →</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a><a href="kartiny/" class="catalogue-link">Каталог работ</a><a href="privacy.html">Политика конфиденциальности</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p><!-- ZYKINA ART discreet owner entry --><a class="footer-owner-mark" href="https://ez-studio-zykina.onrender.com/admin/index.html?auth=vault1" target="_blank" rel="noopener noreferrer" aria-label="Управление каталогом ZYKINA ART" title="Управление каталогом"><span aria-hidden="true">Е·З</span></a></footer>
 </main>
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner"><img class="lightbox-image" id="lightboxImage" alt=""><div class="lightbox-desc" id="lightboxDesc"></div><div class="lightbox-size">Под заказ: от 40 × 60 до 120 × 100 см · формат и стоимость по согласованию</div><a id="workPageLink" style="color:inherit;text-decoration:underline;font-size:14px" href="kartiny/">Описание и характеристики</a><div id="lightboxThumbs" class="lightbox-thumbs" aria-label="Ракурсы произведения"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner"><img class="lightbox-image" id="lightboxImage" alt=""><div class="lightbox-desc" id="lightboxDesc"></div><div class="lightbox-size">Под заказ: от 40 × 60 до 120 × 100 см · формат и стоимость по согласованию</div><a id="workPageLink" style="color:inherit;text-decoration:underline;font-size:14px" href="kartiny/">Описание и характеристики</a><div class="lightbox-video-action"><a id="lightboxVideoLink" href="#" class="hide" target="_blank" rel="noopener noreferrer">▶ Смотреть видео в интерьере ↗</a><span id="lightboxVideoPending">Видео в интерьере · скоро</span></div><div id="lightboxThumbs" class="lightbox-thumbs" aria-label="Ракурсы произведения"></div></div><button class="lightbox-next" id="lightboxNext" aria-label="Следующая картина">›</button></div>
 <script>
 'use strict';
 const A='assets/';
@@ -448,7 +454,26 @@ const catNames={plastic:'Пластика',abstract:'Абстракция',image
 const byId=id=>document.getElementById(id);
 let currentList=works.slice();let currentIdx=0;let currentPhoto=0;let artworkImageRequest=0;
 function viewWork(id){currentPhoto=0;const ix=currentList.findIndex(w=>w.id===id);if(ix<0){currentList=works.slice();currentIdx=works.findIndex(w=>w.id===id)}else currentIdx=ix;showLightbox();}
+const videoLinks={};
+function safeArtworkVideoURL(value){
+ try{const u=new URL(String(value||''));return u.protocol==='https:'&&u.hostname&&!u.username&&!u.password?u.href:''}catch{return ''}
+}
+function updateLightboxVideo(){
+ const work=currentList[currentIdx];if(!work)return;
+ const href=safeArtworkVideoURL(videoLinks[work.id]||work.videoUrl||'');
+ const link=byId('lightboxVideoLink'),pending=byId('lightboxVideoPending');
+ link.classList.toggle('hide',!href);
+ pending.classList.toggle('hide',!!href);
+ if(href)link.href=href;else link.removeAttribute('href');
+}
+fetch('assets/catalog/video-links.json',{cache:'no-store'})
+ .then(r=>{if(!r.ok)throw Error('video-links');return r.json()})
+ .then(map=>{if(map&&typeof map==='object'&&!Array.isArray(map)){
+  for(const [id,url] of Object.entries(map)){if(/^art-\d+$/.test(id))videoLinks[id]=url}
+  if(byId('lightbox').classList.contains('open'))updateLightboxVideo();
+ }}).catch(()=>{});
 function showLightbox(){const w=currentList[currentIdx];if(!w)return;
+ updateLightboxVideo();
  const photos=w.photos||[w.img];
  byId('workPageLink').href=w.page||'kartiny/';
  const artworkImage=byId('lightboxImage');const imageRequest=++artworkImageRequest;
