@@ -153,6 +153,22 @@ async function prepare(){
  }
  const show=staged.filter(w=>w.visible!==false);
  const serialized=staged.map(w=>{const obj={};for(const key of ['id','title','cat','img','thumb','photos','page','description','size','visible'])if(w[key]!==undefined)obj[key]=w[key];return obj});
+ // MCHost's scheduled publisher builds work pages from per-folder metadata.
+ // Save it together with every edited artwork to keep names, categories and descriptions stable.
+ for(const w of staged){
+   if(!touched.has(w.id))continue;
+   const n=numberOf(w);
+   if(!Number.isInteger(n)||n<1||!w.img)throw Error('Не удалось сохранить данные картины '+(w.id||''));
+   const photoPath=decodeURIComponent(w.img),prefix='картины/'+n+'/';
+   if(!photoPath.startsWith(prefix)||photoPath.slice(prefix.length).includes('/'))throw Error('Неверный путь главной фотографии: '+w.id);
+   const metadata={
+     title:w.title,category:w.cat,main:photoPath.slice(prefix.length),
+     thumbnail:decodeURIComponent(w.thumb||w.img),
+     description:w.description||'',size:w.size||'',
+     published:w.visible!==false
+   };
+   files.set('public/assets/картины/'+n+'/работа.json',utf8(JSON.stringify(metadata,null,2)+'\\n'));
+ }
  files.set('public/assets/catalog/manifest.json',utf8(JSON.stringify(serialized,null,2)+'\n'));
  files.set('public/index.html',utf8(buildHome(show)));
  files.set('public/kartiny/index.html',utf8(buildCatalog(show)));
