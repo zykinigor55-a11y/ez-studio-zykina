@@ -1,0 +1,46 @@
+name: Downloadable ZYKINA ART owner-link patch
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/mchost-footer-owner-export.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+      - name: Package only homepage HTML
+        run: |
+          python3 - <<'PY'
+          import pathlib, zipfile
+          page=pathlib.Path('public/index.html')
+          txt=page.read_text('utf-8')
+          assert 'class="footer-owner-mark"' in txt
+          assert 'https://ez-studio-zykina.onrender.com/admin/' in txt
+          assert 'Тихое течение' in txt
+          assert '<!-- ZYKINA ART discreet owner entry -->' in txt
+          pathlib.Path('dist').mkdir(exist_ok=True)
+          with zipfile.ZipFile('dist/ZYKINA-ART-admin-button.zip','w',zipfile.ZIP_DEFLATED,compresslevel=7) as z:
+              z.write(page,'index.html')
+          with zipfile.ZipFile('dist/ZYKINA-ART-admin-button.zip') as z:
+              assert z.namelist()==['index.html'] and z.testzip() is None
+          print('Archive contains only index.html')
+          PY
+      - name: Publish manual installation archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG=zykina-footer-owner-2026
+          FILE=dist/ZYKINA-ART-admin-button.zip
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$FILE" --clobber
+          else
+            gh release create "$TAG" "$FILE" --title 'ZYKINA ART — скрытая кнопка входа в админ-панель' --notes 'Для ручной установки в MCHost. Архив содержит только index.html. Распаковывайте исключительно в /www/zykina-art.ru после создания резервной копии текущего index.html. Дизайн остальных страниц, фотографии и каталоги не затрагиваются.' --target main --latest=false
+          fi
+          gh release view "$TAG" --json assets --jq '.assets[].url'
