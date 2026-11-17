@@ -533,7 +533,7 @@ function showLightbox(){
  const mediaSrc=visualList[selected]||'';
  video.classList.toggle('hide',!isVideo||!videoSrc);
  image.classList.toggle('hide',!mediaSrc||isVideo);
- empty.classList.toggle('hide',!!mediaSrc||isVideo&&!!videoSrc);
+ empty.classList.toggle('hide',!!mediaSrc||(isVideo&&!!(videoSrc||legacyURL)));
  empty.textContent=isVideo?'Видео в интерьере пока не добавлено':'Фото в интерьере пока не добавлены';
  link.classList.toggle('hide',!isVideo||!!videoSrc||!legacyURL);
  if(isVideo&&!videoSrc&&!legacyURL){empty.classList.remove('hide');empty.textContent='Видео в интерьере пока не добавлено'}
