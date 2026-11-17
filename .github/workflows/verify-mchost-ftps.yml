@@ -33,6 +33,8 @@ jobs:
           done
           [[ "$FTP_USERNAME" == "p680986_deploy" ]] || { echo "::error::Unexpected FTP username"; exit 1; }
           [[ "$FTP_DIRECTORY" == "./" ]] || { echo "::error::Unexpected FTP directory"; exit 1; }
-          echo "Testing encrypted FTP login and directory listing (no write operations)..."
-          curl --fail --silent --show-error --connect-timeout 15 --max-time 60 --ssl-reqd --ftp-pasv --user "$FTP_USERNAME:$FTP_PASSWORD" --list-only "ftp://$FTP_SERVER/" > /dev/null
-          echo "Encrypted FTP read-only test completed successfully."
+          echo "Inspecting FTPS server certificate..."
+          echo | openssl s_client -starttls ftp -connect "$FTP_SERVER:21" -servername isp101.mchost.ru 2>/dev/null | openssl x509 -noout -subject -ext subjectAltName || true
+          echo "Testing encrypted FTP access with verified server hostname (no uploads)..."
+          curl --fail --silent --show-error --connect-timeout 15 --max-time 60 --ssl-reqd --ftp-pasv --user "$FTP_USERNAME:$FTP_PASSWORD" --list-only --resolve "isp101.mchost.ru:21:$FTP_SERVER" "ftp://isp101.mchost.ru/" > /dev/null
+          echo "Encrypted FTP read-only test completed successfully using isp101.mchost.ru."
