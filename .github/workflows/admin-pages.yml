@@ -1,0 +1,39 @@
+name: Publish ZYKINA ART admin panel
+on:
+  push:
+    branches: [main]
+    paths:
+      - "admin-panel/**"
+      - ".github/workflows/admin-pages.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: zykina-art-admin-pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publish.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate admin assets
+        run: |
+          test -s admin-panel/index.html
+          test -s admin-panel/app.js
+          node --check admin-panel/app.js
+      - name: Enable and configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload admin website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: admin-panel
+      - name: Deploy website
+        id: publish
+        uses: actions/deploy-pages@v4
