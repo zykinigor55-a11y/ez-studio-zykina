@@ -1,5 +1,5 @@
 'use strict';
-/* ZYKINA ART editor — no backend, no stored token. All repo changes require a user token. */
+/* ZYKINA ART editor — GitHub writes use a user token; optional encrypted browser vault. */
 (function(){
 const OWNER='zykinigor55-a11y', REPO='ez-studio-zykina', BRANCH='main';
 const ROOT='https://api.github.com/repos/'+OWNER+'/'+REPO;
@@ -78,9 +78,75 @@ async function load(){
   originals={manifest:out[0],index:out[1],catalog:out[2],sitemap:out[3]};works=JSON.parse(out[0]).map(w=>Object.assign({visible:true,description:'',size:''},w));resetDirty();renderList();screen('catalog');
   $('loginMask').classList.add('hide');$('connStatus').textContent=token?'GitHub · подключено':'Предпросмотр / без доступа на запись';$('publishBtn').disabled=!token;
   toast('Каталог загружен: '+works.length+' картин');
- }catch(e){toast(e.message);$('connStatus').textContent='Не удалось загрузить каталог';if(!token)$('loginMask').classList.remove('hide')}finally{busyState(false)}
+  return true;
+ }catch(e){toast(e.message);$('connStatus').textContent='Не удалось загрузить каталог';$('loginMask').classList.remove('hide');return false}finally{busyState(false)}
 }
-function login(value){token=String(value||'').trim();if(!token){toast('Введите GitHub-токен');return}preview=false;$('loginToken').value='';$('connectToken').value='';load()}
+
+/* Optional on-device encrypted token vault. The password never leaves the browser. */
+const VAULT_KEY='zykina-art-vault-v1',VAULT_ITERATIONS=310000;
+function savedVault(){
+ try{
+  const raw=localStorage.getItem(VAULT_KEY);
+  if(!raw)return null;
+  const v=JSON.parse(raw);
+  return v&&v.v===1&&v.iterations===VAULT_ITERATIONS&&typeof v.salt==='string'&&typeof v.iv==='string'&&typeof v.ct==='string'?v:null;
+ }catch{return null}
+}
+function vaultBytes(s){const bin=atob(s),out=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)out[i]=bin.charCodeAt(i);return out}
+async function vaultKey(password,salt){
+ const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(password),'PBKDF2',false,['deriveKey']);
+ return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:VAULT_ITERATIONS,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+}
+async function rememberToken(secret,password){
+ if(!globalThis.isSecureContext||!crypto||!crypto.subtle)throw Error('Для защищённого хранения требуется HTTPS');
+ const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12));
+ const key=await vaultKey(password,salt),ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(secret)));
+ localStorage.setItem(VAULT_KEY,JSON.stringify({v:1,iterations:VAULT_ITERATIONS,salt:toB64(salt),iv:toB64(iv),ct:toB64(ct)}));
+}
+function displayLoginView(){
+ const exists=!!savedVault();
+ $('vaultLogin').classList.toggle('hide',!exists);
+ $('tokenLogin').classList.toggle('hide',exists);
+ $('loginMask').classList.remove('hide');
+ $('newPassFields').classList.toggle('hide',!$('rememberBrowser').checked);
+}
+async function unlockVault(){
+ const vault=savedVault(),password=$('vaultPassword').value;
+ if(!vault){displayLoginView();toast('Сохранённый вход не найден. Подключите GitHub-токен снова.');return}
+ if(!password){toast('Введите свой пароль');return}
+ const button=$('unlockBtn');button.disabled=true;
+ try{
+  const key=await vaultKey(password,vaultBytes(vault.salt));
+  token=new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:vaultBytes(vault.iv)},key,vaultBytes(vault.ct)));
+  preview=false;
+  const ok=await load();
+  if(!ok){token='';toast('Токен мог истечь. Нажмите «Войти по токену» и подключите новый.');return}
+  $('vaultPassword').value='';
+ }catch{
+  token='';
+  toast('Неверный пароль или повреждённый сохранённый вход');
+ }finally{button.disabled=false}
+}
+async function login(value){
+ const newToken=String(value||'').trim();
+ if(!newToken){toast('Введите GitHub-токен');return}
+ const shouldRemember=$('rememberBrowser').checked;
+ const pass=$('newVaultPassword').value,confirmPass=$('confirmVaultPassword').value;
+ if(shouldRemember&&(pass.length<12||pass!==confirmPass)){
+  toast(pass.length<12?'Пароль должен быть не короче 12 символов':'Пароли не совпадают');
+  return;
+ }
+ token=newToken;preview=false;
+ const ok=await load();
+ if(!ok){token='';return}
+ $('loginToken').value='';$('connectToken').value='';
+ if(shouldRemember){
+  try{await rememberToken(newToken,pass);toast('Вход настроен: на этом устройстве теперь достаточно пароля')}
+  catch{toast('Вход выполнен, но браузер не смог сохранить зашифрованный токен')}
+ }
+ $('newVaultPassword').value='';$('confirmVaultPassword').value='';
+}
+
 function showConnect(){screen('connect');$('loginMask').classList.add('hide')}
 function visibleWorks(){return works.filter(w=>w.visible!==false)}
 function cleanWorks(){return works.map(w=>{const c={};for(const key of ['id','title','cat','img','thumb','photos','page','description','size','visible'])if(w[key]!==undefined)c[key]=w[key];return c})}
@@ -220,11 +286,21 @@ async function exportZip(){
  try{const {files}=await prepare(),zip=zipFiles(files),url=URL.createObjectURL(zip),a=document.createElement('a');a.href=url;a.download='zykina-art-update-'+new Date().toISOString().slice(0,10)+'.zip';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);toast('ZIP создан. Распакуйте его в корне сайта www/zykina-art.ru (после резервного копирования).')}
  catch(e){toast('ZIP не создан: '+e.message)}finally{busyState(false);$('pendingText').textContent='Есть несохранённые изменения'}
 }
+$('rememberBrowser').addEventListener('change',()=>$('newPassFields').classList.toggle('hide',!$('rememberBrowser').checked));
+$('unlockBtn').addEventListener('click',unlockVault);
+$('vaultPassword').addEventListener('keydown',e=>{if(e.key==='Enter')unlockVault()});
+$('showTokenBtn').addEventListener('click',()=>{$('vaultLogin').classList.add('hide');$('tokenLogin').classList.remove('hide');$('loginToken').focus()});
+$('forgetVaultBtn').addEventListener('click',()=>{
+ if(!window.confirm('Удалить сохранённый зашифрованный ключ на этом устройстве? Для следующего входа потребуется GitHub-токен.'))return;
+ try{localStorage.removeItem(VAULT_KEY)}catch{}
+ token='';$('vaultPassword').value='';$('rememberBrowser').checked=false;
+ displayLoginView();toast('Сохранённый вход удалён на этом устройстве');
+});
 $('loginBtn').addEventListener('click',()=>login($('loginToken').value));
 $('loginToken').addEventListener('keydown',e=>{if(e.key==='Enter')login($('loginToken').value)});
 $('previewBtn').addEventListener('click',()=>{token='';preview=true;load()});
 $('connectBtn').addEventListener('click',()=>login($('connectToken').value));
-$('disconnectBtn').addEventListener('click',()=>{token='';$('connStatus').textContent='GitHub отключён';$('publishBtn').disabled=true;toast('Токен удалён из памяти вкладки')});
+$('disconnectBtn').addEventListener('click',()=>{token='';$('connStatus').textContent='GitHub отключён';$('publishBtn').disabled=true;displayLoginView();toast('Вы вышли из админ-панели. Зашифрованный ключ на устройстве сохранён, если вы его включали.')});
 $('navList').addEventListener('click',()=>screen('catalog'));
 $('navCreate').addEventListener('click',newWork);
 $('navConnect').addEventListener('click',showConnect);
@@ -237,4 +313,5 @@ $('detailPhotos').addEventListener('change',e=>{if(!e.target.files.length||!curr
 $('publishBtn').addEventListener('click',publish);
 $('exportBtn').addEventListener('click',exportZip);
 window.addEventListener('beforeunload',e=>{if(dirty&&!busy){e.preventDefault();e.returnValue=''}});
+displayLoginView();
 })();
