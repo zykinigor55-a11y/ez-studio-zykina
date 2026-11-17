@@ -2,12 +2,9 @@ name: Deploy ZYKINA ART to MCHOST
 
 # Publish the live site from GitHub whenever website files change.
 # Credentials must be configured as GitHub Actions secrets, never committed.
+# MCHost now pulls new GitHub commits itself with an existing CRON job.
+# Keep the old FTPS deployment manual-only for diagnostics; it currently rejects credentials.
 on:
-  push:
-    branches: [main]
-    paths:
-      - "public/**"
-      - ".github/workflows/mchost-deploy.yml"
   workflow_dispatch:
     inputs:
       dry_run:
