@@ -32,11 +32,49 @@
 .analytics-number{font:500 21px/1 'Manrope',Arial,sans-serif;text-align:right;color:#f0d6b7}
 .analytics-empty{border:1px dashed #765c43;background:#241d18;border-radius:12px;padding:25px 20px;color:#c9b39c}
 @media(max-width:700px){.analytics-kpis{gap:8px;grid-template-columns:1fr 1fr}.analytics-kpis .card:last-child{grid-column:1/-1}.analytics-kpis .card{padding:13px}.analytics-kpis .card>strong{font-size:29px}.analytics-row{grid-template-columns:23px 50px minmax(0,1fr) 50px;gap:8px;padding:10px}.analytics-row img{width:50px;height:54px}.analytics-title{font-size:21px}.analytics-bar{grid-column:3/5;width:100%}.analytics-number{font-size:16px}}
+
+/* 2026 ZYKINA ART visitors dashboard */
+.traffic-periods{display:flex;gap:7px;flex-wrap:wrap;margin:27px 0 20px}
+.traffic-period{padding:11px 15px;color:#ccbba8;background:#281f19;border:1px solid #5a4635;border-radius:7px;font:600 11px Manrope,Arial,sans-serif}
+.traffic-period:hover,.traffic-period:focus-visible,.traffic-period.is-active{background:#cfb08b;color:#231a12;border-color:#cfb08b}
+.traffic-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.traffic-summary .card{padding:20px 17px;min-width:0}
+.traffic-summary .card>span{display:block;color:#bda489;font:600 10px Manrope,sans-serif;letter-spacing:.09em;text-transform:uppercase}
+.traffic-summary .card>span small{color:#ae9783;letter-spacing:normal;text-transform:none}
+.traffic-summary .card>strong{display:block;color:#f3ddbc;font:400 clamp(36px,4vw,55px)/1 'Cormorant Garamond',Georgia,serif;margin:13px 0 9px;font-variant-numeric:tabular-nums}
+.traffic-summary .card>small{color:#9c8976;font:400 10px/1.4 Manrope,sans-serif}
+.traffic-status{color:#bdaa95;font:400 11px Manrope,sans-serif;min-height:19px;margin:17px 0}
+.traffic-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0 24px}
+.traffic-panel{padding:24px 22px!important;min-width:0}
+.traffic-panel-wide{grid-column:1/-1}
+.traffic-head{display:flex;align-items:baseline;justify-content:space-between;gap:18px;border-bottom:1px solid #584535;padding-bottom:15px;margin-bottom:18px}
+.traffic-head h3{font-size:clamp(25px,2.5vw,32px);margin:0}
+.traffic-head>span{color:#aa917a;letter-spacing:.09em;text-transform:uppercase;font:600 9px Manrope,sans-serif;white-space:nowrap}
+.traffic-trend{display:grid;grid-template-columns:repeat(auto-fit,minmax(13px,1fr));gap:4px;align-items:end;height:180px;padding:8px 0 24px;border-bottom:1px solid #49382e}
+.traffic-trend-col{height:100%;position:relative;display:flex;flex-direction:column;justify-content:end;align-items:stretch;min-width:0}
+.traffic-trend-bar{background:linear-gradient(0deg,#86603e,#ddbc90);width:100%;min-height:2px;border-radius:3px 3px 0 0;transition:filter .2s}
+.traffic-trend-col:hover .traffic-trend-bar{filter:brightness(1.2)}
+.traffic-trend-col span{position:absolute;top:calc(100% + 4px);left:50%;transform:translateX(-50%);color:#aa927c;font-size:9px}
+.traffic-list{display:grid;gap:9px;min-height:38px}
+.traffic-list-item{display:grid;grid-template-columns: minmax(0,1fr) auto;gap:8px 15px;align-items:center}
+.traffic-item-name{color:#edd9c3;font:500 12px/1.45 Manrope,sans-serif;overflow-wrap:anywhere}
+.traffic-item-number{color:#e9c99e;font:600 13px Manrope,sans-serif;font-variant-numeric:tabular-nums}
+.traffic-list-track{grid-column:1/-1;height:4px;background:#48362b;border-radius:5px;overflow:hidden}
+.traffic-list-track>i{display:block;height:100%;background:#c59c70;border-radius:5px}
+.traffic-muted{color:#978370;font-size:12px}
+.traffic-hint{font-size:10px;line-height:1.6;color:#a7917e;margin:14px 0 0}
+.traffic-event-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.traffic-event-grid>div{padding:15px;background:#17120f;border:1px solid #4e3b2d;border-radius:9px}
+.traffic-event-grid strong{display:block;color:#ebc69a;font:400 36px/1 'Cormorant Garamond',Georgia,serif}
+.traffic-event-grid span{display:block;color:#b7a28c;font-size:10px;line-height:1.5;margin-top:6px}
+.traffic-notes{border-top:1px solid #4c3b2f;padding-top:15px;margin-bottom:18px}
+@media(max-width:900px){.traffic-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.traffic-board{grid-template-columns:1fr}.traffic-event-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:550px){.traffic-summary .card{padding:16px 12px}.traffic-summary .card>span{font-size:9px}.traffic-summary .card>strong{font-size:35px}.traffic-panel{padding:17px 15px!important}.traffic-trend{height:145px}.traffic-period{font-size:10px;padding:9px 10px}}
 </style>
 </head>
 <body>
 <div class="layout">
-<aside class="side"><div class="logo">ZYKINA ART<small>PRIVATE MANAGEMENT</small></div><nav><button class="navitem active" id="navList">01 · Каталог работ</button><button class="navitem" id="navCreate">02 · Новая картина</button><button class="navitem" id="navConnect">03 · Подключение</button><button class="navitem" id="navAnalytics">04 · Аналитика картин</button></nav><div class="sidefooter">СТУДИЯ ЕКАТЕРИНЫ ЗЫКИНОЙ<br>© 2026 · РЕДАКТОР КАТАЛОГА</div></aside>
+<aside class="side"><div class="logo">ZYKINA ART<small>PRIVATE MANAGEMENT</small></div><nav><button class="navitem active" id="navList">01 · Каталог работ</button><button class="navitem" id="navCreate">02 · Новая картина</button><button class="navitem" id="navConnect">03 · Подключение</button><button class="navitem" id="navVisitors">04 · Посещаемость сайта</button><button class="navitem" id="navAnalytics">05 · Аналитика картин</button></nav><div class="sidefooter">СТУДИЯ ЕКАТЕРИНЫ ЗЫКИНОЙ<br>© 2026 · РЕДАКТОР КАТАЛОГА</div></aside>
 <main class="main">
 <div class="top"><div><div class="eyebrow">ZYKINA ART / СОДЕРЖИМОЕ</div><h1>Управление галереей</h1><div class="sub">Добавляйте работы, меняйте описания, фотографии и порядок картин.</div></div><div class="status" id="connStatus">Не подключено к GitHub</div></div>
 <div class="banner"><strong>Публикация:</strong> изменения сохраняются в GitHub, а настроенная синхронизация MCHost проверяет обновления каждые 5 минут. Если публикация задерживается, проверьте журнал синхронизации.</div>
@@ -44,6 +82,34 @@
 <div class="kpi"><div class="card"><span>Все картины</span><strong id="countAll">—</strong></div><div class="card"><span>В каталоге</span><strong id="countShown">—</strong></div><div class="card"><span>Скрыты</span><strong id="countHidden">—</strong></div></div>
 <div class="sectionTop"><div><h2>Произведения</h2><p>Порядок карточек соответствует порядку на сайте</p></div><button id="newArtwork" class="btn btn-primary">+ Добавить картину</button></div>
 <div class="worklist" id="workList"><div class="empty">Подключите GitHub для загрузки каталога</div></div>
+</div>
+
+<div id="visitorsView" class="hide">
+ <div class="sectionTop"><div><div class="eyebrow">ZYKINA ART / СТАТИСТИКА</div><h2>Посещаемость сайта</h2><p>Все посетители сайта, просмотры страниц, города и активность</p></div><button id="siteStatsRefresh" class="btn outline" type="button">↻ Обновить данные</button></div>
+ <div class="traffic-periods" role="group" aria-label="Период статистики">
+  <button type="button" class="traffic-period" data-site-period="1" aria-pressed="false">Сегодня</button>
+  <button type="button" class="traffic-period" data-site-period="7" aria-pressed="false">7 дней</button>
+  <button type="button" class="traffic-period is-active" data-site-period="30" aria-pressed="true">30 дней</button>
+  <button type="button" class="traffic-period" data-site-period="90" aria-pressed="false">90 дней</button>
+  <button type="button" class="traffic-period" data-site-period="0" aria-pressed="false">Всё время</button>
+ </div>
+ <div class="traffic-summary">
+  <div class="card"><span>Посетители <small>(оценка)</small></span><strong id="trafficVisitors">—</strong><small>Отдельные браузерные сеансы</small></div>
+  <div class="card"><span>Визиты по дням</span><strong id="trafficVisits">—</strong><small>Повторный визит в другой день</small></div>
+  <div class="card"><span>Просмотры страниц</span><strong id="trafficPageViews">—</strong><small>Все открытые страницы</small></div>
+  <div class="card"><span>Страниц за визит</span><strong id="trafficPagesPerVisit">—</strong><small>Среднее значение</small></div>
+ </div>
+ <p id="trafficStatus" class="traffic-status" role="status">Загрузка отчёта…</p>
+ <div class="traffic-board">
+  <section class="card traffic-panel traffic-panel-wide"><div class="traffic-head"><h3>Динамика посещаемости</h3><span>По дням</span></div><div id="trafficTrend" class="traffic-trend"></div></section>
+  <section class="card traffic-panel"><div class="traffic-head"><h3>Города посетителей</h3><span>По числу визитов</span></div><div id="trafficCities" class="traffic-list"></div><p class="traffic-hint">Город приблизителен: при VPN, мобильных сетях или отсутствии геоданных может быть «Не определён».</p></section>
+  <section class="card traffic-panel"><div class="traffic-head"><h3>Страны</h3><span>По визитам</span></div><div id="trafficCountries" class="traffic-list"></div></section>
+  <section class="card traffic-panel"><div class="traffic-head"><h3>Источники переходов</h3><span>Как нашли сайт</span></div><div id="trafficSources" class="traffic-list"></div></section>
+  <section class="card traffic-panel"><div class="traffic-head"><h3>Устройства</h3><span>Телефон / компьютер</span></div><div id="trafficDevices" class="traffic-list"></div></section>
+  <section class="card traffic-panel traffic-panel-wide"><div class="traffic-head"><h3>Самые посещаемые страницы</h3><span>Просмотры</span></div><div id="trafficTopPages" class="traffic-list"></div></section>
+  <section class="card traffic-panel traffic-panel-wide"><div class="traffic-head"><h3>Интерес к искусству</h3><span>Действия пользователей</span></div><div id="trafficEvents" class="traffic-event-grid"></div></section>
+ </div>
+ <div class="note traffic-notes">Статистика собирается с момента включения счётчика и не показывает прошлые визиты. Посетители — оценка по анонимным сеансам браузеров, не точное число людей. Данные о городе и источнике могут быть неполными. IP-адреса в таблицы аналитики не сохраняются.</div>
 </div>
 <div id="analyticsView" class="hide">
 <div class="sectionTop"><div><h2>Популярность картин</h2><p>Рейтинг открытий работ на сайте · время Москва</p></div><button id="analyticsRefresh" class="btn outline" type="button">↻ Обновить статистику</button></div>
@@ -119,5 +185,5 @@
 </div>
 </div></div>
 <div id="toast" class="toast hide" role="status"></div>
-<script src="./app.js?v=20261118-analytics" defer></script>
+<script src="./app.js?v=20261118-traffic2" defer></script>
 </body></html>
