@@ -1,0 +1,70 @@
+name: ZYKINA ART - Luxury VK V3 narrated film
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'marketing/videos/zykina-art/build_vk_luxury_v3.py'
+      - '.github/workflows/build-zykina-vk-luxury-v3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: zykina-vk-v3
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install video and image dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-lato fonts-noto-core
+          python -m pip install -q Pillow numpy opencv-python-headless
+      - name: Render film with authentic interior photos
+        run: |
+          python marketing/videos/zykina-art/build_vk_luxury_v3.py \
+            --outdir /tmp/zykina-v3 --width 1080 --height 1920 --fps 25
+          test -s /tmp/zykina-v3/ZYKINA_ART_LUXURY_v3_NO_VOICE.mp4
+      - name: Download authorized standard female narration for draft
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 2 --connect-timeout 20 --max-time 180 \
+            'https://resource2.heygen.ai/text_to_speech/12e4ce1f5c8f45c9b4d065e0cce8e209/86c8273fd10b407092f725aa3d9ebb4a/id=10cd1b01f7774e518e0080874cdec138.mp3' \
+            --output /tmp/zykina-v3/narration.mp3
+          test "$(stat -c%s /tmp/zykina-v3/narration.mp3)" -gt 15000
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 /tmp/zykina-v3/narration.mp3
+      - name: Mix narration with original cinematic music
+        run: |
+          mkdir -p public/videos
+          ffmpeg -hide_banner -loglevel warning -y \
+            -i /tmp/zykina-v3/ZYKINA_ART_LUXURY_v3_NO_VOICE.mp4 \
+            -i /tmp/zykina-v3/narration.mp3 \
+            -filter_complex "[0:a]volume=0.23,afade=t=in:st=0:d=0.7,afade=t=out:st=28:d=2[m];[1:a]atempo=1.12,adelay=600|600,volume=1.0,afade=t=in:st=0.6:d=0.4,afade=t=out:st=27:d=1.3[n];[m][n]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.91[a]" \
+            -map 0:v -map '[a]' -c:v copy -c:a aac -b:a 160k \
+            -t 30 -movflags +faststart public/videos/zykina-art-premium-v3.mp4
+          test -s public/videos/zykina-art-premium-v3.mp4
+          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 public/videos/zykina-art-premium-v3.mp4
+      - name: Upload 30-second MP4 as an Actions artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZYKINA-ART-LUXURY-V3-VOICE
+          path: public/videos/zykina-art-premium-v3.mp4
+          retention-days: 14
+          compression-level: 0
+      - name: Publish MP4 at a normal site link
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/videos/zykina-art-premium-v3.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m "video: publish ZYKINA ART Luxury V3 with licensed original score and synthetic narration"
+            git push
+          fi
