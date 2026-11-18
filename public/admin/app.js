@@ -49,9 +49,28 @@ function showPreview(){
   $('detailPreviews').innerHTML='';
   const entries=(draft.photos||[]).slice(1).map(p=>({url:fileURL(p)})).concat((p.extras||[]).map(file=>({url:URL.createObjectURL(file)})));
   for(const entry of entries){const image=document.createElement('img');image.src=entry.url;image.alt='Фрагмент картины';$('detailPreviews').append(image)}
-  $('interiorPreviews').innerHTML='';
-  const interiors=(draft.interiors||[]).map(path=>({url:assetLink(path)})).concat((p.interiors||[]).map(file=>({url:localPreviewURL(file)})));
-  for(const entry of interiors){const img=document.createElement('img');img.className='interiors-photo';img.src=entry.url;img.alt='Фото картины в интерьере';$('interiorPreviews').append(img)}
+  $('interiorPreviews').replaceChildren();
+  const interiors=(draft.interiors||[]).map((path,index)=>({url:assetLink(path),index,saved:true}))
+    .concat((p.interiors||[]).map((file,index)=>({url:localPreviewURL(file),index,saved:false})));
+  for(const entry of interiors){
+    const thumb=document.createElement('div');thumb.className='interior-thumb';
+    const image=document.createElement('img');image.className='interiors-photo';image.src=entry.url;image.alt='Фото картины в интерьере';
+    const remove=document.createElement('button');remove.type='button';remove.className='interior-thumb-remove';
+    remove.textContent='×';remove.title='Удалить интерьер';remove.setAttribute('aria-label','Удалить интерьерное фото '+(entry.index+1));
+    remove.addEventListener('click',()=>{
+      if(entry.saved){
+        if(!window.confirm('Удалить это фото из раздела «В интерьере»? После сохранения в GitHub оно исчезнет с сайта.'))return;
+        draft.interiors.splice(entry.index,1);
+      }else{
+        const upload=pending.get(current);
+        if(upload&&upload.interiors)upload.interiors.splice(entry.index,1);
+        $('interiorPhotos').value='';
+      }
+      showPreview();
+      toast('Фото убрано из карточки. Нажмите «Сохранить в подборке», затем «Сохранить в GitHub».');
+    });
+    thumb.append(image,remove);$('interiorPreviews').append(thumb);
+  }
   const video=$('videoPreview'),source=p.video?localPreviewURL(p.video):draft.videoFile?assetLink(draft.videoFile):'';
   if(source){if(video.getAttribute('src')!==source){video.pause();video.src=source}video.classList.remove('hide')}
   else{video.pause();video.removeAttribute('src');video.load();video.classList.add('hide')}
@@ -95,11 +114,11 @@ async function loadText(path){const doc=await request('/contents/'+path.split('/
 async function load(){
  busyState(true);
  try{
-  const ps=['public/assets/catalog/manifest.json','public/index.html','public/kartiny/index.html','public/sitemap.xml','public/assets/catalog/video-links.json','public/assets/catalog/interior-media.json'];
-  const out=await Promise.all(ps.map(p=>loadText(p).catch(e=>{if(p==='public/sitemap.xml')return '';if((p.endsWith('video-links.json')||p.endsWith('interior-media.json'))&&/404/.test(String(e)))return '{}';throw e})));
+  const ps=['public/assets/catalog/manifest.json','public/index.html','public/kartiny/index.html','public/sitemap.xml','public/assets/catalog/video-links.json','public/assets/catalog/interior-media.json','public/kartiny-v-interere/index.html'];
+  const out=await Promise.all(ps.map(p=>loadText(p).catch(e=>{if(p==='public/sitemap.xml')return '';if(p==='public/kartiny-v-interere/index.html'&&/404/.test(String(e)))return '';if((p.endsWith('video-links.json')||p.endsWith('interior-media.json'))&&/404/.test(String(e)))return '{}';throw e})));
   const videoLinks=JSON.parse(out[4]||'{}'),mediaLinks=JSON.parse(out[5]||'{}');
   if(!videoLinks||Array.isArray(videoLinks)||typeof videoLinks!=='object'||!mediaLinks||Array.isArray(mediaLinks)||typeof mediaLinks!=='object')throw Error('Некорректные данные галереи');
-  originals={manifest:out[0],index:out[1],catalog:out[2],sitemap:out[3],videoLinks:out[4],interiorMedia:out[5]};
+  originals={manifest:out[0],index:out[1],catalog:out[2],sitemap:out[3],videoLinks:out[4],interiorMedia:out[5],interiorsPage:out[6]};
   works=JSON.parse(out[0]).map(w=>{
     const item=mediaLinks[w.id]||{};
     return Object.assign({visible:true,description:'',size:''},w,{videoUrl:videoLinks[w.id]||w.videoUrl||'',interiors:Array.isArray(item.photos)?item.photos:(w.interiors||[]),videoFile:item.video||w.videoFile||''});
@@ -198,6 +217,32 @@ function buildCatalog(ws){
   html=html.replace(ldRegex,'<script type="application/ld+json">'+JSON.stringify(ld).replace(/</g,'\\u003c')+'</script>');
   return html;
 }
+
+function buildInteriorsPage(ws){
+ if(!originals.interiorsPage)return null;
+ const list=[];
+ for(const w of ws){if(w.visible===false)continue;(w.interiors||[]).forEach((path,index)=>{if(path)list.push({w,path,index})});}
+ const card=({w,path,index})=>
+ '<a class="zi-work" href="/'+esc(w.page)+'" aria-label="'+esc(w.title)+' — открыть страницу картины">'+
+ '<span class="zi-work-image"><img src="'+assetLink(esc(path))+'" loading="lazy" decoding="async" alt="'+esc(w.title)+' — '+(index?'другой ракурс интерьера':'картина в интерьере')+'"></span>'+
+ '<span class="zi-work-label"><strong>'+esc(w.title)+'</strong><span>'+(index?'Дополнительный вид':'Смотреть работу')+' ↗</span></span></a>';
+ let html=originals.interiorsPage;
+ const grid=/<div class="zi-page-grid">[\s\S]*?<\/div><\/section>/;
+ if(!grid.test(html))throw Error('Не найдена галерея интерьеров для обновления.');
+ html=html.replace(grid,'<div class="zi-page-grid">'+(list.length?list.map(card).join('\n'):'<p>Интерьерные композиции скоро появятся.</p>')+'</div></section>');
+ html=html.replace(/<p>\d+ интерьерных композиций<\/p>/,'<p>'+list.length+' интерьерных композиций</p>');
+ if(list.length){
+  const first=list[0];
+  html=html.replace(/(<section class="zi-page-feature"[^>]*><img src=")[^"]*(" alt=")[^"]*"/,
+   (_,a,b)=>a+assetLink(esc(first.path))+b+esc(first.w.title)+' — пример картины в интерьере"');
+  html=html.replace(/(<meta property="og:image" content=")[^"]*"/,
+   (_,a)=>a+'https://zykina-art.ru'+assetLink(esc(first.path))+'"');
+ }else{
+  html=html.replace(/<section class="zi-page-feature"[\s\S]*?<\/section>/,'');
+ }
+ return html;
+}
+
 function pageHTML(w){
  const cat=CATS[w.cat]||'Авторская картина',title=esc(w.title),desc=esc(w.description||('«'+w.title+'» — авторская работа Екатерины Зыкиной. Фотографии и детали.')),url='https://zykina-art.ru/'+w.page;
  const photos=(w.photos&&w.photos.length?w.photos:[w.img]).map(p=>'/assets/'+esc(p));
@@ -286,6 +331,7 @@ async function prepare(){
  files.set('public/assets/catalog/video-links.json',utf8(JSON.stringify(videoLinks,null,2)+'\n'));
  files.set('public/assets/catalog/interior-media.json',utf8(JSON.stringify(interiorMedia,null,2)+'\n'));
  files.set('public/assets/catalog/manifest.json',utf8(JSON.stringify(serialized,null,2)+'\n'));
+ const archive=buildInteriorsPage(staged);if(archive)files.set('public/kartiny-v-interere/index.html',utf8(archive));
  files.set('public/index.html',utf8(buildHome(show)));
  files.set('public/kartiny/index.html',utf8(buildCatalog(show)));
  for(const id of touched){const w=staged.find(w=>w.id===id);if(w)files.set('public/'+w.page+'index.html',utf8(pageHTML(w)))}
@@ -307,7 +353,7 @@ async function publish(){
   const tree=await request('/git/trees','POST',{base_tree:oldCommit.tree.sha,tree:items});
   const newCommit=await request('/git/commits','POST',{message:'ZYKINA ART: update artwork catalog via admin panel',tree:tree.sha,parents:[ref.object.sha]});
   await request('/git/refs/heads/'+BRANCH,'PATCH',{sha:newCommit.sha,force:false});
-  works=built.staged;originals.videoLinks=new TextDecoder().decode(built.files.get('public/assets/catalog/video-links.json'));originals.interiorMedia=new TextDecoder().decode(built.files.get('public/assets/catalog/interior-media.json'));originals.manifest=new TextDecoder().decode(built.files.get('public/assets/catalog/manifest.json'));originals.index=new TextDecoder().decode(built.files.get('public/index.html'));originals.catalog=new TextDecoder().decode(built.files.get('public/kartiny/index.html'));if(built.files.has('public/sitemap.xml'))originals.sitemap=new TextDecoder().decode(built.files.get('public/sitemap.xml'));
+  works=built.staged;originals.videoLinks=new TextDecoder().decode(built.files.get('public/assets/catalog/video-links.json'));originals.interiorMedia=new TextDecoder().decode(built.files.get('public/assets/catalog/interior-media.json'));originals.manifest=new TextDecoder().decode(built.files.get('public/assets/catalog/manifest.json'));originals.index=new TextDecoder().decode(built.files.get('public/index.html'));originals.catalog=new TextDecoder().decode(built.files.get('public/kartiny/index.html'));if(built.files.has('public/kartiny-v-interere/index.html'))originals.interiorsPage=new TextDecoder().decode(built.files.get('public/kartiny-v-interere/index.html'));if(built.files.has('public/sitemap.xml'))originals.sitemap=new TextDecoder().decode(built.files.get('public/sitemap.xml'));
   resetDirty();renderList();toast('Готово! Картины сохранены в GitHub. Для появления на основном сайте необходима синхронизация MCHost.');
  }catch(e){toast('Не удалось сохранить: '+e.message)}finally{busyState(false);if(dirty)$('pendingText').textContent='Изменения ещё не сохранены'}
 }
