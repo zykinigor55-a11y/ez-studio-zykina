@@ -95,12 +95,12 @@ class SceneAssets:
        outtext(d,(W//2,int(H*.612)),'ART',font(W*.108,'serif'),GOLD,anchor='mt')
        d.line((int(W*.25),int(H*.71),int(W*.75),int(H*.71)),fill=(*GOLD,165),width=2)
        outtext(d,(W//2,int(H*.73)),'Авторское искусство для интерьера',font(W*.026,'sans'),LIGHT,anchor='mt')
-       outtext(d,(W//2,int(H*.798)),'СМОТРЕТЬ КОЛЛЕКЦИЮ',font(W*.028,'bold'),(28,23,18),anchor='mt',stroke_width=0)
+       outtext(d,(W//2,int(H*.798)),'ПОДПИСАТЬСЯ',font(W*.028,'bold'),(28,23,18),anchor='mt',stroke_width=0)
        # Gold CTA pill.
        x1=int(W*.18);x2=int(W*.82);y1=int(H*.782);y2=int(H*.844)
        d.rounded_rectangle((x1,y1,x2,y2),radius=16,fill=(*GOLD,245))
-       outtext(d,(W//2,(y1+y2)//2),'СМОТРЕТЬ КОЛЛЕКЦИЮ',font(W*.023,'bold'),(29,22,15),anchor='mm')
-       outtext(d,(W//2,int(H*.873)),'zykina-art.ru',font(W*.035,'sans'),LIGHT,anchor='mt')
+       outtext(d,(W//2,(y1+y2)//2),'ПОДПИСАТЬСЯ',font(W*.023,'bold'),(29,22,15),anchor='mm')
+       outtext(d,(W//2,int(H*.873)),'vk.ru/club243380288',font(W*.035,'sans'),LIGHT,anchor='mt')
        return out.convert('RGB')
 
     # Foreground: preserved art with restrained Ken Burns camera movement.
@@ -132,7 +132,7 @@ class SceneAssets:
        d.ellipse((cx-4,cy-4,cx+4,cy+4),fill=(*GOLD,245))
        d.line((cx,cy, cx+int((tx-cx)*phase),cy+int((ty2-cy)*phase)),fill=(*GOLD,int(190*phase)),width=2)
        d.rounded_rectangle((int(W*.61),ty2-21,int(W*.96),ty2+19),radius=5,fill=(24,19,17,int(185*phase)))
-       outtext(d,(int(W*.626),ty2-14),'01  /  ART DETAIL',font(W*.016,'bold'),(*LIGHT,int(235*phase)))
+       outtext(d,(int(W*.626),ty2-14),'01  /  ФАКТУРА',font(W*.016,'bold'),(*LIGHT,int(235*phase)))
     else:
       # Intro editorial typography. Kept large and phone-readable.
       z=ease((t-.1)/.85)
