@@ -3,7 +3,7 @@
 (function(){
 const OWNER='zykinigor55-a11y', REPO='ez-studio-zykina', BRANCH='main';
 const ROOT='https://api.github.com/repos/'+OWNER+'/'+REPO;
-const ASSETS='https://zykina-art.ru/assets/';
+const ASSETS='/assets/';
 const CATS={plastic:'Пластика',abstract:'Абстракция',images:'Образы',stories:'Истории'};
 const VIDEO_MAX_BYTES=25*1024*1024;
 const previewUrlCache=new WeakMap();
@@ -16,17 +16,69 @@ const numberOf=w=>Number(String(w.id||'').replace(/^art-/,''))||0;
 const fileURL=p=>ASSETS+(p||'');
 const shortText=s=>String(s||'').trim();
 function toast(s){$('toast').textContent=s;$('toast').classList.remove('hide');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.add('hide'),5500)}
-function screen(name){for(const id of ['catalogView','editorView','connectView'])$(id).classList.toggle('hide',id!==name+'View');$('navList').classList.toggle('active',name==='catalog');$('navCreate').classList.toggle('active',name==='editor');$('navConnect').classList.toggle('active',name==='connect')}
+function screen(name){for(const id of ['catalogView','editorView','connectView','analyticsView'])$(id).classList.toggle('hide',id!==name+'View');$('navList').classList.toggle('active',name==='catalog');$('navCreate').classList.toggle('active',name==='editor');$('navConnect').classList.toggle('active',name==='connect');$('navAnalytics').classList.toggle('active',name==='analytics')}
 function busyState(b){busy=b;$('publishBtn').disabled=b||!token;$('exportBtn').disabled=b;$('saveArtwork').disabled=b;$('loginBtn').disabled=b;$('connectBtn').disabled=b;}
 function markDirty(){dirty=true;$('saveBar').classList.remove('hide');$('pendingText').textContent='Есть несохранённые изменения · '+works.length+' работ';$('publishBtn').disabled=!token;renderStats()}
 function resetDirty(){dirty=false;$('saveBar').classList.add('hide');pending.clear();touched.clear()}
 function renderStats(){$('countAll').textContent=works.length;$('countShown').textContent=works.filter(w=>w.visible!==false).length;$('countHidden').textContent=works.filter(w=>w.visible===false).length}
+
+/* Popularity dashboard; read only after admin GitHub login. */
+const STATS_URL='https://lxwqpoakdsbpshfyfqih.supabase.co/functions/v1/zykina-art-analytics';
+let statsRows=[],statsPeriod='month',statsLoaded=false;
+const statsColumns={today:'today_views',week:'week_views',month:'month_views',all:'total_views'};
+const viewFmt=n=>new Intl.NumberFormat('ru-RU').format(n);
+function setupArtworkThumbFallback(img,path){
+ const relative=String(path||'').replace(/^\/?(?:assets\/)?/,'');
+ const origins=[location.origin,'https://ez-studio-zykina.onrender.com','https://zykina-art.ru'];
+ let i=0;
+ img.onerror=()=>{i++;if(i<origins.length)img.src=origins[i]+'/assets/'+relative;else{img.onerror=null;img.alt='Изображение временно недоступно';}};
+ img.src=origins[0]+'/assets/'+relative;
+}
+function renderStatsBoard(){
+ const col=statsColumns[statsPeriod]||statsColumns.month;
+ const counts=new Map(statsRows.map(x=>[x.artwork_id,x]));
+ const items=works.map(w=>({w,count:Math.max(0,Number(counts.get(w.id)?.[col])||0)})).sort((a,b)=>b.count-a.count);
+ const total=items.reduce((a,r)=>a+r.count,0),top=items.find(x=>x.count>0),max=Math.max(1,...items.map(x=>x.count));
+ $('analyticsTotal').textContent=viewFmt(total);
+ $('analyticsTop').textContent=top?.w.title||'Пока нет';
+ $('analyticsWorks').textContent=viewFmt(items.filter(x=>x.count>0).length);
+ const rank=$('analyticsRank');rank.replaceChildren();
+ if(!items.length){const empty=document.createElement('div');empty.className='analytics-empty';empty.textContent='Каталог ещё не загружен. Войдите в админку.';rank.append(empty);return;}
+ for(let i=0;i<items.length;i++){
+  const {w,count}=items[i],cell=document.createElement('div');cell.className='analytics-row';
+  const pos=document.createElement('span');pos.className='analytics-pos';pos.textContent=String(i+1).padStart(2,'0');
+  const img=document.createElement('img');img.loading='lazy';img.alt=w.title||'Картина';setupArtworkThumbFallback(img,w.thumb||w.img);
+  const title=document.createElement('div');title.className='analytics-title';title.textContent=w.title||'Без названия';
+  const hint=document.createElement('small');hint.className='analytics-id';hint.textContent=(CATS[w.cat]||'Работа')+' · '+w.id;title.append(hint);
+  const bar=document.createElement('div');bar.className='analytics-bar';bar.setAttribute('role','img');bar.setAttribute('aria-label','Просмотров: '+count);
+  const fill=document.createElement('i');fill.style.width=(count/max*100).toFixed(2)+'%';bar.append(fill);
+  const value=document.createElement('strong');value.className='analytics-number';value.textContent=viewFmt(count);
+  cell.append(pos,img,title,bar,value);rank.append(cell);
+ }
+}
+async function fetchArtworkStats(){
+ $('analyticsStatus').textContent='Загрузка просмотров…';$('analyticsRefresh').disabled=true;
+ try{
+  if(!token)throw Error('Для просмотра статистики необходимо войти в GitHub');
+  const r=await fetch(STATS_URL,{headers:{Authorization:'Bearer '+token},credentials:'omit',cache:'no-store'});
+  if(!r.ok)throw Error(r.status===403?'Токен GitHub не имеет доступа к статистике':'Ошибка сервера '+r.status);
+  const body=await r.json();
+  if(!body.ok||!Array.isArray(body.rows))throw Error('Неверный ответ статистики');
+  statsRows=body.rows;statsLoaded=true;renderStatsBoard();
+  $('analyticsStatus').textContent='Обновлено '+new Date().toLocaleString('ru-RU')+' · статистика по московскому времени';
+ }catch(e){
+  $('analyticsStatus').textContent='Не удалось загрузить: '+String(e.message||e);
+  if(!statsLoaded)$('analyticsRank').innerHTML='<div class="analytics-empty">Рейтинг станет доступен после входа и получения данных.</div>';
+ }finally{$('analyticsRefresh').disabled=false;}
+}
+function openArtworkStats(){screen('analytics');if(statsLoaded)renderStatsBoard();fetchArtworkStats();}
+
 function renderList(){
   renderStats();
   $('workList').innerHTML=works.length?'':'<div class="empty">Картины не найдены</div>';
   for(let i=0;i<works.length;i++){
     const w=works[i],row=document.createElement('div');row.className='work'+(w.visible===false?' dim':'');
-    const img=document.createElement('img');img.src=fileURL(w.thumb||w.img);img.alt='';img.loading='lazy';
+    const img=document.createElement('img');img.alt=w.title||'Картина';img.loading='lazy';setupArtworkThumbFallback(img,w.thumb||w.img);
     const meta=document.createElement('div');meta.innerHTML='<h4>'+esc(w.title||'Без названия')+'</h4><small>'+esc(CATS[w.cat]||'Категория')+' · '+esc(w.id||'')+'</small>'+(w.visible===false?'<span class="tag">Скрыта из каталога</span>':'');
     const actions=document.createElement('div');actions.className='actions';
     const controls=[['↑','Поднять',()=>move(i,-1)],['↓','Опустить',()=>move(i,1)],['✎','Редактировать',()=>edit(w.id)],[(w.visible===false?'◉':'◌'),(w.visible===false?'Показать':'Скрыть из каталога'),()=>toggle(w.id)]];
@@ -251,7 +303,7 @@ function pageHTML(w){
  const thumbs=photos.slice(1).map((src,i)=>'<a href="'+src+'" target="_blank" rel="noopener"><img src="'+src+'" alt="'+title+' — деталь '+(i+1)+'" loading="lazy"></a>').join('');
  return '<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="index,follow">'+
  '<title>'+title+' — '+esc(cat)+' | ZYKINA ART</title><meta name="description" content="'+desc+'"><link rel="canonical" href="'+esc(url)+'"><meta property="og:title" content="'+title+' — ZYKINA ART"><meta property="og:description" content="'+desc+'"><meta property="og:type" content="article"><meta property="og:image" content="https://zykina-art.ru'+cover+'"><script type="application/ld+json">'+JSON.stringify(ld).replace(/</g,'\\u003c')+'</script>'+
- '<style>body{margin:0;background:#f4f0e9;color:#44352b;font:16px/1.75 Arial,sans-serif}main{max-width:1000px;margin:30px auto;padding:0 24px}a{color:inherit}header{display:flex;flex-wrap:wrap;gap:24px;font-size:13px;color:#806c5a}h1{font:400 clamp(44px,7vw,76px)/1.1 Georgia,serif;margin:30px 0}figure{margin:0}figure img{max-width:100%;max-height:86vh;object-fit:contain;margin:auto;display:block}.type{color:#897666;font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-top:55px}.details{display:flex;gap:18px;flex-wrap:wrap;margin:38px 0}.details img{width:180px;height:180px;object-fit:contain;border:1px solid #ddd1c1}.contact{display:inline-block;padding:14px 19px;border:1px solid #655241;text-decoration:none;margin:25px 0 65px}.size{color:#796c60}</style></head><body><main><header><a href="/">ZYKINA ART</a><a href="/kartiny/">Все работы</a></header><p class="type">'+esc(cat)+'</p><h1>'+title+'</h1><figure><img src="'+cover+'" alt="'+title+' — общий вид"></figure><p>'+desc+'</p><div class="details">'+thumbs+'</div><p class="size"><strong>Размер:</strong> '+esc(w.size||'От 40 × 60 до 120 × 100 см, на заказ')+'</p><a class="contact" href="/#order">Обсудить заказ</a></main></body></html>';
+ '<style>body{margin:0;background:#f4f0e9;color:#44352b;font:16px/1.75 Arial,sans-serif}main{max-width:1000px;margin:30px auto;padding:0 24px}a{color:inherit}header{display:flex;flex-wrap:wrap;gap:24px;font-size:13px;color:#806c5a}h1{font:400 clamp(44px,7vw,76px)/1.1 Georgia,serif;margin:30px 0}figure{margin:0}figure img{max-width:100%;max-height:86vh;object-fit:contain;margin:auto;display:block}.type{color:#897666;font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-top:55px}.details{display:flex;gap:18px;flex-wrap:wrap;margin:38px 0}.details img{width:180px;height:180px;object-fit:contain;border:1px solid #ddd1c1}.contact{display:inline-block;padding:14px 19px;border:1px solid #655241;text-decoration:none;margin:25px 0 65px}.size{color:#796c60}</style></head><body><main><header><a href="/">ZYKINA ART</a><a href="/kartiny/">Все работы</a></header><p class="type">'+esc(cat)+'</p><h1>'+title+'</h1><figure><img src="'+cover+'" alt="'+title+' — общий вид"></figure><p>'+desc+'</p><div class="details">'+thumbs+'</div><p class="size"><strong>Размер:</strong> '+esc(w.size||'От 40 × 60 до 120 × 100 см, на заказ')+'</p><a class="contact" href="/#order">Обсудить заказ</a></main><script src="/assets/artwork-view-tracker.js?v=20261118a" data-artwork="'+esc(w.id)+'" defer></script></body></html>';
 }
 function buildSitemap(ws){
  let xml=originals.sitemap||'';
@@ -400,6 +452,13 @@ $('disconnectBtn').addEventListener('click',()=>{token='';$('connStatus').textCo
 $('navList').addEventListener('click',()=>screen('catalog'));
 $('navCreate').addEventListener('click',newWork);
 $('navConnect').addEventListener('click',showConnect);
+$('navAnalytics').addEventListener('click',openArtworkStats);
+$('analyticsRefresh').addEventListener('click',fetchArtworkStats);
+document.querySelectorAll('[data-stat-period]').forEach(button=>button.addEventListener('click',()=>{
+ statsPeriod=button.dataset.statPeriod;
+ document.querySelectorAll('[data-stat-period]').forEach(b=>{const active=b===button;b.classList.toggle('is-active',active);b.setAttribute('aria-pressed',String(active));});
+ if(statsLoaded)renderStatsBoard();
+}));
 $('newArtwork').addEventListener('click',newWork);
 $('cancelEditor').addEventListener('click',()=>screen('catalog'));
 $('discardArtwork').addEventListener('click',()=>screen('catalog'));
