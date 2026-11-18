@@ -50,7 +50,7 @@ const ua=navigator.userAgent||'';
 const DEVICE=/ipad|tablet|playbook|silk/i.test(ua)?'tablet':
  /mobile|iphone|android/i.test(ua)?'mobile':'desktop';
 function siteEvent(event){
- if(!/^(page|art_open|interior|macro|order|contact|gallery)$/.test(String(event))||!/^\/[a-z0-9/-]{0,138}$/.test(PAGE)||/^\/admin(?:\/|$)/.test(PAGE))return;
+ if(!/^(page|art_open|interior|macro|order|contact|gallery)$/.test(String(event))||!/^\/[a-z0-9./-]{0,138}$/.test(PAGE)||/^\/admin(?:\/|$)/.test(PAGE))return;
  try{
    fetch(ENDPOINT,{
      method:'POST',mode:'cors',credentials:'omit',keepalive:true,
