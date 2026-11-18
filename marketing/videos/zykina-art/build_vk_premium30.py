@@ -54,7 +54,7 @@ def outtext(d,at,txt,f,fill,anchor=None,spacing=None,stroke_width=0,stroke_fill=
 
 def fit_foreground(im,W,H,zoom=1.0,offset=0):
     # Always show the COMPLETE original work and furniture scene, preserving proportions.
-    maxw=int(W*.94*zoom);maxh=int(H*.555*zoom)
+    maxw=int(W*.98*zoom);maxh=int(H*.61*zoom)
     ratio=min(maxw/im.width,maxh/im.height)
     dest=(max(1,int(im.width*ratio)),max(1,int(im.height*ratio)))
     return im.resize(dest,Image.Resampling.LANCZOS)
@@ -104,8 +104,8 @@ class SceneAssets:
        return out.convert('RGB')
 
     # Foreground: preserved art with restrained Ken Burns camera movement.
-    photo=fit_foreground(self.fore[k],W,H,zoom=1+.026*ease(p))
-    fx=(W-photo.width)//2+int((p-.5)*W*.015);fy=int(H*.224)-int(p*H*.009)
+    photo=fit_foreground(self.fore[k],W,H,zoom=1+.052*ease(p))
+    fx=(W-photo.width)//2+int((p-.5)*W*.025);fy=int(H*.193)-int(p*H*.015)
     shadow=Image.new('RGBA',(photo.width+28,photo.height+28),(0,0,0,0));sd=ImageDraw.Draw(shadow)
     sd.rectangle((14,14,14+photo.width,14+photo.height),fill=(0,0,0,156))
     shadow=shadow.filter(ImageFilter.GaussianBlur(20));out.alpha_composite(shadow,(fx-14,fy-14))
@@ -132,7 +132,7 @@ class SceneAssets:
        d.ellipse((cx-4,cy-4,cx+4,cy+4),fill=(*GOLD,245))
        d.line((cx,cy, cx+int((tx-cx)*phase),cy+int((ty2-cy)*phase)),fill=(*GOLD,int(190*phase)),width=2)
        d.rounded_rectangle((int(W*.61),ty2-21,int(W*.96),ty2+19),radius=5,fill=(24,19,17,int(185*phase)))
-       outtext(d,(int(W*.626),ty2-14),'01  /  ФАКТУРА',font(W*.016,'bold'),(*LIGHT,int(235*phase)))
+       outtext(d,(int(W*.626),ty2-14),'СВЕТ · ФАКТУРА',font(W*.016,'bold'),(*LIGHT,int(235*phase)))
     else:
       # Intro editorial typography. Kept large and phone-readable.
       z=ease((t-.1)/.85)
@@ -190,9 +190,84 @@ def music(path,seconds=30,sr=44100):
     with wave.open(str(path),'wb') as w:
       w.setnchannels(2);w.setsampwidth(2);w.setframerate(sr);w.writeframes(pcm.tobytes())
 
+
+# Brand-safe art animation: time-varying highlights derived ONLY from original
+# photograph edges; no painting reconstruction, invention or geometry changes.
+PAINT_BBOX=[
+ (270,45,410,250),(162,22,277,188),(175,70,385,192),
+ (269,35,449,202),(129,39,492,232),(145,20,317,270),
+ (0,0,640,400),(270,45,410,250),None]
+class PremiumAssets(SceneAssets):
+ def __init__(self,W,H):
+  super().__init__(W,H);self.edges=[]
+  for k,im in enumerate(self.fore):
+   src=np.asarray(im.convert('RGB'))
+   gray=cv2.cvtColor(src,cv2.COLOR_RGB2GRAY)
+   edge=cv2.Canny(cv2.GaussianBlur(gray,(3,3),.5),55,143).astype('float32')/255
+   area=np.zeros_like(edge)
+   if PAINT_BBOX[k]:
+    x1,y1,x2,y2=PAINT_BBOX[k];area[y1:y2,x1:x2]=edge[y1:y2,x1:x2]
+   self.edges.append(area)
+ def frame(self,k,t):
+  W,H=self.W,self.H;sc=SCENES[k];duration=DUR[k];p=t/duration
+  out=super().frame(k,t).convert('RGBA')
+  if k==8:return out.convert('RGB')
+  photo=fit_foreground(self.fore[k],W,H,zoom=1+.052*ease(p))
+  fw,fh=photo.size;fx=(W-fw)//2+int((p-.5)*W*.025);fy=int(H*.193)-int(p*H*.015)
+  bbox=PAINT_BBOX[k]
+  if bbox:
+   edge=cv2.resize(self.edges[k],(fw,fh),interpolation=cv2.INTER_LINEAR)
+   gx=np.arange(fw,dtype='float32');center=-fw*.13+fw*1.28*ease((p-.12)/.72)
+   band=np.exp(-((gx-center)/(fw*.16))**2)[None,:]
+   fade=max(0.,min(1.,t/.6,(duration-t)/.45))
+   mask=np.clip((edge*.31+cv2.GaussianBlur(edge,(0,0),2)*.26)*band*fade,0,.38)
+   light=np.zeros((fh,fw,4),dtype='uint8')
+   light[:,:,:3]=[255,208,139];light[:,:,3]=(mask*255).astype('uint8')
+   out.alpha_composite(Image.fromarray(light,'RGBA'),(fx,fy))
+  d=ImageDraw.Draw(out,'RGBA')
+  if k in (1,2,3,4,5,7) and bbox:
+   x1,y1,x2,y2=bbox
+   px=int(fx+(x1+(x2-x1)*.46)*fw/self.fore[k].width)
+   py=int(fy+(y1+(y2-y1)*.33)*fh/self.fore[k].height)
+   a=ease((t-.55)/.62)
+   if a:
+    xx=min(W-70,int(px+W*.20*a));yy=max(120,int(py-H*.038*a))
+    line=Image.new('RGBA',(W,H),(0,0,0,0));ld=ImageDraw.Draw(line,'RGBA')
+    ld.line([(px,py),(int(px+W*.052*a),yy),(xx,yy)],fill=(*GOLD,int(222*a)),width=max(2,int(W*.0025)),joint='curve')
+    ld.ellipse((px-5,py-5,px+5,py+5),fill=(*GOLD,int(235*a)))
+    out=Image.alpha_composite(out,line.filter(ImageFilter.GaussianBlur(6)))
+    out=Image.alpha_composite(out,line);d=ImageDraw.Draw(out,'RGBA')
+  if k==2:
+   y=int(H*.60);f=ease((t-.5)/.5)
+   d.rounded_rectangle((int(W*.075),y-48,int(W*.925),y+130),radius=12,fill=(22,16,14,int(197*f)),outline=(*GOLD,int(129*f)),width=1)
+   d.text((int(W*.10),y-36),'ПАЛИТРА ПРОИЗВЕДЕНИЯ',font=font(W*.024,'bold'),fill=(*LIGHT,int(242*f)))
+   for j,(label,color) in enumerate([('СЛИВОЧНЫЙ','#E6DFD0'),('ЗОЛОТО','#B99A60'),('ГРАФИТ','#2F2A26'),('ТАУП','#B7A69A')]):
+    a=ease((t-.68-j*.15)/.35);x=int(W*(.105+j*.204));cy=y+22;r=int(W*.032*a)
+    if r<1:continue
+    d.ellipse((x,cy,x+2*r,cy+2*r),fill=color,outline=(*LIGHT,180),width=2)
+    d.text((x,cy+2*r+14),label,font=font(W*.017,'bold'),fill=(*LIGHT,int(228*a)))
+  if k==6:
+   y=int(H*.60);f=ease((t-.24)/.5)
+   d.rounded_rectangle((int(W*.072),y-48,int(W*.928),y+207),radius=13,fill=(20,15,13,int(206*f)),outline=(*GOLD,int(138*f)),width=2)
+   d.text((int(W*.099),y-34),'ВОЗМОЖНЫЕ МАТЕРИАЛЫ И ТЕХНИКИ',font=font(W*.022,'bold'),fill=(*LIGHT,int(240*f)))
+   for j,name in enumerate(['АКРИЛ','МАСЛО','ГИПС','ТЕКСТУРНАЯ ПАСТА','ТКАНЬ','ПОТАЛЬ']):
+    a=ease((t-.5-j*.11)/.32);x=int(W*(.102+(j%3)*.274));yy=y+18+(j//3)*int(W*.095);ww=int(W*(.16 if len(name)<8 else .25))
+    d.rounded_rectangle((x,yy,x+ww,yy+int(W*.069)),radius=7,fill=(80,59,38,int(205*a)),outline=(*GOLD,int(177*a)),width=1)
+    d.text((x+9,yy+int(W*.019)),name,font=font(W*(.014 if len(name)>9 else .019),'bold'),fill=(*LIGHT,int(238*a)))
+   d.text((int(W*.102),y+185),'Материалы конкретной картины уточняются у автора',font=font(W*.017,'sans'),fill=(*MUTED,int(220*f)))
+  if k==7:
+   y=int(H*.615);f=ease((t-.48)/.6)
+   d.rounded_rectangle((int(W*.080),y-32,int(W*.920),y+117),radius=9,fill=(23,17,14,int(191*f)),outline=(*GOLD,int(115*f)),width=2)
+   d.text((int(W*.103),y-20),'В КАКОМ ИНТЕРЬЕРЕ?',font=font(W*.024,'bold'),fill=(*LIGHT,int(239*f)))
+   for j,name in enumerate(['МИНИМАЛИЗМ','ЛОФТ','КЛАССИКА']):
+    a=ease((t-.6-j*.17)/.31);x=int(W*(.103+j*.27));ww=int(W*.244)
+    d.rounded_rectangle((x,y+33,x+ww,y+int(W*.088)),radius=7,fill=(75,55,39,int(211*a)),outline=(*GOLD,int(165*a)),width=1)
+    d.text((x+8,y+int(W*.05)),name,font=font(W*.017,'bold'),fill=(*LIGHT,int(240*a)))
+  return out.convert('RGB')
+
 def render(outdir,W,H,fps,short=False):
     outdir.mkdir(parents=True,exist_ok=True)
-    assets=SceneAssets(W,H)
+    assets=PremiumAssets(W,H)
     wav=outdir/'ZYKINA_ART_Original_Music.wav';music(wav,seconds=30)
     out=outdir/'ZYKINA_ART_VK_Premium_30s_1080x1920.mp4'
     frames=round((2.6 if short else 30.0)*fps)
