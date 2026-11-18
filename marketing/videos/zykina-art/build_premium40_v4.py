@@ -45,10 +45,12 @@ def interpolate(a,b,p):return a+(b-a)*eas(p)
 
 class Room:
  def __init__(self, path, rect):
-  self.src=rgb(path); self.rect=rect
+  self.src=rgb(path)
+  # Coordinates specified relative to a 640x400 preview; upscale to TRUE source pixels.
+  self.rect=(round(rect[0]*self.src.width/640), round(rect[1]*self.src.height/400), round(rect[2]*self.src.width/640), round(rect[3]*self.src.height/400))
   # The physical canvas bounds come from the original 640x400 gallery photograph.
   orig=np.array(self.src)
-  x1,y1,x2,y2=rect
+  x1,y1,x2,y2=self.rect
   m=np.zeros(orig.shape[:2],np.uint8);m[max(0,y1):y2,max(0,x1):x2]=255
   m=cv2.dilate(m,np.ones((5,5),np.uint8),iterations=1)
   self.wall=cv2.inpaint(orig,m,6,cv2.INPAINT_TELEA)
@@ -164,7 +166,7 @@ SCENES=[
 
 class Video:
  def __init__(self,assets):
-  self.room1=Room(assets/'interiors/2/interior-mwlat1wo-1.webp',(356,34,519,249))
+  self.room1=Room(assets/'interiors/2/interior-mwlat1wo-1.webp',(344,26,516,240))
   self.room2=Room(assets/'interiors/2/interior-mwlahicl-1.webp',(167,31,273,171))
   self.paint=Painting(assets/'картины/2/главная.png')
   self.details=[Detail(assets/'картины/2/детали 1.png'),Detail(assets/'картины/2/детали 2.png')]
