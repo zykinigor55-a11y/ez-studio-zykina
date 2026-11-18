@@ -514,6 +514,7 @@ function viewWork(id){
  currentPhoto=0;currentInterior=0;activeGalleryTab='photos';
  const ix=currentList.findIndex(w=>w.id===id);
  if(ix<0){currentList=works.slice();currentIdx=works.findIndex(w=>w.id===id)}else currentIdx=ix;
+ if(currentIdx>=0)window.ZykinaArtworkStats?.track(currentList[currentIdx].id);
  showLightbox();
 }
 function showLightbox(){
@@ -577,7 +578,7 @@ function stepLightbox(n){
  if(total&&at+n>=0&&at+n<total){
   if(activeGalleryTab==='interior')currentInterior+=n;else currentPhoto+=n;
  }else{
-  currentIdx=(currentIdx+n+currentList.length)%currentList.length;currentPhoto=0;currentInterior=0;activeGalleryTab='photos';
+  currentIdx=(currentIdx+n+currentList.length)%currentList.length;currentPhoto=0;currentInterior=0;activeGalleryTab='photos';window.ZykinaArtworkStats?.track(currentList[currentIdx].id);
  }
  showLightbox()
 }
@@ -640,5 +641,6 @@ window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
 <script src="gallery-refinement.js?v=20261109" defer></script>
 <script src="ez-moon.js?v=5"></script>
 <script src="ez-hero-mobile.js?v=3" defer></script>
+<script src="/assets/artwork-view-tracker.js?v=20261118a" defer></script>
 </body>
 </html>
