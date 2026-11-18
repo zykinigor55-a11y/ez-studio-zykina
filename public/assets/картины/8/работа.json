@@ -2,5 +2,9 @@
   "title": "Джокер",
   "category": "stories",
   "main": "главная.jpg",
-  "thumbnail": "catalog/08.webp"
+  "thumbnail": "catalog/08.webp",
+  "description": "",
+  "size": "От 40 × 60 до 120 × 100 см, на заказ",
+  "video": "",
+  "published": true
 }
