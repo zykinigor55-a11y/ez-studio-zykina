@@ -375,6 +375,15 @@
  .lightbox-media-tabs button[data-gallery-tab="video"]{font-size:12px}
 }
 
+
+/* Invitation for relevant site visitors to follow the VK art community. */
+.vk-follow-strip{margin:clamp(28px,4vw,66px) auto 0;padding:24px clamp(18px,3vw,40px);border-top:1px solid rgba(155,124,92,.4);border-bottom:1px solid rgba(155,124,92,.25);display:flex;justify-content:space-between;align-items:center;gap:24px}
+.vk-follow-eyebrow{display:block;margin:0 0 8px;color:#b99468;font:600 10px/1.5 var(--sans),Arial,sans-serif;letter-spacing:.22em}
+.vk-follow-strip p{max-width:530px;font:400 clamp(16px,1.5vw,21px)/1.5 var(--serif),Georgia,serif;color:inherit;margin:0}
+.vk-follow-strip>a{display:inline-flex;justify-content:center;align-items:center;gap:13px;white-space:nowrap;text-decoration:none;background:#b28d62;border:1px solid #d6b88b;color:#1a120e;padding:15px 24px;min-height:50px;border-radius:8px;font:650 12px/1.2 var(--sans),Arial,sans-serif;transition:background .2s,border-color .2s}
+.vk-follow-strip>a:hover{background:#dfbb8b;border-color:#f1cda0}
+.vk-follow-strip>a:focus-visible{outline:3px solid #eac69c;outline-offset:3px}
+@media(max-width:700px){.vk-follow-strip{flex-direction:column;align-items:stretch;gap:15px;padding:21px 10px;margin-top:30px}.vk-follow-strip p{font-size:21px}.vk-follow-strip>a{width:100%;min-height:52px;font-size:13px}}
 </style></head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -437,6 +446,7 @@
 <section class="gallery-section" id="portfolio"><div class="site-frame"><div class="gallery-intro reveal"><div><div class="section-meta">04 / Авторское собрание</div><h2>Произведения</h2></div><p>Каждая картина представлена подлинной фотографией. Исполнение под заказ: от 40 × 60 до 120 × 100 см. Формат согласовывается индивидуально.</p></div>
  <div class="filters" role="group" aria-label="Фильтр произведений"><button class="filter is-active" type="button" data-filter="all" aria-pressed="true">Все работы</button><button class="filter" type="button" data-filter="plastic">Пластика</button><button class="filter" type="button" data-filter="abstract">Абстракция</button><button class="filter" type="button" data-filter="images">Образы</button><button class="filter" type="button" data-filter="stories">Истории</button></div>
  <div class="art-grid" id="artGrid"></div>
+ <div class="vk-follow-strip"><div><span class="vk-follow-eyebrow">ЗА КУЛИСАМИ ZYKINA ART</span><p>Новые картины, детали фактуры и искусство в интерьере — в нашем сообществе ВКонтакте.</p></div><a href="https://vk.ru/club243380288" target="_blank" rel="noopener noreferrer" aria-label="Подписаться на сообщество ZYKINA ART во ВКонтакте">Подписаться ВКонтакте <span aria-hidden="true">↗</span></a></div>
  </div></section>
 <section class="ez-moon-approved" id="moon" aria-label="Светильник Луна — интерактивный рельеф">
  <div class="ez-moon-scene" id="ezMoonScene" style="--ez-thumb-x:28.85%;--ez-bright-percent:72.5">
