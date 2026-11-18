@@ -16,7 +16,7 @@ const numberOf=w=>Number(String(w.id||'').replace(/^art-/,''))||0;
 const fileURL=p=>ASSETS+(p||'');
 const shortText=s=>String(s||'').trim();
 function toast(s){$('toast').textContent=s;$('toast').classList.remove('hide');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.add('hide'),5500)}
-function screen(name){for(const id of ['catalogView','editorView','connectView','analyticsView'])$(id).classList.toggle('hide',id!==name+'View');$('navList').classList.toggle('active',name==='catalog');$('navCreate').classList.toggle('active',name==='editor');$('navConnect').classList.toggle('active',name==='connect');$('navAnalytics').classList.toggle('active',name==='analytics')}
+function screen(name){for(const id of ['catalogView','editorView','connectView','analyticsView','visitorsView'])$(id).classList.toggle('hide',id!==name+'View');$('navList').classList.toggle('active',name==='catalog');$('navCreate').classList.toggle('active',name==='editor');$('navConnect').classList.toggle('active',name==='connect');$('navAnalytics').classList.toggle('active',name==='analytics');$('navVisitors').classList.toggle('active',name==='visitors')}
 function busyState(b){busy=b;$('publishBtn').disabled=b||!token;$('exportBtn').disabled=b;$('saveArtwork').disabled=b;$('loginBtn').disabled=b;$('connectBtn').disabled=b;}
 function markDirty(){dirty=true;$('saveBar').classList.remove('hide');$('pendingText').textContent='Есть несохранённые изменения · '+works.length+' работ';$('publishBtn').disabled=!token;renderStats()}
 function resetDirty(){dirty=false;$('saveBar').classList.add('hide');pending.clear();touched.clear()}
@@ -72,6 +72,94 @@ async function fetchArtworkStats(){
  }finally{$('analyticsRefresh').disabled=false;}
 }
 function openArtworkStats(){screen('analytics');if(statsLoaded)renderStatsBoard();fetchArtworkStats();}
+
+
+/* Site-wide visitors report: real counters from protected server endpoint. */
+let trafficPeriod=30,trafficReport=null;
+const trafficLabels={direct:'Прямые заходы',search:'Поисковые системы',social:'Социальные сети',referral:'Другие сайты',mobile:'Телефоны',desktop:'Компьютеры',tablet:'Планшеты',other:'Прочие'};
+const trafficNames={
+  art_open:'Открытия картин',gallery:'Просмотр галереи',interior:'Вкладка «В интерьере»',
+  macro:'Макродетали',order:'Переходы к заказу',contact:'Переходы к контактам'
+};
+function trafficN(v){const n=Number(v);return new Intl.NumberFormat('ru-RU').format(Number.isFinite(n)?n:0)}
+function trafficEmpty(id,message){
+ const el=$(id);el.replaceChildren();
+ const empty=document.createElement('p');empty.className='traffic-muted';empty.textContent=message;el.append(empty);
+}
+function trafficRows(id,rows,titleFn,valueFn){
+ const container=$(id);container.replaceChildren();
+ if(!Array.isArray(rows)||!rows.length){trafficEmpty(id,'Данные пока не накоплены');return}
+ const maximum=Math.max(1,...rows.map(r=>Number(valueFn(r))||0));
+ for(const item of rows){
+  const v=Math.max(0,Number(valueFn(item))||0);
+  const line=document.createElement('div');line.className='traffic-list-item';
+  const name=document.createElement('span');name.className='traffic-item-name';name.textContent=String(titleFn(item));
+  const count=document.createElement('strong');count.className='traffic-item-number';count.textContent=trafficN(v);
+  const track=document.createElement('span');track.className='traffic-list-track';
+  const fill=document.createElement('i');fill.style.width=(v/maximum*100).toFixed(1)+'%';track.append(fill);
+  line.append(name,count,track);container.append(line);
+ }
+}
+function trafficPageName(p){
+ if(p==='/')return 'Главная страница';
+ if(p==='/kartiny/')return 'Каталог картин';
+ if(p==='/kartiny-v-interere/')return 'Картины в интерьере';
+ if(p==='/privacy.html')return 'Политика конфиденциальности';
+ const m=String(p||'').match(/^\/kartiny\/work-(\d+)\/$/);
+ if(m){const work=works.find(w=>w.id==='art-'+m[1]);return work?work.title+' · Картина':p}
+ return p;
+}
+function drawTrafficReport(data){
+ const s=data||{};trafficReport=s;
+ $('trafficVisitors').textContent=trafficN(s.unique_sessions);
+ $('trafficVisits').textContent=trafficN(s.visits);
+ $('trafficPageViews').textContent=trafficN(s.page_views);
+ $('trafficPagesPerVisit').textContent=(Number(s.avg_pages)||0).toLocaleString('ru-RU',{maximumFractionDigits:2});
+ const days=Array.isArray(s.trend)?s.trend.slice(-45):[];
+ const chart=$('trafficTrend');chart.replaceChildren();
+ if(!days.length){trafficEmpty('trafficTrend','Данных пока нет. Счётчик начал собирать статистику после публикации.');}
+ else{
+  const top=Math.max(1,...days.map(x=>Number(x.visits)||0));
+  for(let i=0;i<days.length;i++){
+   const x=days[i],n=Number(x.visits)||0;
+   const item=document.createElement('div');item.className='traffic-trend-col';
+   const bar=document.createElement('div');bar.className='traffic-trend-bar';
+   bar.style.height=Math.max(2,n/top*138)+'px';
+   const day=document.createElement('span');day.textContent=(i===0||i===days.length-1||i%7===0)?String(x.day).slice(5):'';
+   item.title=x.day+': '+trafficN(n)+' визитов, '+trafficN(x.views)+' просмотров';
+   item.append(bar,day);chart.append(item);
+  }
+ }
+ trafficRows('trafficCities',s.cities,x=>x.city+(x.city==='Не определён'?'':', '+x.country),x=>x.visitors);
+ trafficRows('trafficCountries',s.countries,x=>x.name,x=>x.visitors);
+ trafficRows('trafficSources',s.sources,x=>trafficLabels[x.name]||x.name,x=>x.visitors);
+ trafficRows('trafficDevices',s.devices,x=>trafficLabels[x.name]||x.name,x=>x.visitors);
+ trafficRows('trafficTopPages',s.top_pages,x=>trafficPageName(x.path),x=>x.views);
+ const events=$('trafficEvents');events.replaceChildren();
+ for(const [key,label] of Object.entries(trafficNames)){
+  const box=document.createElement('div');
+  const num=document.createElement('strong');num.textContent=trafficN(s.events?.[key]);
+  const name=document.createElement('span');name.textContent=label;box.append(num,name);events.append(box);
+ }
+}
+async function loadTrafficReport(){
+ const status=$('trafficStatus');status.textContent='Загружаем посещаемость сайта…';
+ $('siteStatsRefresh').disabled=true;
+ try{
+  if(!token)throw Error('Необходимо войти в админку с GitHub-ключом');
+  const url=STATS_URL+'?view=site&days='+trafficPeriod;
+  const result=await fetch(url,{headers:{authorization:'Bearer '+token},credentials:'omit',cache:'no-store'});
+  if(!result.ok)throw Error(result.status===403?'Недостаточно прав для аналитики':'HTTP '+result.status);
+  const parsed=await result.json();
+  if(!parsed.ok||!parsed.stats)throw Error('Неверный ответ сервера');
+  drawTrafficReport(parsed.stats);
+  status.textContent='Обновлено '+new Date().toLocaleString('ru-RU')+' · данные по московскому времени';
+ }catch(e){
+  status.textContent='Не удалось загрузить статистику: '+String(e.message||e);
+  if(!trafficReport){for(const id of ['trafficTrend','trafficCities','trafficCountries','trafficSources','trafficDevices','trafficTopPages'])trafficEmpty(id,'Статистика недоступна');}
+ }finally{$('siteStatsRefresh').disabled=false}
+}
+function openTrafficDashboard(){screen('visitors');loadTrafficReport()}
 
 function renderList(){
   renderStats();
@@ -453,6 +541,13 @@ $('navList').addEventListener('click',()=>screen('catalog'));
 $('navCreate').addEventListener('click',newWork);
 $('navConnect').addEventListener('click',showConnect);
 $('navAnalytics').addEventListener('click',openArtworkStats);
+$('navVisitors').addEventListener('click',openTrafficDashboard);
+$('siteStatsRefresh').addEventListener('click',loadTrafficReport);
+document.querySelectorAll('[data-site-period]').forEach(button=>button.addEventListener('click',()=>{
+ trafficPeriod=Number(button.dataset.sitePeriod);
+ document.querySelectorAll('[data-site-period]').forEach(b=>{const active=b===button;b.classList.toggle('is-active',active);b.setAttribute('aria-pressed',String(active))});
+ loadTrafficReport();
+}));
 $('analyticsRefresh').addEventListener('click',fetchArtworkStats);
 document.querySelectorAll('[data-stat-period]').forEach(button=>button.addEventListener('click',()=>{
  statsPeriod=button.dataset.statPeriod;
