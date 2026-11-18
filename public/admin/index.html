@@ -11,11 +11,32 @@
 @media(max-width:900px){.layout{grid-template-columns:1fr}.side{padding:16px 18px;display:flex;flex-direction:row;align-items:center;gap:22px;border-bottom:1px solid #4a392a}.side nav{display:none}.sidefooter{display:none}.main{padding:25px 16px 70px}.top{flex-wrap:wrap}.editor{grid-template-columns:1fr}.login{padding:25px}.kpi{gap:6px}.kpi .card{padding:14px}.kpi strong{font-size:36px}.work{grid-template-columns:62px minmax(0,1fr)}.work img{width:62px;height:70px}.actions{grid-column:2}.status{white-space:normal}.floating{align-items:flex-start;flex-direction:column}}
 .vault-optin{margin:12px 0 18px;cursor:pointer}.vault-forget{margin-top:14px;padding:9px 12px;font-size:10px;color:#af9782;border-color:#473829}#newPassFields{border-left:1px solid #ae896567;padding-left:18px;margin:15px 0 20px}#newPassFields .field{margin:13px 0}
 .media-preview-video{width:100%;max-height:240px;display:block;object-fit:contain;border-radius:10px;background:#100e0c;margin:8px 0 18px}.field input[type=file]{max-width:100%;font-size:12px;color:var(--muted)}.field input[type=file]::file-selector-button{border:1px solid #8b7159;background:#3a2b20;color:#efdcc6;border-radius:7px;padding:10px 14px;margin-right:12px;cursor:pointer}.thumbstrip img{object-fit:contain;background:#0f0d0b}.thumbstrip img.interiors-photo{width:100%;height:100%;border-radius:7px}.interior-thumb{position:relative;display:inline-flex;width:108px;height:102px;flex:0 0 108px;isolation:isolate}.interior-thumb-remove{position:absolute;top:-7px;right:-7px;z-index:2;width:32px;height:32px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid #d3a88b;background:#322019;color:#fff4e7;font:400 25px/1 Arial,sans-serif;box-shadow:0 3px 12px #0009}.interior-thumb-remove:hover,.interior-thumb-remove:focus-visible{background:#a44538;color:#fff;border-color:#f4b3a9;outline-offset:2px}@media(max-width:700px){.interior-thumb{width:98px;height:94px;flex-basis:98px}.interior-thumb-remove{width:34px;height:34px}}
+
+/* Analytics premium graphite and bronze */
+.analytics-periods{display:flex;gap:8px;flex-wrap:wrap;margin:27px 0 22px}
+.analytic-period{background:#241d18;color:#c8b39e;border:1px solid #5c4838;border-radius:7px;padding:10px 17px;font-size:11px}
+.analytic-period.is-active,.analytic-period:hover,.analytic-period:focus-visible{background:#cfb08b;color:#20170f;border-color:#cfb08b}
+.analytics-kpis{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:14px;margin-bottom:22px}
+.analytics-kpis .card>span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#ab947d}
+.analytics-kpis .card>strong{display:block;font:400 40px/1.1 'Cormorant Garamond',Georgia,serif;margin-top:11px;color:#f0dac0}
+.analytics-kpis .card>strong.analytics-top-name{font-size:clamp(24px,2.4vw,34px)}
+.analytics-caption{color:#af9680;font-size:12px;margin:20px 0}
+.analytics-rank{display:grid;gap:9px;margin:16px 0 28px}
+.analytics-row{display:grid;grid-template-columns:32px 66px minmax(120px,1fr) minmax(90px,210px) 72px;align-items:center;gap:16px;background:#231c17;border:1px solid #ffffff13;padding:11px 15px;border-radius:10px;min-width:0}
+.analytics-pos{font:400 25px 'Cormorant Garamond',Georgia,serif;color:#cbaa83;text-align:center}
+.analytics-row img{width:66px;height:65px;object-fit:contain;background:#15110f;border:1px solid #493b2d;border-radius:6px}
+.analytics-title{font:400 23px/1.05 'Cormorant Garamond',Georgia,serif;color:#eddfce;overflow-wrap:anywhere}
+.analytics-id{display:block;color:#96816e;font:600 9px 'Manrope',sans-serif;letter-spacing:.08em;margin-top:7px}
+.analytics-bar{height:6px;border-radius:20px;overflow:hidden;background:#483729}
+.analytics-bar>i{display:block;height:100%;background:linear-gradient(90deg,#856748,#e1b98a);border-radius:20px}
+.analytics-number{font:500 21px/1 'Manrope',Arial,sans-serif;text-align:right;color:#f0d6b7}
+.analytics-empty{border:1px dashed #765c43;background:#241d18;border-radius:12px;padding:25px 20px;color:#c9b39c}
+@media(max-width:700px){.analytics-kpis{gap:8px;grid-template-columns:1fr 1fr}.analytics-kpis .card:last-child{grid-column:1/-1}.analytics-kpis .card{padding:13px}.analytics-kpis .card>strong{font-size:29px}.analytics-row{grid-template-columns:23px 50px minmax(0,1fr) 50px;gap:8px;padding:10px}.analytics-row img{width:50px;height:54px}.analytics-title{font-size:21px}.analytics-bar{grid-column:3/5;width:100%}.analytics-number{font-size:16px}}
 </style>
 </head>
 <body>
 <div class="layout">
-<aside class="side"><div class="logo">ZYKINA ART<small>PRIVATE MANAGEMENT</small></div><nav><button class="navitem active" id="navList">01 · Каталог работ</button><button class="navitem" id="navCreate">02 · Новая картина</button><button class="navitem" id="navConnect">03 · Подключение</button></nav><div class="sidefooter">СТУДИЯ ЕКАТЕРИНЫ ЗЫКИНОЙ<br>© 2026 · РЕДАКТОР КАТАЛОГА</div></aside>
+<aside class="side"><div class="logo">ZYKINA ART<small>PRIVATE MANAGEMENT</small></div><nav><button class="navitem active" id="navList">01 · Каталог работ</button><button class="navitem" id="navCreate">02 · Новая картина</button><button class="navitem" id="navConnect">03 · Подключение</button><button class="navitem" id="navAnalytics">04 · Аналитика картин</button></nav><div class="sidefooter">СТУДИЯ ЕКАТЕРИНЫ ЗЫКИНОЙ<br>© 2026 · РЕДАКТОР КАТАЛОГА</div></aside>
 <main class="main">
 <div class="top"><div><div class="eyebrow">ZYKINA ART / СОДЕРЖИМОЕ</div><h1>Управление галереей</h1><div class="sub">Добавляйте работы, меняйте описания, фотографии и порядок картин.</div></div><div class="status" id="connStatus">Не подключено к GitHub</div></div>
 <div class="banner"><strong>Публикация:</strong> изменения сохраняются в GitHub, а настроенная синхронизация MCHost проверяет обновления каждые 5 минут. Если публикация задерживается, проверьте журнал синхронизации.</div>
@@ -23,6 +44,23 @@
 <div class="kpi"><div class="card"><span>Все картины</span><strong id="countAll">—</strong></div><div class="card"><span>В каталоге</span><strong id="countShown">—</strong></div><div class="card"><span>Скрыты</span><strong id="countHidden">—</strong></div></div>
 <div class="sectionTop"><div><h2>Произведения</h2><p>Порядок карточек соответствует порядку на сайте</p></div><button id="newArtwork" class="btn btn-primary">+ Добавить картину</button></div>
 <div class="worklist" id="workList"><div class="empty">Подключите GitHub для загрузки каталога</div></div>
+</div>
+<div id="analyticsView" class="hide">
+<div class="sectionTop"><div><h2>Популярность картин</h2><p>Рейтинг открытий работ на сайте · время Москва</p></div><button id="analyticsRefresh" class="btn outline" type="button">↻ Обновить статистику</button></div>
+<div class="analytics-periods" role="group" aria-label="Период статистики">
+<button class="analytic-period" data-stat-period="today" aria-pressed="false">Сегодня</button>
+<button class="analytic-period" data-stat-period="week" aria-pressed="false">7 дней</button>
+<button class="analytic-period is-active" data-stat-period="month" aria-pressed="true">30 дней</button>
+<button class="analytic-period" data-stat-period="all" aria-pressed="false">Всё время</button>
+</div>
+<div class="analytics-kpis">
+<div class="card"><span>Просмотры картин</span><strong id="analyticsTotal">—</strong></div>
+<div class="card"><span>Лидер просмотров</span><strong id="analyticsTop" class="analytics-top-name">—</strong></div>
+<div class="card"><span>Картины с просмотрами</span><strong id="analyticsWorks">—</strong></div>
+</div>
+<p class="analytics-caption" id="analyticsStatus" role="status">Загрузка статистики…</p>
+<div id="analyticsRank" class="analytics-rank" aria-live="polite"></div>
+<p class="note">Учитываются открытия картин, а не показы карточек. Повторное открытие той же картины из одной вкладки за день не увеличивает число просмотров. Это рейтинг сеансов, не точное число людей. Данные накапливаются с момента подключения.</p>
 </div>
 <div id="editorView" class="hide">
 <div class="sectionTop"><div><h2 id="editorHeading">Новая картина</h2><p>Главное изображение, детали и информация</p></div><button class="btn outline" id="cancelEditor">← Назад к каталогу</button></div>
@@ -81,5 +119,5 @@
 </div>
 </div></div>
 <div id="toast" class="toast hide" role="status"></div>
-<script src="./app.js?v=20261118-interior-remove3" defer></script>
+<script src="./app.js?v=20261118-analytics" defer></script>
 </body></html>
