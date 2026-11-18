@@ -93,7 +93,11 @@ class Painting:
   self.src=rgb(path)
   self.blur=cover(self.src,W,H).filter(ImageFilter.GaussianBlur(34))
   # Original painting stays intact and sharp; no cropping when first shown.
-  self.photo=fit_into(self.src,(622,665));self.PW,self.PH=self.photo.size
+  self.photo=fit_into(self.src,(622,665))
+  # Remove 4px resampling/alpha fringe around photographic export, not painting content.
+  if self.photo.width>180 and self.photo.height>180:
+   self.photo=self.photo.crop((5,5,self.photo.width-5,self.photo.height-5))
+  self.PW,self.PH=self.photo.size
   # Sample actual artwork to build color palette, never invented hues.
   self.palette=self.pick_colors()
  def pick_colors(self):
@@ -160,7 +164,7 @@ SCENES=[
 
 class Video:
  def __init__(self,assets):
-  self.room1=Room(assets/'interiors/2/interior-mwlat1wo-1.webp',(275,50,402,233))
+  self.room1=Room(assets/'interiors/2/interior-mwlat1wo-1.webp',(356,34,519,249))
   self.room2=Room(assets/'interiors/2/interior-mwlahicl-1.webp',(167,31,273,171))
   self.paint=Painting(assets/'картины/2/главная.png')
   self.details=[Detail(assets/'картины/2/детали 1.png'),Detail(assets/'картины/2/детали 2.png')]
