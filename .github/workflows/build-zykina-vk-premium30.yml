@@ -1,4 +1,4 @@
-name: ZYKINA ART - Premium VK 30-second film
+name: ZYKINA ART - Luxury commercial V3 with Russian narration
 on:
   workflow_dispatch:
   push:
@@ -8,28 +8,64 @@ on:
       - 'marketing/videos/zykina-art/build_vk_premium30.py'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
-      - name: Install renderer and typography
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Install media production dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg fonts-lato fonts-liberation2
+          sudo apt-get install -y -qq ffmpeg fonts-lato fonts-liberation2 python3-pil
           python -m pip install -q Pillow numpy opencv-python-headless
-      - name: Render premium vertical advertisement with authentic site imagery
+      - name: Render with original artworks, contour glow and materials
         run: |
-          python marketing/videos/zykina-art/build_vk_premium30.py --outdir /tmp/zykina-vk30
-          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 /tmp/zykina-vk30/ZYKINA_ART_VK_Premium_30s_1080x1920.mp4
-      - name: Package finished 30-second MP4
+          set -euo pipefail
+          python marketing/videos/zykina-art/build_vk_premium30.py --outdir /tmp/zykina-luxury-v3
+          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 /tmp/zykina-luxury-v3/ZYKINA_ART_VK_Premium_30s_1080x1920.mp4
+      - name: Download human Russian voice-over
+        run: |
+          set -euo pipefail
+          curl -fLSs --retry 3 --connect-timeout 15 --max-time 120 'https://resource2.heygen.ai/text_to_speech/12e4ce1f5c8f45c9b4d065e0cce8e209/86c8273fd10b407092f725aa3d9ebb4a/id=10cd1b01f7774e518e0080874cdec138.mp3' -o /tmp/zykina-luxury-v3/voice-ru-original.mp3
+          test -s /tmp/zykina-luxury-v3/voice-ru-original.mp3
+          ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1 /tmp/zykina-luxury-v3/voice-ru-original.mp3
+      - name: Mix professionally ducked original score and narration
+        run: |
+          set -euo pipefail
+          mkdir -p public/assets/ads
+          ffmpeg -hide_banner -loglevel error -y \
+            -i /tmp/zykina-luxury-v3/ZYKINA_ART_VK_Premium_30s_1080x1920.mp4 \
+            -i /tmp/zykina-luxury-v3/voice-ru-original.mp3 \
+            -filter_complex "[0:a]volume=0.33[music];[1:a]atempo=1.14,adelay=700,volume=1.07,afade=t=out:st=28.0:d=1.5[voice];[music][voice]amix=inputs=2:duration=first:normalize=0,alimiter=limit=0.95[a]" \
+            -map 0:v:0 -map "[a]" -c:v copy -c:a aac -b:a 192k \
+            -t 30 -movflags +faststart \
+            public/assets/ads/zykina-art-premium-v3-30s.mp4
+          test -s public/assets/ads/zykina-art-premium-v3-30s.mp4
+          ffprobe -v error -show_entries format=duration,size:stream=codec_name -of default=noprint_wrappers=1 public/assets/ads/zykina-art-premium-v3-30s.mp4
+      - name: Publish ready MP4 at an ordinary web URL
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/ads/zykina-art-premium-v3-30s.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m "video: publish ZYKINA ART luxury VK ad v3 with Russian voice"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Provide downloadable 30s video and voice artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ZYKINA-ART-VK-Premium-30s
-          path: /tmp/zykina-vk30/ZYKINA_ART_VK_Premium_30s_1080x1920.mp4
+          name: ZYKINA-ART-Luxury-30s-V3-Voice
+          path: |
+            public/assets/ads/zykina-art-premium-v3-30s.mp4
+            /tmp/zykina-luxury-v3/voice-ru-original.mp3
           if-no-files-found: error
           compression-level: 0
-          retention-days: 7
+          retention-days: 14
