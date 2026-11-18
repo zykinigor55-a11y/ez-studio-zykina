@@ -317,13 +317,13 @@
 .stage-canvas[data-work="art-2"] .stage-art-disc img,
 #lightboxImage.clean-earth-edge,
 #lightboxThumbs:has(button[aria-label^="Земля и золото"]) button:first-child img{clip-path:inset(.75% 3.8% .75% 3.8%)}
-<style>
+</style><style>
 .lightbox-video-action{display:flex;justify-content:center;align-items:center;margin:12px auto 6px;min-height:30px;font:500 11px/1.5 Arial,sans-serif;letter-spacing:.05em}
 #lightboxVideoLink{color:#e0bd8d;border:1px solid #a27f584f;border-radius:24px;padding:8px 16px;text-decoration:none;transition:border-color .25s,color .25s}
 #lightboxVideoLink:hover,#lightboxVideoLink:focus-visible{border-color:#d8b88b;color:#ffdeb2}
 #lightboxVideoPending{color:#b4a08b;opacity:.7}
 .lightbox-video-action .hide{display:none!important}
-<style>
+</style><style>
 .lightbox-media-tabs{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 auto 8px}
 .lightbox-media-tabs button{background:transparent;border:1px solid #b79c7359;color:#ddc9b3;padding:10px 15px;border-radius:30px;font:500 10px/1.3 var(--sans);letter-spacing:.08em;white-space:nowrap;transition:background .24s,color .24s,border .24s}
 .lightbox-media-tabs button.is-active,.lightbox-media-tabs button:hover{background:#b9986b30;border-color:#be9e73;color:#fbe6ca}
@@ -340,6 +340,41 @@
  .lightbox-media-empty{min-height:180px;width:100%}.lightbox-desc{font-size:19px}
 }
 @media(prefers-reduced-motion:reduce){.lightbox-media-tabs button{transition:none}}
+/* 2026-11-18: prominent media tabs; keyboard and phone friendly. */
+.lightbox-media-tabs{
+ display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1.15fr);
+ align-items:stretch;gap:9px;width:min(100%,690px);max-width:690px;
+ margin:0 auto 14px;padding:8px;border:1px solid rgba(212,181,141,.34);
+ background:rgba(18,14,11,.83);border-radius:18px;
+ box-shadow:0 9px 30px rgba(0,0,0,.22)
+}
+.lightbox-media-tabs button{
+ min-height:56px;padding:12px 16px;border:1px solid rgba(184,154,116,.47);
+ border-radius:12px;background:rgba(75,56,42,.38);color:#eee0ce;
+ font:600 13px/1.3 var(--sans),Arial,sans-serif;letter-spacing:.035em;
+ white-space:normal;overflow-wrap:break-word;
+ transition:background .2s,border-color .2s,color .2s,box-shadow .2s
+}
+.lightbox-media-tabs button[data-gallery-tab="interior"],
+.lightbox-media-tabs button[data-gallery-tab="video"]{
+ background:linear-gradient(140deg,rgba(166,122,77,.27),rgba(86,62,42,.36));
+ border-color:rgba(222,184,134,.7);color:#f5dfc4;font-size:14px
+}
+.lightbox-media-tabs button.is-active{
+ background:linear-gradient(140deg,#dab68a,#ae865d);
+ border-color:#f4d2a4;color:#241810;
+ box-shadow:0 3px 16px rgba(203,159,106,.24)
+}
+.lightbox-media-tabs button:hover{border-color:#f6d8ad;color:#fff1dc}
+.lightbox-media-tabs button.is-active:hover{color:#241810}
+.lightbox-media-tabs button:focus-visible{outline:3px solid #f5dbb6;outline-offset:3px}
+@media(max-width:700px){
+ .lightbox-media-tabs{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 auto 10px;padding:5px;border-radius:12px}
+ .lightbox-media-tabs button{min-height:52px;padding:8px 5px;border-radius:9px;font-size:10px;line-height:1.3;letter-spacing:0}
+ .lightbox-media-tabs button[data-gallery-tab="interior"],
+ .lightbox-media-tabs button[data-gallery-tab="video"]{font-size:12px}
+}
+
 </style></head>
 <body>
 <svg aria-hidden="true" style="display:none"><symbol id="arrow" viewBox="0 0 24 24"><path d="M3 12h17m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol></svg>
@@ -462,7 +497,7 @@
 <footer class="closing-footer" id="contact"><div class="site-frame closing-footer-inner"><div class="closing-title">Студия Екатерины Зыкиной<span>Искусство, которое создаёт атмосферу</span><div class="footer-contact-details"><span class="footer-contact-label">Контакты студии</span><a class="footer-contact-channel" href="#order">Написать в студию →</a></div></div><nav aria-label="Подвал"><a href="#top">Наверх ↑</a><a href="#collections">Коллекции</a><a href="#portfolio">Произведения</a><a href="#artist">О художнице</a><a href="#order">Заказать картину</a><a href="#contact">Контакты</a><a href="kartiny/" class="catalogue-link">Каталог работ</a><a href="privacy.html">Политика конфиденциальности</a></nav></div><p class="closing-copyright">© 2026 Студия Екатерины Зыкиной · Авторское интерьерное искусство</p><!-- ZYKINA ART discreet owner entry --><a class="footer-owner-mark" href="https://ez-studio-zykina.onrender.com/admin/index.html?upload=20261118v2" target="_blank" rel="noopener noreferrer" aria-label="Управление каталогом ZYKINA ART" title="Управление каталогом"><span aria-hidden="true">Е·З</span></a></footer>
 </main>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр произведения" aria-hidden="true"><button class="lightbox-close" id="lightboxClose" aria-label="Закрыть">×</button><button class="lightbox-prev" id="lightboxPrev" aria-label="Предыдущая картина">‹</button><div class="lightbox-inner">
-<div class="lightbox-media-tabs" role="group" aria-label="Просмотр картины"><button class="is-active" type="button" data-gallery-tab="photos" aria-pressed="true">Картина и макро</button><button type="button" data-gallery-tab="interior" aria-pressed="false">В интерьере</button><button type="button" data-gallery-tab="video" aria-pressed="false">Видео</button></div>
+<div class="lightbox-media-tabs" role="group" aria-label="Просмотр картины"><button class="is-active" type="button" data-gallery-tab="photos" aria-pressed="true">Картина / макро</button><button type="button" data-gallery-tab="interior" aria-pressed="false">▣ В интерьере</button><button type="button" data-gallery-tab="video" aria-pressed="false">▶ Видео</button></div>
 <img class="lightbox-image" id="lightboxImage" alt="">
 <video id="lightboxInteriorVideo" class="lightbox-interior-video hide" controls playsinline preload="metadata" controlslist="nodownload" aria-label="Видео картины в интерьере"></video>
 <div id="lightboxMediaEmpty" class="lightbox-media-empty hide"></div>
