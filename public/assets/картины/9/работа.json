@@ -2,5 +2,9 @@
   "title": "Сова",
   "category": "images",
   "main": "главная.png",
-  "thumbnail": "catalog/09.webp"
+  "thumbnail": "catalog/09.webp",
+  "description": "",
+  "size": "От 40 × 60 до 120 × 100 см, на заказ",
+  "video": "",
+  "published": true
 }
