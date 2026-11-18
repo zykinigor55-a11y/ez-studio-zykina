@@ -1,0 +1,35 @@
+name: ZYKINA ART - Premium VK 30-second film
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-zykina-vk-premium30.yml'
+      - 'marketing/videos/zykina-art/build_vk_premium30.py'
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install renderer and typography
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-lato fonts-liberation2
+          python -m pip install -q Pillow numpy opencv-python-headless
+      - name: Render premium vertical advertisement with authentic site imagery
+        run: |
+          python marketing/videos/zykina-art/build_vk_premium30.py --outdir /tmp/zykina-vk30
+          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 /tmp/zykina-vk30/ZYKINA_ART_VK_Premium_30s_1080x1920.mp4
+      - name: Package finished 30-second MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZYKINA-ART-VK-Premium-30s
+          path: /tmp/zykina-vk30/ZYKINA_ART_VK_Premium_30s_1080x1920.mp4
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
