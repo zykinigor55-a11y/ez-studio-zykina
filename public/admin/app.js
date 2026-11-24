@@ -404,6 +404,8 @@ function buildSitemap(ws){
  const urls=[node('/'),node('/kartiny/')];
  if(originals.interiorsPage)urls.push(node('/kartiny-v-interere/',visible.flatMap(w=>w.interiors||[])));
  for(const w of visible)urls.push(node('/'+w.page,[w.img,...(w.photos||[])]));
+ // Keep independently maintained editorial URLs when the artwork catalog is published.
+ for(const match of String(originals.sitemap||'').matchAll(/<url>[\s\S]*?<\/url>/g)){if(/<loc>https:\/\/zykina-art\.ru\/journal\/(?:[a-z0-9-]+\/)?<\/loc>/.test(match[0]))urls.push(match[0]);}
  return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'+urls.join('\n')+'\n</urlset>\n';
 }
 async function compress(file,maxEdge,quality){
