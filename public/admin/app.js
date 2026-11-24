@@ -385,19 +385,26 @@ function buildInteriorsPage(ws){
 
 function pageHTML(w){
  const cat=CATS[w.cat]||'Авторская картина',title=esc(w.title),desc=esc(w.description||('«'+w.title+'» — авторская работа Екатерины Зыкиной. Фотографии и детали.')),url='https://zykina-art.ru/'+w.page;
+ const kind=({plastic:'Фактурная картина',abstract:'Абстрактная картина',images:'Интерьерная картина',stories:'Сюжетная картина'})[w.cat]||'Авторская картина';
+ const seoTitle=esc(kind+' «'+String(w.title).replace(/^«|»$/g,'')+'» — Екатерина Зыкина | ZYKINA ART');
+ const seoDesc=esc((w.description||('Авторская интерьерная картина Екатерины Зыкиной «'+w.title+'». Фотографии и детали.')).replace(/\s+/g,' ').trim().slice(0,180));
  const photos=(w.photos&&w.photos.length?w.photos:[w.img]).map(p=>'/assets/'+esc(p));
  const cover=photos[0]||'';
- const ld={'@context':'https://schema.org','@type':'VisualArtwork',name:w.title,image:(w.photos||[w.img]).map(p=>'https://zykina-art.ru/assets/'+p),url,description:w.description||'Авторская работа Екатерины Зыкиной',creator:{'@type':'Person',name:'Екатерина Зыкина'}};
+ const ld={'@context':'https://schema.org','@type':'VisualArtwork',name:w.title,image:(w.photos||[w.img]).map(p=>'https://zykina-art.ru/assets/'+p),url,description:w.description||'Авторская работа Екатерины Зыкиной',inLanguage:'ru',genre:kind,creator:{'@type':'Person',name:'Екатерина Зыкина'}};
  const thumbs=photos.slice(1).map((src,i)=>'<a href="'+src+'" target="_blank" rel="noopener"><img src="'+src+'" alt="'+title+' — деталь '+(i+1)+'" loading="lazy"></a>').join('');
- return '<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="index,follow">'+
- '<title>'+title+' — '+esc(cat)+' | ZYKINA ART</title><meta name="description" content="'+desc+'"><link rel="canonical" href="'+esc(url)+'"><meta property="og:title" content="'+title+' — ZYKINA ART"><meta property="og:description" content="'+desc+'"><meta property="og:type" content="article"><meta property="og:image" content="https://zykina-art.ru'+cover+'"><script type="application/ld+json">'+JSON.stringify(ld).replace(/</g,'\\u003c')+'</script>'+
- '<style>body{margin:0;background:#f4f0e9;color:#44352b;font:16px/1.75 Arial,sans-serif}main{max-width:1000px;margin:30px auto;padding:0 24px}a{color:inherit}header{display:flex;flex-wrap:wrap;gap:24px;font-size:13px;color:#806c5a}h1{font:400 clamp(44px,7vw,76px)/1.1 Georgia,serif;margin:30px 0}figure{margin:0}figure img{max-width:100%;max-height:86vh;object-fit:contain;margin:auto;display:block}.type{color:#897666;font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-top:55px}.details{display:flex;gap:18px;flex-wrap:wrap;margin:38px 0}.details img{width:180px;height:180px;object-fit:contain;border:1px solid #ddd1c1}.contact{display:inline-block;padding:14px 19px;border:1px solid #655241;text-decoration:none;margin:25px 0 65px}.size{color:#796c60}</style></head><body><main><header><a href="/">ZYKINA ART</a><a href="/kartiny/">Все работы</a></header><p class="type">'+esc(cat)+'</p><h1>'+title+'</h1><figure><img src="'+cover+'" alt="'+title+' — общий вид"></figure><p>'+desc+'</p><div class="details">'+thumbs+'</div><p class="size"><strong>Размер:</strong> '+esc(w.size||'От 40 × 60 до 120 × 100 см, на заказ')+'</p><a class="contact" href="/#order">Обсудить заказ</a></main><script src="/assets/artwork-view-tracker.js?v=20261118a" data-artwork="'+esc(w.id)+'" defer></script></body></html>';
+ return '<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="'+(w.visible===false?'noindex,follow':'index,follow')+'">'+
+ '<title>'+seoTitle+'</title><meta name="description" content="'+seoDesc+'"><link rel="canonical" href="'+esc(url)+'"><meta property="og:title" content="'+title+' — ZYKINA ART"><meta property="og:description" content="'+desc+'"><meta property="og:type" content="article"><meta property="og:image" content="https://zykina-art.ru'+cover+'"><script type="application/ld+json">'+JSON.stringify(ld).replace(/</g,'\\u003c')+'</script>'+
+ '<style>body{margin:0;background:#f4f0e9;color:#44352b;font:16px/1.75 Arial,sans-serif}main{max-width:1000px;margin:30px auto;padding:0 24px}a{color:inherit}header{display:flex;flex-wrap:wrap;gap:24px;font-size:13px;color:#806c5a}h1{font:400 clamp(44px,7vw,76px)/1.1 Georgia,serif;margin:30px 0}figure{margin:0}figure img{max-width:100%;max-height:86vh;object-fit:contain;margin:auto;display:block}.type{color:#897666;font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-top:55px}.details{display:flex;gap:18px;flex-wrap:wrap;margin:38px 0}.details img{width:180px;height:180px;object-fit:contain;border:1px solid #ddd1c1}.contact{display:inline-block;padding:14px 19px;border:1px solid #655241;text-decoration:none;margin:25px 0 65px}.size{color:#796c60}</style></head><body><main><header><a href="/">ZYKINA ART</a><a href="/kartiny/">Все работы</a></header><p class="type">'+esc(cat)+'</p><h1>'+title+'</h1><figure><img src="'+cover+'" alt="'+title+' — общий вид"></figure><p>'+desc+'</p><div class="details">'+thumbs+'</div><p class="size"><strong>Размер:</strong> '+esc(w.size||'Уточняется индивидуально')+'</p><a class="contact" href="/#order">Обсудить заказ</a></main><script src="/assets/artwork-view-tracker.js?v=20261124-met1" data-artwork="'+esc(w.id)+'" defer></script></body></html>';
 }
 function buildSitemap(ws){
- let xml=originals.sitemap||'';
- if(!xml||!xml.includes('</urlset>'))return null;
- for(const w of ws){const url='https://zykina-art.ru/'+w.page;if(!xml.includes('<loc>'+url+'</loc>'))xml=xml.replace('</urlset>','<url><loc>'+url+'</loc></url></urlset>')}
- return xml;
+ const base='https://zykina-art.ru';
+ const xmlEsc=v=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;');
+ const node=(url,images=[])=>'<url><loc>'+xmlEsc(base+url)+'</loc>'+[...new Set(images.filter(Boolean))].map(p=>'<image:image><image:loc>'+xmlEsc(base+'/assets/'+p)+'</image:loc></image:image>').join('')+'</url>';
+ const visible=ws.filter(w=>w.visible!==false);
+ const urls=[node('/'),node('/kartiny/')];
+ if(originals.interiorsPage)urls.push(node('/kartiny-v-interere/',visible.flatMap(w=>w.interiors||[])));
+ for(const w of visible)urls.push(node('/'+w.page,[w.img,...(w.photos||[])]));
+ return '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n'+urls.join('\n')+'\n</urlset>\n';
 }
 async function compress(file,maxEdge,quality){
  const bitmap=await createImageBitmap(file);const scale=Math.min(1,maxEdge/Math.max(bitmap.width,bitmap.height));

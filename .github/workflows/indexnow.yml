@@ -1,0 +1,27 @@
+name: Notify search engines via IndexNow
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/**'
+      - 'scripts/indexnow.py'
+      - '.github/workflows/indexnow.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: zykina-indexnow
+  cancel-in-progress: false
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Verify deployment and notify IndexNow
+        env:
+          BEFORE: ${{ github.event.before }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: python3 scripts/indexnow.py
