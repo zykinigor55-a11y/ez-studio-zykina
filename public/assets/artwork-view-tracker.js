@@ -1,3 +1,17 @@
+/* Yandex.Metrika — public production pages only. */
+(function(){
+    if (!/^(www\.)?zykina-art\.ru$/i.test(location.hostname) || /^\/admin(?:\/|$)/i.test(location.pathname)) return;
+    document.querySelectorAll('input:not([type="range"]),textarea,[contenteditable="true"]').forEach(el=>el.classList.add('ym-disable-keys'));
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114650410', 'ym');
+
+    ym(114650410, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+})();
+
 /* ZYKINA ART anonymous artwork open tracking. No cookies, IP addresses or names collected. */
 (function(){
 'use strict';
@@ -49,8 +63,14 @@ try{
 const ua=navigator.userAgent||'';
 const DEVICE=/ipad|tablet|playbook|silk/i.test(ua)?'tablet':
  /mobile|iphone|android/i.test(ua)?'mobile':'desktop';
+function metrikaGoal(goal){
+ if(!/^(www\.)?zykina-art\.ru$/i.test(location.hostname)||/^\/admin(?:\/|$)/i.test(PAGE))return;
+ try{if(typeof window.ym==='function')window.ym(114650410,'reachGoal',goal);}catch(_){}
+}
 function siteEvent(event){
  if(!/^(page|art_open|interior|macro|order|contact|gallery)$/.test(String(event))||!/^\/[a-z0-9./-]{0,138}$/.test(PAGE)||/^\/admin(?:\/|$)/.test(PAGE))return;
+ const goals={art_open:'art_open',interior:'interior_view',macro:'macro_view',order:'order_interest',contact:'contact_click'};
+ if(goals[event])metrikaGoal(goals[event]);
  try{
    fetch(ENDPOINT,{
      method:'POST',mode:'cors',credentials:'omit',keepalive:true,
@@ -78,7 +98,12 @@ function trackSiteClick(e){
  if(anchor){
   const href=String(anchor.getAttribute('href')||'');
   if(href==='#order'||href.endsWith('/#order')||href.includes('order?'))siteEvent('order');
-  else if(/(?:vk\.ru|vkontakte|max\.ru|mailto:|tel:)/i.test(href))siteEvent('contact');
+  else if(href==='#contact'||href.endsWith('/#contact'))metrikaGoal('contact_section');
+  else if(/(?:vk\.ru|vkontakte|max\.ru|mailto:|tel:)/i.test(href)){
+   siteEvent('contact');
+   if(/(?:vk\.ru|vkontakte)/i.test(href))metrikaGoal('contact_vk');
+   else if(/max\.ru/i.test(href))metrikaGoal('contact_max');
+  }
   else if(anchor.closest('.details')&&/\.(?:png|jpe?g|webp)(?:$|[?#])/i.test(href))siteEvent('macro');
  }
 }
@@ -94,15 +119,3 @@ if(direct){
 }
 })();
 
-/* Yandex.Metrika — public production pages only. */
-(function(){
-    if (!/^(www\.)?zykina-art\.ru$/i.test(location.hostname) || /^\/admin(?:\/|$)/i.test(location.pathname)) return;
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114650410', 'ym');
-
-    ym(114650410, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-})();
