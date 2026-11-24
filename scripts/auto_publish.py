@@ -27,7 +27,7 @@ CATEGORIES = {'plastic':'Пластика', 'abstract':'Абстракция', '
 CATEGORY_KEYS = {v.lower():k for k,v in CATEGORIES.items()}
 TEXT_KEYS = {'название':'title','коллекция':'category','категория':'category','материал':'material','размер':'size','размеры':'size','цена':'price','описание':'description','главная':'main','главное фото':'main','публиковать':'published'}
 IMAGE_TYPES = {'.png','.jpg','.jpeg','.webp'}
-RUNNER_VERSION = '2026-11-12.1'
+RUNNER_VERSION = '2026-11-24.2'
 
 
 def natural(value):
@@ -269,7 +269,10 @@ def sync(site,state_dir):
         if last.is_file() and json.loads(last.read_text(encoding='utf8')).get('commit')==revision:return {'status':'unchanged','commit':revision}
         with tempfile.TemporaryDirectory(prefix='build-',dir=str(state_dir)) as temp:
             temp=Path(temp);archive=temp/'repo.zip';stage=temp/'public'
-            download_revision(revision,archive);extract_public(archive,stage);works=build_site(stage)
+            download_revision(revision,archive);extract_public(archive,stage)
+            # Publish the prepared files without overwriting SEO, journal or privacy.
+            works=json.loads((stage/'assets/catalog/manifest.json').read_text(encoding='utf8'))
+            if not isinstance(works,list) or not (stage/'sitemap.xml').is_file():raise ValueError('Invalid prepared website')
             status={'status':'published','commit':revision,'works':len(works),'updated_at':datetime.datetime.utcnow().replace(microsecond=0).isoformat()+'Z','runner_version':RUNNER_VERSION}
             (stage/'assets/catalog/deployment.json').write_text(json.dumps(status),encoding='utf8')
             changed=publish_site(stage,site,temp/'backup')

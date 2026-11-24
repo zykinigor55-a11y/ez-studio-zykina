@@ -1,121 +1,21 @@
-/* Yandex.Metrika — public production pages only. */
-(function(){
-    if (!/^(www\.)?zykina-art\.ru$/i.test(location.hostname) || /^\/admin(?:\/|$)/i.test(location.pathname)) return;
-    document.querySelectorAll('input:not([type="range"]),textarea,[contenteditable="true"]').forEach(el=>el.classList.add('ym-disable-keys'));
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114650410', 'ym');
-
-    ym(114650410, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-})();
-
-/* ZYKINA ART anonymous artwork open tracking. No cookies, IP addresses or names collected. */
+/* ZYKINA ART — opt-in Yandex Metrika only. */
 (function(){
 'use strict';
-const ENDPOINT='https://lxwqpoakdsbpshfyfqih.supabase.co/functions/v1/zykina-art-analytics';
-const SESSION_KEY='zykina-art-view-session';
-let session='';
-try{
- session=sessionStorage.getItem(SESSION_KEY)||'';
- if(!/^[a-f0-9-]{32,40}$/i.test(session)){
-   session=crypto.randomUUID?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint8Array(16)),x=>x.toString(16).padStart(2,'0')).join('');
-   sessionStorage.setItem(SESSION_KEY,session);
- }
-}catch(_){
- try{session=crypto.randomUUID?crypto.randomUUID():Array.from(crypto.getRandomValues(new Uint8Array(16)),x=>x.toString(16).padStart(2,'0')).join('')}catch(_){return}
+if(!/^(www\.)?zykina-art\.ru$/i.test(location.hostname)||/^\/admin(?:\/|$)/i.test(location.pathname))return;
+const ID=114650410,KEY='zykina-analytics-consent-v1',direct=document.currentScript?.dataset?.artwork;
+let active=false,choice='';try{choice=JSON.parse(localStorage.getItem(KEY)||'{}').choice||''}catch(_){}
+function goal(name,params){if(active&&typeof window.ym==='function')window.ym(ID,'reachGoal',name,params)}
+function art(id){if(/^art-\d{1,4}$/.test(String(id)))goal('art_open',{artwork:id})}
+function start(){if(active)return;active=true;document.querySelectorAll('input,textarea,[contenteditable="true"]').forEach(el=>el.classList.add('ym-disable-keys'));window.ym=window.ym||function(){(window.ym.a=window.ym.a||[]).push(arguments)};window.ym.l=Date.now();const s=document.createElement('script');s.async=true;s.src='https://mc.yandex.ru/metrika/tag.js?id='+ID;document.head.append(s);ym(ID,'init',{ssr:true,webvisor:false,clickmap:false,trackLinks:false,accurateTrackBounce:true,url:location.origin+location.pathname,referrer:document.referrer?(()=>{try{return new URL(document.referrer).origin}catch(_){return ''}})():''});if(direct)art(direct)}
+function event(name){const goals={interior:'interior_view',macro:'macro_view',order:'order_interest',contact:'contact_click',art_open:'art_open'};if(goals[name])goal(goals[name])}
+window.ZykinaArtworkStats=Object.freeze({track:art});window.ZykinaSiteStats=Object.freeze({event});
+document.addEventListener('click',e=>{if(!active||!(e.target instanceof Element))return;const t=e.target;if(t.closest('[data-gallery-tab="interior"]')){event('interior');return}const thumb=t.closest('[data-photo]');if(thumb&&Number(thumb.dataset.photo)>0&&document.querySelector('[data-gallery-tab="photos"][aria-pressed="true"]')){event('macro');return}const a=t.closest('a[href]');if(!a)return;const href=a.getAttribute('href')||'';if(href==='#order'||href.endsWith('/#order')||href.includes('order?'))event('order');else if(href==='#contact'||href.endsWith('/#contact'))goal('contact_section');else if(/(?:vk\.ru|vkontakte|max\.ru|mailto:|tel:)/i.test(href)){event('contact');if(/(?:vk\.ru|vkontakte)/i.test(href))goal('contact_vk');else if(/max\.ru/i.test(href))goal('contact_max')}else if(a.closest('.details')&&/\.(?:png|jpe?g|webp)(?:$|[?#])/i.test(href))event('macro')},{capture:true,passive:true});
+function ui(){
+ const style=document.createElement('style');style.textContent='.za-consent{position:fixed;bottom:18px;right:18px;width:min(440px,calc(100% - 36px));max-height:calc(100vh - 36px);overflow:auto;box-sizing:border-box;background:#211914;color:#f4e9db;border:1px solid #a48666;padding:22px;z-index:2147483000;box-shadow:0 8px 32px #0004;font:14px/1.55 Arial,sans-serif;border-radius:12px}.za-consent h2{font:400 29px Georgia,serif;margin:0 0 10px;color:inherit}.za-consent p{color:inherit;margin:8px 0 12px}.za-consent a{color:#e2bd92;text-decoration:underline}.za-consent button,.za-settings{font:600 12px Arial,sans-serif;cursor:pointer;border:1px solid #b49371;border-radius:6px;padding:12px;background:#211914;color:#f4e9db}.za-consent .buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.za-settings{display:inline-block;margin:8px 12px;position:relative;z-index:2}.za-consent[hidden]{display:none!important}';document.head.append(style);
+ const settings=document.createElement('button');settings.type='button';settings.className='za-settings';settings.textContent='Настройки приватности';(document.querySelector('footer')||document.body).append(settings);
+ const panel=document.createElement('section');panel.className='za-consent';panel.setAttribute('aria-label','Настройки аналитики');panel.hidden=choice==='yes'||choice==='no';panel.innerHTML='<h2>Настройки приватности</h2><p>С вашего согласия Яндекс Метрика учитывает посещения и действия на сайте. Отказ не ограничивает просмотр.</p><p><a href="/analytics-consent.html" target="_blank" rel="noopener">Согласие на обработку данных</a> · <a href="/privacy.html">Политика</a></p><div class="buttons"><button type="button" class="accept">Принять аналитику</button><button type="button" class="reject">Отклонить</button></div>';document.body.append(panel);
+ function choose(v){const was=active;choice=v;let stored=false;try{localStorage.setItem(KEY,JSON.stringify({choice:v,version:'2026-11-24',at:new Date().toISOString()}));stored=true}catch(_){}panel.hidden=true;if(v==='yes'){start()}else if(was){active=false;try{ym(ID,'destruct')}catch(_){}for(const cookie of document.cookie.split(';')){const name=cookie.split('=')[0].trim();if(/^_ym/.test(name)){for(const domain of ['',location.hostname,'.zykina-art.ru'])document.cookie=name+'=; Max-Age=0; path=/'+(domain?'; domain='+domain:'')}}for(const store of [localStorage,sessionStorage]){try{Object.keys(store).filter(k=>/^_ym/.test(k)).forEach(k=>store.removeItem(k))}catch(_){}}if(stored)location.reload()}}
+ panel.querySelector('.accept').onclick=()=>choose('yes');panel.querySelector('.reject').onclick=()=>choose('no');settings.onclick=()=>{panel.hidden=false;panel.querySelector('button').focus()};if(choice==='yes')start();
 }
-function track(artwork){
- if(!/^art-[0-9]{1,4}$/.test(String(artwork||'')))return;
- siteEvent('art_open');
- try{
-   fetch(ENDPOINT,{
-     method:'POST',mode:'cors',credentials:'omit',keepalive:true,
-     headers:{'content-type':'application/json'},
-     body:JSON.stringify({artwork,session})
-   }).catch(()=>{});
- }catch(_){}
-}
-
-/* Site-wide counters; browser-session pseudonym, no cookie or raw IP stored. */
-const PATH=(location.pathname.replace(/\/+/g,'/').toLowerCase()||'/');
-const PAGE=PATH.replace(/\/index\.html$/,'/').slice(0,138);
-const SITE_KEY='zykina-art-traffic-source';
-let originalSource='direct';
-try{
- const savedSource=sessionStorage.getItem(SITE_KEY);
- if(savedSource&&/^(direct|search|social|referral)$/.test(savedSource))originalSource=savedSource;
- else{
-   const query=new URLSearchParams(location.search);
-   const campaign=String(query.get('utm_source')||'').toLowerCase();
-   const ref=document.referrer?new URL(document.referrer).hostname.toLowerCase():'';
-   const own=ref===location.hostname.toLowerCase()||ref==='zykina-art.ru'||ref==='www.zykina-art.ru'||ref==='ez-studio-zykina.onrender.com';
-   const hostname=own?'':ref;
-   if(/(yandex|google|bing|duckduckgo|mail\.ru|search)/.test(campaign+' '+hostname))originalSource='search';
-   else if(/(vk|vkontakte|instagram|facebook|tiktok|youtube|telegram|pinterest|ok\.ru|social)/.test(campaign+' '+hostname))originalSource='social';
-   else if(hostname)originalSource='referral';
-   else originalSource='direct';
-   sessionStorage.setItem(SITE_KEY,originalSource);
- }
-}catch(_){}
-const ua=navigator.userAgent||'';
-const DEVICE=/ipad|tablet|playbook|silk/i.test(ua)?'tablet':
- /mobile|iphone|android/i.test(ua)?'mobile':'desktop';
-function metrikaGoal(goal){
- if(!/^(www\.)?zykina-art\.ru$/i.test(location.hostname)||/^\/admin(?:\/|$)/i.test(PAGE))return;
- try{if(typeof window.ym==='function')window.ym(114650410,'reachGoal',goal);}catch(_){}
-}
-function siteEvent(event){
- if(!/^(page|art_open|interior|macro|order|contact|gallery)$/.test(String(event))||!/^\/[a-z0-9./-]{0,138}$/.test(PAGE)||/^\/admin(?:\/|$)/.test(PAGE))return;
- const goals={art_open:'art_open',interior:'interior_view',macro:'macro_view',order:'order_interest',contact:'contact_click'};
- if(goals[event])metrikaGoal(goals[event]);
- try{
-   fetch(ENDPOINT,{
-     method:'POST',mode:'cors',credentials:'omit',keepalive:true,
-     headers:{'content-type':'application/json'},
-     body:JSON.stringify({kind:'site',event,page:PAGE,session,device:DEVICE,source:originalSource})
-   }).catch(()=>{});
- }catch(_){}
-}
-window.ZykinaSiteStats=Object.freeze({event:siteEvent});
-function trackSiteClick(e){
- const target=e.target instanceof Element?e.target:null;
- if(!target)return;
- const gallery=target.closest('[data-work]');
- const tab=target.closest('[data-gallery-tab="interior"]');
- const thumbnail=target.closest('[data-photo]');
- const anchor=target.closest('a[href]');
- if(gallery){siteEvent('gallery');return;}
- if(tab){siteEvent('interior');return;}
- if(thumbnail){
-   const isPhoto=document.querySelector('[data-gallery-tab="photos"][aria-pressed="true"]');
-   const photoIndex=Number(thumbnail.dataset.photo);
-   if(isPhoto&&photoIndex>0)siteEvent('macro');
-   return;
- }
- if(anchor){
-  const href=String(anchor.getAttribute('href')||'');
-  if(href==='#order'||href.endsWith('/#order')||href.includes('order?'))siteEvent('order');
-  else if(href==='#contact'||href.endsWith('/#contact'))metrikaGoal('contact_section');
-  else if(/(?:vk\.ru|vkontakte|max\.ru|mailto:|tel:)/i.test(href)){
-   siteEvent('contact');
-   if(/(?:vk\.ru|vkontakte)/i.test(href))metrikaGoal('contact_vk');
-   else if(/max\.ru/i.test(href))metrikaGoal('contact_max');
-  }
-  else if(anchor.closest('.details')&&/\.(?:png|jpe?g|webp)(?:$|[?#])/i.test(href))siteEvent('macro');
- }
-}
-document.addEventListener('click',trackSiteClick,{capture:true,passive:true});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>siteEvent('page'),{once:true});
-else siteEvent('page');
-
-window.ZykinaArtworkStats=Object.freeze({track});
-const direct=document.currentScript?.dataset?.artwork;
-if(direct){
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>track(direct),{once:true});
-  else track(direct);
-}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ui,{once:true});else ui();
 })();
-

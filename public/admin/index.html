@@ -84,50 +84,8 @@
 <div class="worklist" id="workList"><div class="empty">Подключите GitHub для загрузки каталога</div></div>
 </div>
 
-<div id="visitorsView" class="hide">
- <div class="sectionTop"><div><div class="eyebrow">ZYKINA ART / СТАТИСТИКА</div><h2>Посещаемость сайта</h2><p>Все посетители сайта, просмотры страниц, города и активность</p></div><button id="siteStatsRefresh" class="btn outline" type="button">↻ Обновить данные</button></div>
- <div class="traffic-periods" role="group" aria-label="Период статистики">
-  <button type="button" class="traffic-period" data-site-period="1" aria-pressed="false">Сегодня</button>
-  <button type="button" class="traffic-period" data-site-period="7" aria-pressed="false">7 дней</button>
-  <button type="button" class="traffic-period is-active" data-site-period="30" aria-pressed="true">30 дней</button>
-  <button type="button" class="traffic-period" data-site-period="90" aria-pressed="false">90 дней</button>
-  <button type="button" class="traffic-period" data-site-period="0" aria-pressed="false">Всё время</button>
- </div>
- <div class="traffic-summary">
-  <div class="card"><span>Посетители <small>(оценка)</small></span><strong id="trafficVisitors">—</strong><small>Отдельные браузерные сеансы</small></div>
-  <div class="card"><span>Визиты по дням</span><strong id="trafficVisits">—</strong><small>Повторный визит в другой день</small></div>
-  <div class="card"><span>Просмотры страниц</span><strong id="trafficPageViews">—</strong><small>Все открытые страницы</small></div>
-  <div class="card"><span>Страниц за визит</span><strong id="trafficPagesPerVisit">—</strong><small>Среднее значение</small></div>
- </div>
- <p id="trafficStatus" class="traffic-status" role="status">Загрузка отчёта…</p>
- <div class="traffic-board">
-  <section class="card traffic-panel traffic-panel-wide"><div class="traffic-head"><h3>Динамика посещаемости</h3><span>По дням</span></div><div id="trafficTrend" class="traffic-trend"></div></section>
-  <section class="card traffic-panel"><div class="traffic-head"><h3>Города посетителей</h3><span>По числу визитов</span></div><div id="trafficCities" class="traffic-list"></div><p class="traffic-hint">Город приблизителен: при VPN, мобильных сетях или отсутствии геоданных может быть «Не определён».</p></section>
-  <section class="card traffic-panel"><div class="traffic-head"><h3>Страны</h3><span>По визитам</span></div><div id="trafficCountries" class="traffic-list"></div></section>
-  <section class="card traffic-panel"><div class="traffic-head"><h3>Источники переходов</h3><span>Как нашли сайт</span></div><div id="trafficSources" class="traffic-list"></div></section>
-  <section class="card traffic-panel"><div class="traffic-head"><h3>Устройства</h3><span>Телефон / компьютер</span></div><div id="trafficDevices" class="traffic-list"></div></section>
-  <section class="card traffic-panel traffic-panel-wide"><div class="traffic-head"><h3>Самые посещаемые страницы</h3><span>Просмотры</span></div><div id="trafficTopPages" class="traffic-list"></div></section>
-  <section class="card traffic-panel traffic-panel-wide"><div class="traffic-head"><h3>Интерес к искусству</h3><span>Действия пользователей</span></div><div id="trafficEvents" class="traffic-event-grid"></div></section>
- </div>
- <div class="note traffic-notes">Статистика собирается с момента включения счётчика и не показывает прошлые визиты. Посетители — оценка по анонимным сеансам браузеров, не точное число людей. Данные о городе и источнике могут быть неполными. IP-адреса в таблицы аналитики не сохраняются.</div>
-</div>
-<div id="analyticsView" class="hide">
-<div class="sectionTop"><div><h2>Популярность картин</h2><p>Рейтинг открытий работ на сайте · время Москва</p></div><button id="analyticsRefresh" class="btn outline" type="button">↻ Обновить статистику</button></div>
-<div class="analytics-periods" role="group" aria-label="Период статистики">
-<button class="analytic-period" data-stat-period="today" aria-pressed="false">Сегодня</button>
-<button class="analytic-period" data-stat-period="week" aria-pressed="false">7 дней</button>
-<button class="analytic-period is-active" data-stat-period="month" aria-pressed="true">30 дней</button>
-<button class="analytic-period" data-stat-period="all" aria-pressed="false">Всё время</button>
-</div>
-<div class="analytics-kpis">
-<div class="card"><span>Просмотры картин</span><strong id="analyticsTotal">—</strong></div>
-<div class="card"><span>Лидер просмотров</span><strong id="analyticsTop" class="analytics-top-name">—</strong></div>
-<div class="card"><span>Картины с просмотрами</span><strong id="analyticsWorks">—</strong></div>
-</div>
-<p class="analytics-caption" id="analyticsStatus" role="status">Загрузка статистики…</p>
-<div id="analyticsRank" class="analytics-rank" aria-live="polite"></div>
-<p class="note">Учитываются открытия картин, а не показы карточек. Повторное открытие той же картины из одной вкладки за день не увеличивает число просмотров. Это рейтинг сеансов, не точное число людей. Данные накапливаются с момента подключения.</p>
-</div>
+<div id="visitorsView" class="hide"><div class="sectionTop"><div><div class="eyebrow">ЯНДЕКС МЕТРИКА</div><h2>Посещаемость сайта</h2><p>Счётчик 114650410 · данные Яндекса</p></div><a class="btn" target="_blank" rel="noopener noreferrer" href="https://metrika.yandex.ru/dashboard?id=114650410">Кабинет Метрики ↗</a></div><div class="card"><div class="field"><label for="ymToken">OAuth-токен Яндекса (только чтение)</label><input id="ymToken" type="password" autocomplete="off" placeholder="Введите токен metrika:read"></div><div class="row"><button class="btn btn-primary" id="ymConnect">Подключить</button><button class="btn" id="ymDisconnect">Отключить</button><a href="https://yandex.ru/dev/metrika/ru/intro/authorization" target="_blank" rel="noopener">Получение токена ↗</a></div><p class="note">Токен хранится только в памяти текущей страницы и передаётся исключительно API Яндекса.</p></div><div class="row" style="margin:22px 0"><select id="ymPeriod" style="max-width:200px"><option value="1">Сегодня</option><option value="7">7 дней</option><option selected value="30">30 дней</option><option value="90">90 дней</option></select><button class="btn" id="ymRefresh">Обновить</button></div><p id="ymStatus" role="status">Подключите Метрику для получения отчётов.</p><div class="kpi"><div class="card"><span>Посетители</span><strong id="ymUsers">—</strong></div><div class="card"><span>Визиты</span><strong id="ymVisits">—</strong></div><div class="card"><span>Просмотры</span><strong id="ymViews">—</strong></div></div><div class="traffic-board"><section class="card"><h3>Города</h3><div id="ymCities">Нет подключения</div></section><section class="card"><h3>Источники</h3><div id="ymSources">Нет подключения</div></section><section class="card traffic-panel-wide"><h3>Страницы</h3><div id="ymPages">Нет подключения</div></section></div></div>
+<div id="analyticsView" class="hide"><div class="sectionTop"><div><h2>Популярность картин</h2><p>Просмотры отдельных страниц произведений по данным Метрики</p></div><button class="btn" type="button" onclick="document.getElementById('navVisitors').click()">Подключение и период</button></div><div class="card" id="ymWorks">Нет подключения</div><p class="note">Открытия во всплывающей галерее учитываются отдельной целью art_open. Полные отчёты по целям — в кабинете Метрики.</p><a class="btn" href="https://metrika.yandex.ru/dashboard?id=114650410" target="_blank" rel="noopener">Открыть Метрику ↗</a></div>
 <div id="editorView" class="hide">
 <div class="sectionTop"><div><h2 id="editorHeading">Новая картина</h2><p>Главное изображение, детали и информация</p></div><button class="btn outline" id="cancelEditor">← Назад к каталогу</button></div>
 <div class="editor"><div class="card">
@@ -185,5 +143,5 @@
 </div>
 </div></div>
 <div id="toast" class="toast hide" role="status"></div>
-<script src="./app.js?v=20261124-journal2" defer></script>
+<script src="./app.js?v=20261124-privacy1" defer></script>
 </body></html>
