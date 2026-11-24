@@ -1,0 +1,28 @@
+name: Export approved artwork assets
+on:
+  push:
+    branches: [art-album-assets-20261124]
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: public/assets
+      - name: Collect catalog sources
+        run: |
+          mkdir -p export
+          cp public/assets/catalog/{10,11,05,14,18,19-mwl1bksv}.webp export/
+          cp public/assets/{ez-mark-transparent.png,moon-original-1.webp,moon-original-2.webp} export/
+          cp public/assets/interiors/10/interior-mwmhxz5s-1.webp export/interior10.webp
+          cp public/assets/interiors/11/interior-mwmi819k-1.webp export/interior11.webp
+          cp public/assets/interiors/5/interior-mwlaulw0-1.webp export/interior5.webp
+          cp public/assets/interiors/14/interior-mwmjdqgn-1.webp export/interior14.webp
+          cp public/assets/interiors/14/interior-mwmjdqgn-2.webp export/detail14.webp
+      - uses: actions/upload-artifact@v4
+        with:
+          name: zykina-album-sources
+          path: export/
+          retention-days: 1
