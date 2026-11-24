@@ -24,7 +24,7 @@ function renderStats(){$('countAll').textContent=works.length;$('countShown').te
 
 function setupArtworkThumbFallback(img,path){
  const relative=String(path||'').replace(/^\/?(?:assets\/)?/,'');
- const origins=[location.origin,'https://ez-studio-zykina.onrender.com','https://zykina-art.ru'];
+ const origins=[...new Set([/^([a-z0-9-]+\.)?zykina-art\.ru$/i.test(location.hostname)?location.origin:'https://zykina-art.ru','https://zykina-art.ru'])];
  let i=0;
  img.onerror=()=>{i++;if(i<origins.length)img.src=origins[i]+'/assets/'+relative;else{img.onerror=null;img.alt='Изображение временно недоступно';}};
  img.src=origins[0]+'/assets/'+relative;
