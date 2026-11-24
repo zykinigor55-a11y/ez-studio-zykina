@@ -636,7 +636,7 @@ prefersReduced.addEventListener?.('change',updateVideos);
   reduce.addEventListener?.('change',()=>{if(reduce.matches)stop()});
  })();
  /* Prior moon control removed; exact approved V2 is controlled by ez-moon.js */
-window.addEventListener('DOMContentLoaded',()=>{build();updateVideos()});
+window.addEventListener('DOMContentLoaded',()=>{build();updateVideos();const params=new URLSearchParams(window.location.search);const requested=params.get('work');if(requested&&/^art-\d+$/.test(requested)&&works.some(w=>w.id===requested&&w.visible!==false)){viewWork(requested);if(params.get('view')==='interior')setGalleryTab('interior');}});
 </script>
 <script src="gallery-refinement.js?v=20261109" defer></script>
 <script src="ez-moon.js?v=5"></script>
