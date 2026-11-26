@@ -1,0 +1,3 @@
+# V26 — original scan anatomical base
+
+Original Lee Perry-Smith / Infinite Realities scan, CC BY 3.0, retrieved from https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf/LeePerrySmith. Original triangle topology and UV retained; vertices subtly aged (jowls, forehead, cheeks), rescaled to existing character. Normals recalculated. Exact inherited V24 skeleton and animation binary data retained, new head/neck/chest weights. 9279 vertices, 17684 triangles. Preview is software rasterization of actual V26 mesh, not generated artwork. Scan has closed eyelids: no separate eyeballs yet, no facial rig, no textures, hair, clothing or body integration. Deformation not visually tested. This is an anatomical base, not final character. Keep isolated from main and websites.
