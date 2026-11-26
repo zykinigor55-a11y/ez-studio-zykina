@@ -1,0 +1,3 @@
+# V27 — reference-directed age sculpt
+
+Modified V26 original Lee Perry-Smith / Infinite Realities scan, CC BY 3.0, source https://github.com/mrdoob/three.js/tree/dev/examples/models/gltf/LeePerrySmith. Sculpted wider cheeks/jaw and nose, brow, nasolabial and forehead folds, forehead mole relief. Test eye openings clipped in scan triangles and spherical eyeballs added with vertex-color iris. Existing 52-joint skeleton and animation binary retained, new weights. 17536 vertices, 32657 triangles. Neutral clay, no hair or beard, no facial rig, no final PBR or animation deformation check. Likeness approximate; not a scan of the reference subject. Preview is actual software rasterization. Keep isolated from main.
